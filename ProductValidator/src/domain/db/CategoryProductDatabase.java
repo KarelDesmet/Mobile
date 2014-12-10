@@ -4,7 +4,7 @@ import java.util.Map;
 
 import domain.Product;
 
-public class ProductDatabase {
+public class CategoryProductDatabase {
 
 	private Map<Long,Product> articles;
 	
