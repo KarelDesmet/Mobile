@@ -2,6 +2,6 @@
 <resources>
 
     <string name="app_name">ExpiryDateValidator</string>
-    <string name="category_picker_title">Category</string>
+    <string name="category_picker_title">Soort lijst</string>
 
 </resources>
