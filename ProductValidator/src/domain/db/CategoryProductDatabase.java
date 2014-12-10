@@ -19,8 +19,4 @@ public class CategoryProductDatabase {
 	public Product getProduct(Long ean){
 		return articles.get(ean);
 	}
-	
-	public void sortProducts(){
-		
-	}
 }
