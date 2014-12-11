@@ -6,10 +6,13 @@ import java.util.Map;
 import domain.Product;
 import exception.db.DatabaseException;
 
+//TODO
 public class CategoryProductDatabase {
 
+	//TODO
 	private Map<Long, Product> articles;
 
+	//TODO
 	public CategoryProductDatabase() {
 		articles = new HashMap<Long, Product>();
 		try {
@@ -64,7 +67,19 @@ public class CategoryProductDatabase {
 		return articles.get(ean);
 	}
 
-	public void deleteProduct(Long ean) {
+	/**
+	 * A method which deletes the product with the given EAN.
+	 * 
+	 * @param ean
+	 *            The EAN of the product
+	 * @throws DatabaseException
+	 *             If there is no product in the database with this EAN. I.e.
+	 *             there is no key in the HashMap with the value of the EAN.
+	 */
+	public void deleteProduct(Long ean) throws DatabaseException {
+		if (!articles.containsKey(ean)) {
+			throw new DatabaseException("There is no product with this EAN.");
+		}
 		articles.remove(ean);
 	}
 

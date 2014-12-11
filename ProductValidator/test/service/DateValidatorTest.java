@@ -7,7 +7,6 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,7 +47,7 @@ public class DateValidatorTest {
 			dateValidator.addProduct("zuivel", eggs);
 			assertEquals(dateValidator.getProduct("zuivel", eggs.getEan()),
 					eggs);
-			// dateValidator.deleteProduct("zuivel", eggs.getEan());
+			dateValidator.deleteProduct("zuivel", eggs.getEan());
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			fail("An exception was thrown!");
@@ -61,13 +60,30 @@ public class DateValidatorTest {
 		try {
 			dateValidator.addProduct("zuivel", eggs);
 			assertTrue(dateValidator.getNumberOfProducts() == numberOfProducts + 1);
-			// dateValidator.deleteProduct("zuivel", eggs.getEan());
+			dateValidator.deleteProduct("zuivel", eggs.getEan());
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			fail("An exception was thrown!");
 		}
 	}
 
+	@Test
+	public void test_deleteProduct_Deletes_product_from_eanDatabase() {
+		try {
+			dateValidator.addProduct("zuivel", eggs);
+			dateValidator.deleteProduct("zuivel", eggs.getEan());
+			assertTrue(dateValidator.getNumberOfProducts() == numberOfProducts);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+			fail("An exception was thrown!");
+		}
+	}
+	
+	@Test(expected = ServiceException.class)
+	public void test_deleteProduct_ServiceException_If_no_product_with_this_ean_exists() throws ServiceException{
+		dateValidator.deleteProduct("zuivel", eggs.getEan());
+	}
+	
 	@Test(expected = ServiceException.class)
 	public void test_addProduct_ServiceException_If_product_with_this_ean_already_exists()
 			throws ServiceException {

@@ -1,4 +1,4 @@
-//TODO: RUD-methodes, C reeds gedaan
+//TODO: U-methode, CRD reeds gedaan
 package service;
 
 import db.Database;
@@ -73,7 +73,7 @@ public class DateValidator {
 	 *            The category of the product, where it should be
 	 * @param ean
 	 *            The EAN of the product
-	 * @return The product with the given ean from the given category
+	 * @return The product with the given EAN from the given category
 	 * @throws ServiceException
 	 *             If there is no product in the category database with this
 	 *             EAN. I.e. there is no key in the HashMap with the value of
@@ -83,6 +83,30 @@ public class DateValidator {
 			throws ServiceException {
 		try {
 			return mEanDatabase.getProduct(category, ean);
+		} catch (DatabaseException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	// TODO: UPDATE
+
+	/**
+	 * A method which deletes the product with the given EAN from the given
+	 * category.
+	 * 
+	 * @param category
+	 *            The category of the product, where it is.
+	 * @param ean
+	 *            The EAN of the product
+	 * @throws ServiceException
+	 *             If there is no product in the category database with this
+	 *             EAN. I.e. there is no key in the HashMap with the value of
+	 *             the EAN.
+	 */
+	public void deleteProduct(String category, Long ean)
+			throws ServiceException {
+		try {
+			mEanDatabase.deleteProduct(category, ean);
 		} catch (DatabaseException e) {
 			throw new ServiceException(e);
 		}

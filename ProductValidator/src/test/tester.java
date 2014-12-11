@@ -9,8 +9,8 @@ public class tester {
 	public static void main(String[] args) {
 		DateValidator d = new DateValidator();
 		try {
-			d.addProduct("charcuterie", new Product(9781780161389L,
-					"Linear Algebra", "Pearson"));
+			//d.addProduct("charcuterie", new Product(9781780161389L,	"Linear Algebra", "Pearson"));
+			d.deleteProduct("charcuterie", 9781780161389L);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}

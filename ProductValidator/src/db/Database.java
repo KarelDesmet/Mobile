@@ -5,10 +5,12 @@ import java.util.Map;
 
 import domain.Product;
 import exception.db.DatabaseException;
-
+//TODO
 public class Database {
 
+	//TODO
 	private static Database _instance = null;
+	//TODO
 	private Map<String, CategoryProductDatabase> categoryProductDatabases = new HashMap<String, CategoryProductDatabase>();
 
 	private Database() {
@@ -21,12 +23,14 @@ public class Database {
 		categoryProductDatabases.put("zuivel", new CategoryProductDatabase());
 	}
 
+	//TODO
 	private synchronized static void createInstance() {
 		if (_instance == null) {
 			_instance = new Database();
 		}
 	}
 
+	//TODO
 	public static Database getInstance() {
 		if (_instance == null) {
 			createInstance();
@@ -93,12 +97,27 @@ public class Database {
 		return categoryProductDb.getProduct(ean);
 	}
 
-	public void deleteProduct(String category, Long ean) {
-
+	/**
+	 * A method which deletes the product with the given EAN from the given
+	 * category.
+	 * 
+	 * @param category
+	 *            The category of the product, where it is.
+	 * @param ean
+	 *            The EAN of the product
+	 * @throws DatabaseException
+	 *             If there is no product in the database with this EAN. I.e.
+	 *             there is no key in the HashMap with the value of the EAN.
+	 */
+	public void deleteProduct(String category, Long ean) throws DatabaseException {
+		CategoryProductDatabase categoryProductDb = categoryProductDatabases
+				.get(category);
+		categoryProductDb.deleteProduct(ean);
 	}
 
+	//TODO
 	public void addCategoryProductDatabase(String category) {
-
+		//TODO
 	}
 
 	/**
