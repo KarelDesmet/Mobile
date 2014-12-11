@@ -6,12 +6,24 @@ import java.util.Map;
 import domain.Product;
 import exception.db.DatabaseException;
 
-//TODO
+/**
+ * A database class which acts as the container for the different databases for
+ * each category. The database is split in different parts so that it provides
+ * faster access to a certain product.
+ * 
+ * @author Pieter Declercq
+ */
 public class Database {
 
-	// TODO
+	/**
+	 * The one and only instance of this database.
+	 */
 	private static Database _instance;
-	// TODO
+
+	/**
+	 * The database who holds all different categories and their respective
+	 * databases together.
+	 */
 	private Map<String, CategoryProductDatabase> categoryProductDatabases;
 
 	/**
@@ -150,11 +162,35 @@ public class Database {
 		categoryProductDb.deleteProduct(ean);
 	}
 
-	// TODO
-	public void addCategoryProductDatabase(String category) {
-		// TODO
+	/**
+	 * A method which adds new category and prepares it's database.
+	 * 
+	 * @param category
+	 *            The new category to be added
+	 * @throws DatabaseException
+	 *             If one tries to add a category who already exists.
+	 */
+	public void addCategoryProductDatabase(String category)
+			throws DatabaseException {
+		if (categoryProductDatabases.containsKey(category)) {
+			throw new DatabaseException(
+					"There is already a category with this name");
+		}
+		categoryProductDatabases.put(category, new CategoryProductDatabase());
 	}
 
+	//TODO
+	public void updateCategoryOfCategoryProductDatabase(String oldCategory, String newCategory) throws DatabaseException{
+		CategoryProductDatabase oldDb = getCategory(oldCategory);
+		categoryProductDatabases.put(newCategory, oldDb);
+		deleteCategoryProductDatabase(oldCategory);
+	}
+	
+	//TODO
+	public void deleteCategoryProductDatabase(String category){
+		//TODO
+	}
+	
 	/**
 	 * This method implements how a Database is represented as a String. I.e.
 	 * all the categories (=keys of the Map) of the Database and the contents of

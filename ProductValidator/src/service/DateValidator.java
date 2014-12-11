@@ -1,6 +1,7 @@
 //TODO: onderkant klassendiagramma
 package service;
 
+import db.CategoryProductDatabase;
 import db.Database;
 import domain.Product;
 import domain.list.ExpiryList;
@@ -93,22 +94,41 @@ public class DateValidator {
 	 * A method which allows you to update a product. You can change it's
 	 * category and the info of the product.
 	 * 
-	 * @param oldCategory
-	 *            The old category
+	 * @param category
+	 *            The category
 	 * @param oldProduct
 	 *            The old Product
 	 * @param newProduct
 	 *            The updated Product
+	 * @throws ServiceException
+	 *             If the old product isn't the old category database. If the
+	 *             new product is already in the new category.
+	 */
+	public void updateProductInCategory(String category, Product oldProduct,
+			Product newProduct) throws ServiceException {
+		deleteProduct(category, oldProduct.getEan());
+		addProduct(category, newProduct);
+		// TODO: juiste manier? Ik betwijfel het...
+	}
+
+	/**
+	 * A method which allows you to update a product. You can change it's
+	 * category.
+	 * 
+	 * @param oldCategory
+	 *            The old category
+	 * @param product
+	 *            The Product
 	 * @param newCategory
 	 *            The updated category
 	 * @throws ServiceException
 	 *             If the old product isn't the old category database. If the
 	 *             new product is already in the new category.
 	 */
-	public void updateProduct(String oldCategory, Product oldProduct,
-			Product newProduct, String newCategory) throws ServiceException {
-		deleteProduct(oldCategory, oldProduct.getEan());
-		addProduct(newCategory, newProduct);
+	public void updateCategoryOfProduct(String oldCategory, Product product,
+			String newCategory) throws ServiceException {
+		deleteProduct(oldCategory, product.getEan());
+		addProduct(newCategory, product);
 		// TODO: juiste manier? Ik betwijfel het...
 	}
 
@@ -133,6 +153,52 @@ public class DateValidator {
 			throw new ServiceException(e);
 		}
 	}
+
+	/**
+	 * A method which adds a database to store products of the new category.
+	 * 
+	 * @param category
+	 *            The new category of products to be added
+	 * @throws ServiceException
+	 *             If one tries to add a category who already exists.
+	 */
+	public void addCategory(String category) throws ServiceException {
+		try {
+			mEanDatabase.addCategoryProductDatabase(category);
+		} catch (DatabaseException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	/**
+	 * A method which returns the database of the products of a given category.
+	 * 
+	 * @param category
+	 *            The category which you want the products of.
+	 * @return The database which contains the products of that category
+	 * @throws ServiceException
+	 *             If there is no corresponding CategoryProductDatabase for the
+	 *             requested category.
+	 */
+	public CategoryProductDatabase getCategory(String category)
+			throws ServiceException {
+		try {
+			return mEanDatabase.getCategory(category);
+		} catch (DatabaseException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	//TODO
+	public void updateCategoryProductDatabase(String oldCategory, String newCategory) throws ServiceException{
+		try {
+			mEanDatabase.updateCategoryOfCategoryProductDatabase(oldCategory, newCategory);
+		} catch (DatabaseException e) {
+			throw new ServiceException(e);
+		}
+	}
+	
+	// TODO: D category
 
 	/**
 	 * The getter which returns the value of the field mEanDatabase.
