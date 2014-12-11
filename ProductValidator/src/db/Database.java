@@ -5,15 +5,20 @@ import java.util.Map;
 
 import domain.Product;
 import exception.db.DatabaseException;
+
 //TODO
 public class Database {
 
-	//TODO
-	private static Database _instance = null;
-	//TODO
-	private Map<String, CategoryProductDatabase> categoryProductDatabases = new HashMap<String, CategoryProductDatabase>();
+	// TODO
+	private static Database _instance;
+	// TODO
+	private Map<String, CategoryProductDatabase> categoryProductDatabases;
 
+	/**
+	 * Private constructor to prevent others creating an instance.
+	 */
 	private Database() {
+		categoryProductDatabases = new HashMap<String, CategoryProductDatabase>();
 		categoryProductDatabases.put("charcuterie",
 				new CategoryProductDatabase());
 		categoryProductDatabases
@@ -23,14 +28,20 @@ public class Database {
 		categoryProductDatabases.put("zuivel", new CategoryProductDatabase());
 	}
 
-	//TODO
+	/**
+	 * Synchronised creator method to prevent multi-threading problems.
+	 */
 	private synchronized static void createInstance() {
 		if (_instance == null) {
 			_instance = new Database();
 		}
 	}
 
-	//TODO
+	/**
+	 * The only way to access the instance of the this class.
+	 * 
+	 * @return The database of all known products
+	 */
 	public static Database getInstance() {
 		if (_instance == null) {
 			createInstance();
@@ -54,6 +65,26 @@ public class Database {
 	}
 
 	/**
+	 * A method which gets the categoryProductDatabase which corresponds with
+	 * the given category.
+	 * 
+	 * @param category
+	 *            The categoryProductDatabase requested
+	 * @return The categoryProductDatabase
+	 * @throws DatabaseException
+	 *             If there is no corresponding CategoryProductDatabase for the
+	 *             requested category. I.e. there is no key for that category.
+	 */
+	public CategoryProductDatabase getCategory(String category)
+			throws DatabaseException {
+		if (!categoryProductDatabases.containsKey(category)) {
+			throw new DatabaseException(
+					"There is no such category in the database");
+		}
+		return categoryProductDatabases.get(category);
+	}
+
+	/**
 	 * A method which adds a given product to the database. It is stored in the
 	 * categoryProductDatabase with it's corresponding category. An exception
 	 * occurs when a product exist in that category with that EAN. The check
@@ -67,12 +98,13 @@ public class Database {
 	 * @throws DatabaseException
 	 *             If there is already a product in the CategoryProductDatabase
 	 *             with this EAN. I.e. the DomainException from the
-	 *             CategoryProductDatabase is caught and thrown again.
+	 *             CategoryProductDatabase is caught and thrown again. If there
+	 *             is no corresponding CategoryProductDatabase for the requested
+	 *             category. I.e. there is no key for that category.
 	 */
 	public void addProduct(String category, Product article)
 			throws DatabaseException {
-		CategoryProductDatabase categoryProductDb = categoryProductDatabases
-				.get(category);
+		CategoryProductDatabase categoryProductDb = getCategory(category);
 		categoryProductDb.addProduct(article);
 	}
 
@@ -88,12 +120,13 @@ public class Database {
 	 * @throws DatabaseException
 	 *             If there is no product in the category database with this
 	 *             EAN. I.e. there is no key in the HashMap with the value of
-	 *             the EAN.
+	 *             the EAN. If there is no corresponding CategoryProductDatabase
+	 *             for the requested category. I.e. there is no key for that
+	 *             category.
 	 */
 	public Product getProduct(String category, Long ean)
 			throws DatabaseException {
-		CategoryProductDatabase categoryProductDb = categoryProductDatabases
-				.get(category);
+		CategoryProductDatabase categoryProductDb = getCategory(category);
 		return categoryProductDb.getProduct(ean);
 	}
 
@@ -107,17 +140,19 @@ public class Database {
 	 *            The EAN of the product
 	 * @throws DatabaseException
 	 *             If there is no product in the database with this EAN. I.e.
-	 *             there is no key in the HashMap with the value of the EAN.
+	 *             there is no key in the HashMap with the value of the EAN. If
+	 *             there is no corresponding CategoryProductDatabase for the
+	 *             requested category. I.e. there is no key for that category.
 	 */
-	public void deleteProduct(String category, Long ean) throws DatabaseException {
-		CategoryProductDatabase categoryProductDb = categoryProductDatabases
-				.get(category);
+	public void deleteProduct(String category, Long ean)
+			throws DatabaseException {
+		CategoryProductDatabase categoryProductDb = getCategory(category);
 		categoryProductDb.deleteProduct(ean);
 	}
 
-	//TODO
+	// TODO
 	public void addCategoryProductDatabase(String category) {
-		//TODO
+		// TODO
 	}
 
 	/**

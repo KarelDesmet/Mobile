@@ -1,4 +1,6 @@
 //TODO: @After werkende krijgen...
+//TODO: category-exception
+//TODO: update-test
 package service;
 
 import static org.junit.Assert.assertEquals;
@@ -12,10 +14,6 @@ import org.junit.Test;
 
 import domain.Product;
 import exception.service.ServiceException;
-
-/**
- * 
- */
 
 /**
  * @author Pieter Declercq

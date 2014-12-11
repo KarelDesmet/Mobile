@@ -1,4 +1,4 @@
-//TODO: U-methode, CRD reeds gedaan
+//TODO: onderkant klassendiagramma
 package service;
 
 import db.Database;
@@ -8,8 +8,9 @@ import exception.db.DatabaseException;
 import exception.service.ServiceException;
 
 /**
- * A Facade class. This class allows you to add products to the database of all
- * products.
+ * A Facade class. This class allows you to add, see, update and delete products
+ * to the database of all products. You can also ask to show to total amount of
+ * products it knows.
  * 
  * @author Pieter Declercq
  * 
@@ -88,7 +89,28 @@ public class DateValidator {
 		}
 	}
 
-	// TODO: UPDATE
+	/**
+	 * A method which allows you to update a product. You can change it's
+	 * category and the info of the product.
+	 * 
+	 * @param oldCategory
+	 *            The old category
+	 * @param oldProduct
+	 *            The old Product
+	 * @param newProduct
+	 *            The updated Product
+	 * @param newCategory
+	 *            The updated category
+	 * @throws ServiceException
+	 *             If the old product isn't the old category database. If the
+	 *             new product is already in the new category.
+	 */
+	public void updateProduct(String oldCategory, Product oldProduct,
+			Product newProduct, String newCategory) throws ServiceException {
+		deleteProduct(oldCategory, oldProduct.getEan());
+		addProduct(newCategory, newProduct);
+		// TODO: juiste manier? Ik betwijfel het...
+	}
 
 	/**
 	 * A method which deletes the product with the given EAN from the given
