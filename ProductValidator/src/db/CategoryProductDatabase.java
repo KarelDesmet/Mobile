@@ -14,6 +14,22 @@ public class CategoryProductDatabase {
 		addProduct(new Product(4008118757355L, "Perforator", "Locher"));
 	}
 
+	/**
+	 * A method which returns the number of products in this CategoryDatabase.
+	 * 
+	 * @return number of products in this CategoryDatabase
+	 */
+	public int size() {
+		return articles.size();
+	}
+
+	/**
+	 * A method which puts the given product in the HashMap of articles with the
+	 * EAN as it's key.
+	 * 
+	 * @param product
+	 *            The product to be added
+	 */
 	public void addProduct(Product product) {
 		articles.put(product.getEan(), product);
 	}

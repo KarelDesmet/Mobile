@@ -33,8 +33,33 @@ public class Database {
 		return _instance;
 	}
 
-	public void addProduct(String category, Product article) {
+	/**
+	 * A method which returns the total amount of products in the database. I.e.
+	 * the sum of the amount of products in all the different
+	 * categoryProductDatabases.
+	 * 
+	 * @return The total amount of products in the database.
+	 */
+	public int size() {
+		int size = 0;
+		for (String key : categoryProductDatabases.keySet()) {
+			size += categoryProductDatabases.get(key).size();
+		}
+		return size;
+	}
 
+	/**
+	 * A method which adds a given product to the database. It is stored in the
+	 * categoryProductDatabase with it's corresponding category.
+	 * 
+	 * @param category
+	 *            The category of the product
+	 * @param article
+	 *            The article to be added to the database
+	 */
+	public void addProduct(String category, Product article) {
+		CategoryProductDatabase categoryProductDb = categoryProductDatabases.get(category);
+		categoryProductDb.addProduct(article);
 	}
 
 	public void deleteProduct(String category, Long ean) {
