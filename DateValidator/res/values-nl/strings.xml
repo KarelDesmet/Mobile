@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Datumcontrole</string>
+    <string name="action_settings">Instellingen</string>
+    <string name="categorypicker_title">Categorie</string>
+    <string name="charcuterie">Charcuterie</string>
+    <string name="freezer">Diepvries</string>
+    <string name="cheese">Kaas</string>
+    <string name="nutrition">Voeding</string>
+    <string name="dairy">Zuivel</string>
+
+</resources>
