@@ -27,7 +27,9 @@ public class Product extends Identifier {
 	 * name "default_product_name" and a brand "default_brand_name".
 	 * 
 	 * @throws DomainException
-	 *             If the default value for the EAN doesn't have 13 ciphers
+	 *             If the default value for the EAN doesn't have 13 ciphers. If
+	 *             the default value for the name doesn't have 5 letters. If the
+	 *             default value for the brand doesn't have 3 letters.
 	 */
 	public Product() throws DomainException {
 		this(000000000000000L, "default_product_name", "default_brand_name");
