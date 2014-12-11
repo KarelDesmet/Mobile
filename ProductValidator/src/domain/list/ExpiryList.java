@@ -1,6 +1,6 @@
 package domain.list;
 
-import domain.db.Database;
+import db.Database;
 
 
 public class ExpiryList extends CategoryExpiryList {
