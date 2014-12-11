@@ -69,19 +69,32 @@ public class Database {
 			throws DatabaseException {
 		CategoryProductDatabase categoryProductDb = categoryProductDatabases
 				.get(category);
-		try {
-			categoryProductDb.addProduct(article);
-		} catch (DatabaseException e) {
-			throw new DatabaseException(e);
-		}
+		categoryProductDb.addProduct(article);
+	}
+
+	/**
+	 * A method which returns the product with the given EAN from the given
+	 * category.
+	 * 
+	 * @param category
+	 *            The category of the product, where it should be
+	 * @param ean
+	 *            The EAN of the product
+	 * @return The product with the given EAN from the given category
+	 * @throws DatabaseException
+	 *             If there is no product in the category database with this
+	 *             EAN. I.e. there is no key in the HashMap with the value of
+	 *             the EAN.
+	 */
+	public Product getProduct(String category, Long ean)
+			throws DatabaseException {
+		CategoryProductDatabase categoryProductDb = categoryProductDatabases
+				.get(category);
+		return categoryProductDb.getProduct(ean);
 	}
 
 	public void deleteProduct(String category, Long ean) {
 
-	}
-
-	public Product getProduct(String category, Long ean) {
-		return null;
 	}
 
 	public void addCategoryProductDatabase(String category) {

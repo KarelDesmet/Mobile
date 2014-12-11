@@ -1,3 +1,4 @@
+//TODO: RUD-methodes, C reeds gedaan
 package service;
 
 import db.Database;
@@ -34,7 +35,17 @@ public class DateValidator {
 	}
 
 	/**
-	 * A method which adds a product to the database of all products.
+	 * A method which returns the amount of products this DateValidator knows.
+	 * I.e. the amount of products in the eanDatabase.
+	 * 
+	 * @return The amount of products known.
+	 */
+	public int getNumberOfProducts() {
+		return mEanDatabase.size();
+	}
+
+	/**
+	 * A CREATE method which adds a product to the database of all products.
 	 * 
 	 * @param category
 	 *            The category of the product
@@ -55,13 +66,26 @@ public class DateValidator {
 	}
 
 	/**
-	 * A method which returns the amount of products this DateValidator knows.
-	 * I.e. the amount of products in the eanDatabase.
+	 * A method which returns the product with the given EAN from the given
+	 * category.
 	 * 
-	 * @return The amount of products known.
+	 * @param category
+	 *            The category of the product, where it should be
+	 * @param ean
+	 *            The EAN of the product
+	 * @return The product with the given ean from the given category
+	 * @throws ServiceException
+	 *             If there is no product in the category database with this
+	 *             EAN. I.e. there is no key in the HashMap with the value of
+	 *             the EAN.
 	 */
-	public int getNumberOfProducts() {
-		return mEanDatabase.size();
+	public Product getProduct(String category, Long ean)
+			throws ServiceException {
+		try {
+			return mEanDatabase.getProduct(category, ean);
+		} catch (DatabaseException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	/**

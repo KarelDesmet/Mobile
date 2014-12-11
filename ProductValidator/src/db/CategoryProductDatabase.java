@@ -47,12 +47,25 @@ public class CategoryProductDatabase {
 		articles.put(product.getEan(), product);
 	}
 
-	public void deleteProduct(Long ean) {
-		articles.remove(ean);
+	/**
+	 * A method which returns the product with the given EAN.
+	 * 
+	 * @param ean
+	 *            The EAN of the product
+	 * @return The product with the given EAN
+	 * @throws DatabaseException
+	 *             If there is no product in the database with this EAN. I.e.
+	 *             there is no key in the HashMap with the value of the EAN.
+	 */
+	public Product getProduct(Long ean) throws DatabaseException {
+		if (!articles.containsKey(ean)) {
+			throw new DatabaseException("There is no product with this EAN.");
+		}
+		return articles.get(ean);
 	}
 
-	public Product getProduct(Long ean) {
-		return articles.get(ean);
+	public void deleteProduct(Long ean) {
+		articles.remove(ean);
 	}
 
 	/**
