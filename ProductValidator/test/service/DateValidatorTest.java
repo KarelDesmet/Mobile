@@ -1,11 +1,14 @@
 package service;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import service.DateValidator;
 import domain.Product;
+import exception.service.ServiceException;
 
 /**
  * 
@@ -30,8 +33,20 @@ public class DateValidatorTest {
 	
 	@Test
 	public void test_addProduct_Adds_product_to_eanDatabase() {
-		dateValidator.addProduct("zuivel", eggs);
-		assertTrue(dateValidator.getNumberOfProducts() == numberOfProducts+1);
+		try {
+			dateValidator.addProduct("zuivel", eggs);
+			assertTrue(dateValidator.getNumberOfProducts() == numberOfProducts+1);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+			assertFalse(true);
+		}
+	}
+	
+	@Test(expected=ServiceException.class)
+	public void test_addProduct_ServiceException_If_product_with_this_ean_already_exists() throws ServiceException{
+			dateValidator.addProduct("zuivel", eggs);
+			dateValidator.addProduct("zuivel", eggs);
+			fail("There was no exception thrown!");
 	}
 
 }

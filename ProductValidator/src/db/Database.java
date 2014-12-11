@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import domain.Product;
+import exception.db.DatabaseException;
 
 public class Database {
 
@@ -50,16 +51,29 @@ public class Database {
 
 	/**
 	 * A method which adds a given product to the database. It is stored in the
-	 * categoryProductDatabase with it's corresponding category.
+	 * categoryProductDatabase with it's corresponding category. An exception
+	 * occurs when a product exist in that category with that EAN. The check
+	 * happens at those levels and not here in order to allow initial errors of
+	 * category to be corrected at a later time without aborting the process.
 	 * 
 	 * @param category
 	 *            The category of the product
 	 * @param article
 	 *            The article to be added to the database
+	 * @throws DatabaseException
+	 *             If there is already a product in the CategoryProductDatabase
+	 *             with this EAN. I.e. the DomainException from the
+	 *             CategoryProductDatabase is caught and thrown again.
 	 */
-	public void addProduct(String category, Product article) {
-		CategoryProductDatabase categoryProductDb = categoryProductDatabases.get(category);
-		categoryProductDb.addProduct(article);
+	public void addProduct(String category, Product article)
+			throws DatabaseException {
+		CategoryProductDatabase categoryProductDb = categoryProductDatabases
+				.get(category);
+		try {
+			categoryProductDb.addProduct(article);
+		} catch (DatabaseException e) {
+			throw new DatabaseException(e);
+		}
 	}
 
 	public void deleteProduct(String category, Long ean) {

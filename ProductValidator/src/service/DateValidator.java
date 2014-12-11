@@ -3,6 +3,8 @@ package service;
 import db.Database;
 import domain.Product;
 import domain.list.ExpiryList;
+import exception.db.DatabaseException;
+import exception.service.ServiceException;
 
 /**
  * A Facade class. This class allows you to add products to the database of all
@@ -38,9 +40,18 @@ public class DateValidator {
 	 *            The category of the product
 	 * @param article
 	 *            The product
+	 * @throws ServiceException
+	 *             If there is already a product in the eanDatabase with this
+	 *             EAN. I.e. the DatabaseException from the Database is caught
+	 *             and thrown in a ServiceException.
 	 */
-	public void addProduct(String category, Product article) {
-		mEanDatabase.addProduct(category, article);
+	public void addProduct(String category, Product article)
+			throws ServiceException {
+		try {
+			mEanDatabase.addProduct(category, article);
+		} catch (DatabaseException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	/**

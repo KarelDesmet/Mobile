@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import domain.Product;
+import exception.db.DatabaseException;
 
 public class CategoryProductDatabase {
 
@@ -11,7 +12,11 @@ public class CategoryProductDatabase {
 
 	public CategoryProductDatabase() {
 		articles = new HashMap<Long, Product>();
-		addProduct(new Product(4008118757355L, "Perforator", "Locher"));
+		try {
+			addProduct(new Product(4008118757355L, "Perforator", "Locher"));
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -29,8 +34,16 @@ public class CategoryProductDatabase {
 	 * 
 	 * @param product
 	 *            The product to be added
+	 * @throws DatabaseException
+	 *             If there is already a product in the database with this EAN.
+	 *             I.e. the ean of the product already exists as a key in the
+	 *             HashMap
 	 */
-	public void addProduct(Product product) {
+	public void addProduct(Product product) throws DatabaseException {
+		if (articles.containsKey(product.getEan())) {
+			throw new DatabaseException(
+					"There is already a product with this EAN.");
+		}
 		articles.put(product.getEan(), product);
 	}
 
