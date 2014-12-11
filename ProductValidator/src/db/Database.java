@@ -5,6 +5,7 @@ import java.util.Map;
 
 import domain.Product;
 import exception.db.DatabaseException;
+import exception.service.ServiceException;
 
 /**
  * A database class which acts as the container for the different databases for
@@ -179,18 +180,72 @@ public class Database {
 		categoryProductDatabases.put(category, new CategoryProductDatabase());
 	}
 
-	//TODO
-	public void updateCategoryOfCategoryProductDatabase(String oldCategory, String newCategory) throws DatabaseException{
+	/**
+	 * A method which changes the name of the category.
+	 * 
+	 * @param oldCategory
+	 *            The old name of the category
+	 * @param newCategory
+	 *            The new name of the category
+	 * @throws ServiceException
+	 *             If there already exists a category with the new name. If
+	 *             there is no category with the old name.
+	 */
+	public void renameCategoryProductDatabase(String oldCategory,
+			String newCategory) throws DatabaseException {
 		CategoryProductDatabase oldDb = getCategory(oldCategory);
+		if (categoryProductDatabases.containsKey(newCategory)) {
+			throw new DatabaseException(
+					"There is already a category with this name");
+		}
 		categoryProductDatabases.put(newCategory, oldDb);
 		deleteCategoryProductDatabase(oldCategory);
+		// TODO: misschien toch beter Category-klasse?
 	}
-	
-	//TODO
-	public void deleteCategoryProductDatabase(String category){
-		//TODO
+
+	/**
+	 * A method which deletes a category from the database.
+	 * 
+	 * @param category
+	 *            The category to be deleted
+	 * @throws DatabaseException
+	 *             If there is no category with the given name
+	 */
+	public void deleteCategoryProductDatabase(String category)
+			throws DatabaseException {
+		if (!categoryProductDatabases.containsKey(category)) {
+			throw new DatabaseException("There is no such category");
+		}
+		categoryProductDatabases.remove(category);
 	}
-	
+
+	/**
+	 * A method which merges two categories. The second category is ammended
+	 * into the first one. If there are products with the same EAN, the product
+	 * from the second category are kept.
+	 * 
+	 * @param categoryToBeAmmended
+	 *            The category to be amended.
+	 * @param oldCategory
+	 *            The category to which to other category will be added
+	 * @throws DatabaseException
+	 *             If at least one of the two categories given doesn't exist
+	 */
+	public void mergeCategories(String categoryToBeAmmended, String oldCategory)
+			throws DatabaseException {
+		CategoryProductDatabase updatedDb = getCategory(categoryToBeAmmended);
+		CategoryProductDatabase oldDb = getCategory(oldCategory);
+		for (Long key : oldDb.keySet()) {
+			if (updatedDb.containsEan(key)) {
+				updatedDb.updateProduct(updatedDb.getProduct(key),
+						oldDb.getProduct(key));
+			} else {
+				updatedDb.addProduct(oldDb.getProduct(key));
+			}
+		}
+		deleteCategoryProductDatabase(oldCategory);
+	}
+
 	/**
 	 * This method implements how a Database is represented as a String. I.e.
 	 * all the categories (=keys of the Map) of the Database and the contents of

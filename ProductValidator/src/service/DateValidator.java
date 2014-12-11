@@ -108,7 +108,7 @@ public class DateValidator {
 			Product newProduct) throws ServiceException {
 		deleteProduct(category, oldProduct.getEan());
 		addProduct(category, newProduct);
-		// TODO: juiste manier? Ik betwijfel het...
+		// TODO: juiste manier? Of toch via een Category-klasse?
 	}
 
 	/**
@@ -189,16 +189,62 @@ public class DateValidator {
 		}
 	}
 
-	//TODO
-	public void updateCategoryProductDatabase(String oldCategory, String newCategory) throws ServiceException{
+	/**
+	 * A method which changes the name of a category.
+	 * 
+	 * @param oldCategory
+	 *            The old name of the category
+	 * @param newCategory
+	 *            The new name of the category
+	 * @throws ServiceException
+	 *             If there already exists a category with the new name. If
+	 *             there is no category with the old name.
+	 */
+	public void renameCategory(String oldCategory, String newCategory)
+			throws ServiceException {
 		try {
-			mEanDatabase.updateCategoryOfCategoryProductDatabase(oldCategory, newCategory);
+			mEanDatabase
+					.renameCategoryProductDatabase(oldCategory, newCategory);
 		} catch (DatabaseException e) {
 			throw new ServiceException(e);
 		}
 	}
-	
-	// TODO: D category
+
+	/**
+	 * A method which deletes a category from the database of products.
+	 * 
+	 * @param category
+	 *            The category to be deleted
+	 * @throws ServiceException
+	 *             If there is no category with the given name in the database
+	 */
+	public void deleteCategory(String category) throws ServiceException {
+		try {
+			mEanDatabase.deleteCategoryProductDatabase(category);
+		} catch (DatabaseException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	/**
+	 * A method to merge to categories. The first category is ammended with the
+	 * contents of the second. If there are products with the same EAN, the
+	 * product from the second category are kept.
+	 * 
+	 * @param categoryToBeAmmended
+	 *            The category to be amended.
+	 * @param oldCategory
+	 *            The category to which to other category will be added
+	 * @throws DatabaseException
+	 *             If at least one of the two categories given doesn't exist
+	 */
+	public void mergeCategories(String categoryToBeAmmended, String oldCategory) throws ServiceException {
+		try {
+			mEanDatabase.mergeCategories(categoryToBeAmmended, oldCategory);
+		} catch (DatabaseException e) {
+			throw new ServiceException(e);
+		}
+	}
 
 	/**
 	 * The getter which returns the value of the field mEanDatabase.

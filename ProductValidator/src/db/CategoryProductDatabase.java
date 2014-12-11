@@ -2,6 +2,7 @@ package db;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import domain.Product;
 import exception.db.DatabaseException;
@@ -9,10 +10,10 @@ import exception.db.DatabaseException;
 //TODO
 public class CategoryProductDatabase {
 
-	//TODO
+	// TODO
 	private Map<Long, Product> articles;
 
-	//TODO
+	// TODO
 	public CategoryProductDatabase() {
 		articles = new HashMap<Long, Product>();
 		try {
@@ -29,6 +30,27 @@ public class CategoryProductDatabase {
 	 */
 	public int size() {
 		return articles.size();
+	}
+
+	/**
+	 * A method which returns all the EAN's of this category.
+	 * 
+	 * @return A Set with all the keys (EAN - Long) of this category.
+	 */
+	public Set<Long> keySet() {
+		return articles.keySet();
+	}
+
+	/**
+	 * A method which returns a boolean. True if a product is known in this
+	 * database. False otherwise.
+	 * 
+	 * @param ean
+	 *            The EAN of the product
+	 * @return If there is a product with the given ean in this category.
+	 */
+	public boolean containsEan(Long ean) {
+		return articles.containsKey(ean);
 	}
 
 	/**
@@ -65,6 +87,23 @@ public class CategoryProductDatabase {
 			throw new DatabaseException("There is no product with this EAN.");
 		}
 		return articles.get(ean);
+	}
+
+	/**
+	 * A method which updates the info of a product in this category.
+	 * 
+	 * @param oldProduct
+	 *            The old product
+	 * @param newProduct
+	 *            The updated product
+	 * @throws DatabaseException
+	 *             If there is no old product with that ean in this category
+	 *             I.e. the product you want to update doesn't exist here.
+	 */
+	public void updateProduct(Product oldProduct, Product newProduct)
+			throws DatabaseException {
+		deleteProduct(oldProduct.getEan());
+		addProduct(newProduct);
 	}
 
 	/**
