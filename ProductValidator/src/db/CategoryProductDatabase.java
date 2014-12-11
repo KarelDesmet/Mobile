@@ -6,21 +6,37 @@ import java.util.Set;
 
 import domain.Product;
 import exception.db.DatabaseException;
+import exception.domain.DomainException;
 
-//TODO
+/**
+ * A class which is a database for products. It contains a Map with the EAN as
+ * key to store the product. It is possible to Create, Read, Update and Delete
+ * Products. It also provides methods about the total amount of entries in the
+ * database and a set which contains all the EAN's of the articles it contains.
+ * 
+ * @author Pieter Declercq
+ * 
+ */
 public class CategoryProductDatabase {
 
-	// TODO
+	/**
+	 * A map which contains all the products. The key to the product is it's
+	 * EAN.
+	 */
 	private Map<Long, Product> articles;
 
-	// TODO
-	public CategoryProductDatabase() {
+	/**
+	 * The default constructor for this database. It sets the Map to an empty
+	 * map.	
+	 */
+	public CategoryProductDatabase() throws DatabaseException {
 		articles = new HashMap<Long, Product>();
 		try {
 			addProduct(new Product(4008118757355L, "Perforator", "Locher"));
-		} catch (DatabaseException e) {
-			e.printStackTrace();
+		} catch (DomainException e) {
+			throw new DatabaseException(e);
 		}
+		//TODO: delete default data
 	}
 
 	/**

@@ -1,14 +1,41 @@
 package domain;
 
+import exception.domain.DomainException;
+
+/**
+ * This class provides an unique EAN. This must contain of 13 ciphers.
+ * 
+ * @author Pieter Declercq
+ * 
+ */
 public class Identifier {
-	
+
+	/**
+	 * The barcode which consists of 13 ciphers.
+	 */
 	private Long ean;
 
+	/**
+	 * This method returns the EAN.
+	 * 
+	 * @return The EAN
+	 */
 	public Long getEan() {
 		return ean;
 	}
 
-	public void setEan(Long ean) {
+	/**
+	 * A method which sets the EAN to a given Long of 13 ciphers.
+	 * 
+	 * @param ean
+	 *            The new EAN
+	 * @throws DomainException
+	 *             If the ean doesn't consist of 13 ciphers
+	 */
+	public void setEan(Long ean) throws DomainException {
+		if (ean < 1000000000000L && ean > 9999999999999L) {
+			throw new DomainException("The EAN doesn't have 13 ciphers");
+		}
 		this.ean = ean;
 	}
 }

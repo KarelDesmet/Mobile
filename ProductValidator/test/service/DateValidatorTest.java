@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import domain.Product;
+import exception.domain.DomainException;
 import exception.service.ServiceException;
 
 /**
@@ -27,7 +28,7 @@ public class DateValidatorTest {
 	private ArrayList<Product> toDeleteAfterTest;
 
 	@Before
-	public void initialize() {
+	public void initialize() throws DomainException {
 		dateValidator = new DateValidator();
 		numberOfProducts = dateValidator.getNumberOfProducts();
 		eggs = new Product(5414121001733L, "Eieren 12 stuks", "Rollie's");

@@ -32,6 +32,7 @@ public class Database {
 	 */
 	private Database() {
 		categoryProductDatabases = new HashMap<String, CategoryProductDatabase>();
+		try {
 		categoryProductDatabases.put("charcuterie",
 				new CategoryProductDatabase());
 		categoryProductDatabases
@@ -39,6 +40,9 @@ public class Database {
 		categoryProductDatabases.put("kaas", new CategoryProductDatabase());
 		categoryProductDatabases.put("voeding", new CategoryProductDatabase());
 		categoryProductDatabases.put("zuivel", new CategoryProductDatabase());
+		} catch (DatabaseException e){
+			//TODO: Delete default data
+		}
 	}
 
 	/**
