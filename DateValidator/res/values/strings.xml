@@ -9,5 +9,11 @@
     <string name="cheese">Cheese</string>
     <string name="nutrition">Nutrition</string>
     <string name="dairy">Dairy</string>
+    <string name="date">Thursday 11/12/2014</string>
+    <string name="pate">Ovengebakken paté AOSTE</string>
+    <string name="rundsvlees">Gerookt rundsvlees</string>
+    <string name="vleesbrood">Vleesbrood mosterd</string>
+    <string name="salami">Ardense salami</string>
+    <string name="hespeworst">Hespeworst Weight Watchers</string>
 
 </resources>

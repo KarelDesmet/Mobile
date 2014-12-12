@@ -3,6 +3,10 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="title">32sp</dimen>
+    <dimen name="small_title">16sp</dimen>
+    <dimen name="tiny_margin">10dp</dimen>
     <dimen name="small_margin">20dp</dimen>
     <dimen name="great_margin">40dp</dimen>
+    <dimen name="ultimate_margin">100dp</dimen>
+    <dimen name="category_bar">40dp</dimen>
 </resources>
