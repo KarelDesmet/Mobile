@@ -24,13 +24,20 @@ public class CategoryProductDatabase {
 	 * EAN.
 	 */
 	private Map<Long, Product> articles;
+	
+	/**
+	 * Class to load data into the local Database class object
+	 */
+	private DbReader reader;
 
 	/**
 	 * The default constructor for this database. It sets the Map to an empty
 	 * map.	
 	 */
-	public CategoryProductDatabase() throws DatabaseException {
+	public CategoryProductDatabase(String category) throws DatabaseException {
 		articles = new HashMap<Long, Product>();
+		reader  = new DbReader(category);
+		loadProducts();
 		try {
 			addProduct(new Product(4008118757355L, "Perforator", "Locher"));
 		} catch (DomainException e) {
@@ -137,13 +144,22 @@ public class CategoryProductDatabase {
 		}
 		articles.remove(ean);
 	}
-
+	
+	private void loadProducts(){
+		articles = reader.load();
+	}
+	
+	public void saveProducts(){
+		
+	}
+	
 	/**
 	 * This method implements how a categoryProductDatabase is represented as a
 	 * String. I.e. all the products it contains on a separate line.
 	 * 
 	 * @return The String representation of a CategoryProductDatabase
 	 */
+	
 	@Override
 	public String toString() {
 		String result = "";

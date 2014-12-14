@@ -34,12 +34,12 @@ public class Database {
 		categoryProductDatabases = new HashMap<String, CategoryProductDatabase>();
 		try {
 		categoryProductDatabases.put("charcuterie",
-				new CategoryProductDatabase());
+				new CategoryProductDatabase("charcuterie"));
 		categoryProductDatabases
-				.put("diepvries", new CategoryProductDatabase());
-		categoryProductDatabases.put("kaas", new CategoryProductDatabase());
-		categoryProductDatabases.put("voeding", new CategoryProductDatabase());
-		categoryProductDatabases.put("zuivel", new CategoryProductDatabase());
+				.put("diepvries", new CategoryProductDatabase("diepvries"));
+		categoryProductDatabases.put("kaas", new CategoryProductDatabase("kaas"));
+		categoryProductDatabases.put("voeding", new CategoryProductDatabase("voeding"));
+		categoryProductDatabases.put("zuivel", new CategoryProductDatabase("zuivel"));
 		} catch (DatabaseException e){
 			//TODO: Delete default data
 		}
@@ -181,7 +181,7 @@ public class Database {
 			throw new DatabaseException(
 					"There is already a category with this name");
 		}
-		categoryProductDatabases.put(category, new CategoryProductDatabase());
+		categoryProductDatabases.put(category, new CategoryProductDatabase(category));
 	}
 
 	/**
