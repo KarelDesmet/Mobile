@@ -15,5 +15,9 @@
     <string name="vleesbrood">Vleesbrood mosterd</string>
     <string name="salami">Ardense salami</string>
     <string name="hespeworst">Hespeworst Weight Watchers</string>
+    <string name="start_title">Datumcontrole</string>
+    <string name="overzicht">Overzicht</string>
+    <string name="nieuwe_lijst">Nieuwe Lijst</string>
+    <string name="proxy">Proxy Delhaize Sint-Denijs</string>
 
 </resources>
