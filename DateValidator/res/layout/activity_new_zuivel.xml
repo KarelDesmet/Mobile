@@ -10,10 +10,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/small_margin"
-        android:background="#c55746"
+        android:background="#eeeeee"
         android:gravity="center_horizontal"
-        android:text="@string/charcuterie"
-        android:textColor="#fff"
+        android:text="@string/dairy"
+        android:textColor="#000"
         android:textSize="@dimen/title"
         android:textStyle="bold" />
 

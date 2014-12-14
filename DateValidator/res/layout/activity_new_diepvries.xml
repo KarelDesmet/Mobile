@@ -10,9 +10,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/small_margin"
-        android:background="#c55746"
+        android:background="#35d0ff"
         android:gravity="center_horizontal"
-        android:text="@string/charcuterie"
+        android:text="@string/freezer"
         android:textColor="#fff"
         android:textSize="@dimen/title"
         android:textStyle="bold" />
