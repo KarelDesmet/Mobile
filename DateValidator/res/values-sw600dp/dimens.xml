@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="title">48sp</dimen>
+    <dimen name="small_title">36sp</dimen>
+    <dimen name="tiny_title">30sp</dimen>
+
+    <dimen name="article_margin">4dp</dimen>
+
+    <dimen name="tiny_margin">10dp</dimen>
+    <dimen name="small_margin">20dp</dimen>
+    <dimen name="great_margin">40dp</dimen>
+    <dimen name="ultimate_margin">100dp</dimen>
+    <dimen name="category_bar">60dp</dimen>
+    <dimen name="articlename_textsize">24sp</dimen>
+    <dimen name="checkbox_size">30sp</dimen>
+</resources>
