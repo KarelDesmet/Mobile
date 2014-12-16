@@ -167,7 +167,7 @@ public class Database {
 	 * @throws DatabaseException
 	 *             If there is no category with the given name
 	 */
-	public void deleteCategoryProductDatabase(Category category)
+	public void deleteCategory(Category category)
 			throws DatabaseException {
 		if (!categoryProductDatabases.containsKey(category)) {
 			throw new DatabaseException("There is no such category");
@@ -275,6 +275,50 @@ public class Database {
 			throws DatabaseException {
 		CategoryProductDatabase categoryProductDb = getCategoryProductDatabase(category);
 		categoryProductDb.deleteProduct(ean);
+	}
+
+	/**
+	 * A method which merges two categories. The second category is ammended
+	 * into the first one. If there are products with the same EAN, the product
+	 * from the second category are kept.
+	 * 
+	 * @param categoryToBeAmmended
+	 *            The category to be amended.
+	 * @param addToThis
+	 *            The category to which to other category will be added
+	 * @throws DatabaseException
+	 *             If at least one of the two categories given doesn't exist
+	 */
+	public void mergeCategories(Category categoryToBeAmmended, Category addToThis)
+			throws DatabaseException {
+		CategoryProductDatabase addToThisDb = getCategoryProductDatabase(addToThis);
+		CategoryProductDatabase oldDb = getCategoryProductDatabase(categoryToBeAmmended);
+		for (Long key : oldDb.keySet()) {
+			if (addToThisDb.containsEan(key)) {
+				addToThisDb.updateProduct(addToThisDb.getProduct(key),
+						oldDb.getProduct(key));
+			} else {
+				addToThisDb.addProduct(oldDb.getProduct(key));
+			}
+		}
+		deleteCategory(categoryToBeAmmended);
+	}
+	
+	/**
+	 * This method implements how a Database is represented as a String. I.e.
+	 * all the categories (=keys of the Map) of the Database and the contents of
+	 * those categoryProductDatabase.
+	 * 
+	 * @return The String representation of a Database
+	 */
+	@Override
+	public String toString() {
+		String result = "";
+		for (Category key : categoryProductDatabases.keySet()) {
+			result += key.getName().toUpperCase() + "\n";
+			result += categoryProductDatabases.get(key) + "\n";
+		}
+		return result;
 	}
 
 	// TODO:

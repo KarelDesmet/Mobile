@@ -115,7 +115,7 @@ public class DateValidator {
 	 */
 	public void deleteCategory(Category category) throws ServiceException {
 		try {
-			mEanDatabase.deleteCategoryProductDatabase(category);
+			mEanDatabase.deleteCategory(category);
 		} catch (DatabaseException e) {
 			throw new ServiceException(e);
 		}
@@ -217,6 +217,26 @@ public class DateValidator {
 		return mEanDatabase.size();
 	}
 
+	/**
+	 * A method to merge to categories. The first category is ammended with the
+	 * contents of the second. If there are products with the same EAN, the
+	 * product from the second category are kept.
+	 * 
+	 * @param categoryToBeAmmended
+	 *            The category to be amended.
+	 * @param oldCategory
+	 *            The category to which to other category will be added
+	 * @throws DatabaseException
+	 *             If at least one of the two categories given doesn't exist
+	 */
+	public void mergeCategories(Category categoryToBeAmmended, Category oldCategory) throws ServiceException {
+		try {
+			mEanDatabase.mergeCategories(categoryToBeAmmended, oldCategory);
+		} catch (DatabaseException e) {
+			throw new ServiceException(e);
+		}
+	}
+	
 	/**
 	 * The getter which returns the value of the field mEanDatabase.
 	 * 

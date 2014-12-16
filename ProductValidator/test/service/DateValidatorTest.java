@@ -38,8 +38,8 @@ public class DateValidatorTest {
 				zuivel);
 		sameEanAsEggs = new Product(5414121001733L, "Haha, same Ean", "Brand",
 				zuivel);
-		eggsDifferentEan = new Product(5414121001732L, "Eieren 12 stuks", "Rollie's",
-				zuivel);
+		eggsDifferentEan = new Product(5414121001732L, "Eieren 12 stuks",
+				"Rollie's", zuivel);
 		chocolate = new Product(7622210100085L, "Melkchocolade met nootjes",
 				"Cote d\'Or", voeding);
 
@@ -106,6 +106,11 @@ public class DateValidatorTest {
 		} catch (ServiceException e) {
 			fail(e.getMessage());
 		}
+	}
+
+	@Test(expected=ServiceException.class)
+	public void deleteCategory_ServiceException_When_category_does_not_exist() throws ServiceException {
+		dateValidator.deleteCategory(zuivel);
 	}
 
 	@Test
@@ -215,19 +220,39 @@ public class DateValidatorTest {
 			dateValidator.addCategory(voeding);
 			dateValidator.addProduct(eggs);
 			dateValidator.updateProduct(eggs, chocolate);
-			assertEquals(chocolate, dateValidator.getProduct(voeding, chocolate.getEan()));
+			assertEquals(chocolate,
+					dateValidator.getProduct(voeding, chocolate.getEan()));
+		} catch (ServiceException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void updateProduct_Product_is_now_the_updated_article_same_category()
+			throws DomainException {
+		try {
+			dateValidator.addCategory(zuivel);
+			dateValidator.addProduct(eggs);
+			dateValidator.updateProduct(eggs, eggsDifferentEan);
+			assertEquals(eggsDifferentEan,
+					dateValidator.getProduct(zuivel, eggsDifferentEan.getEan()));
 		} catch (ServiceException e) {
 			fail(e.getMessage());
 		}
 	}
 	
 	@Test
-	public void updateProduct_Product_is_now_the_updated_article_same_category() throws DomainException {
+	public void mergeCategories_Category_is_ammended(){
 		try {
 			dateValidator.addCategory(zuivel);
+			dateValidator.addCategory(voeding);
 			dateValidator.addProduct(eggs);
-			dateValidator.updateProduct(eggs, eggsDifferentEan);
-			assertEquals(eggsDifferentEan, dateValidator.getProduct(zuivel, eggsDifferentEan.getEan()));
+			dateValidator.addProduct(chocolate);
+			numberOfCategories = dateValidator.getNumberOfCategories();
+			numberOfProducts = dateValidator.getNumberOfProducts();
+			dateValidator.mergeCategories(zuivel, voeding);
+			assertEquals(numberOfCategories - 1, dateValidator.getNumberOfCategories());
+			assertEquals(numberOfProducts, dateValidator.getNumberOfProducts());
 		} catch (ServiceException e) {
 			fail(e.getMessage());
 		}
