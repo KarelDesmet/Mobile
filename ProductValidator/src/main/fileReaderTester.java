@@ -1,4 +1,4 @@
-package test;
+package main;
 
 import java.text.ParseException;
 
@@ -9,7 +9,8 @@ import exception.db.DatabaseException;
 public class fileReaderTester {
 
 	public static void main(String[] args) throws ParseException {
-		try {
+//TODO
+/*		try {
 			CategoryProductDatabase db = new CategoryProductDatabase("charcuterie");
 			System.out.println(db);
 			
@@ -17,6 +18,6 @@ public class fileReaderTester {
 		} catch (DatabaseException e) {
 			e.printStackTrace();
 		}
-	}
+*/	}
 
 }

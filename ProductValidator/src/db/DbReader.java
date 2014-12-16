@@ -33,13 +33,15 @@ public class DbReader {
                 String naam = data[1];
                 String merk = data[2];
                 String datum = data[3];
-                try {
-					Product product = new Product(ean, naam, merk);
+                String category = data[4];
+                //TODO
+/*                try {
+					Product product = new Product(ean, naam, merk, category);
 					products.put(ean, product);
 				} catch (DomainException e) {
 					e.printStackTrace();
 				}
-            }    
+*/            }    
             bufferedReader.close();            
         }
         catch(FileNotFoundException ex) {

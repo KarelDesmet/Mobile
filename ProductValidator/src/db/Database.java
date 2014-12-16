@@ -3,9 +3,10 @@ package db;
 import java.util.HashMap;
 import java.util.Map;
 
+import domain.Category;
 import domain.Product;
 import exception.db.DatabaseException;
-import exception.service.ServiceException;
+import exception.domain.DomainException;
 
 /**
  * A database class which acts as the container for the different databases for
@@ -25,24 +26,27 @@ public class Database {
 	 * The database who holds all different categories and their respective
 	 * databases together.
 	 */
-	private Map<String, CategoryProductDatabase> categoryProductDatabases;
+	public Map<Category, CategoryProductDatabase> categoryProductDatabases;
 
 	/**
 	 * Private constructor to prevent others creating an instance.
 	 */
 	private Database() {
-		categoryProductDatabases = new HashMap<String, CategoryProductDatabase>();
-		try {
-		categoryProductDatabases.put("charcuterie",
-				new CategoryProductDatabase("charcuterie"));
-		categoryProductDatabases
-				.put("diepvries", new CategoryProductDatabase("diepvries"));
-		categoryProductDatabases.put("kaas", new CategoryProductDatabase("kaas"));
-		categoryProductDatabases.put("voeding", new CategoryProductDatabase("voeding"));
-		categoryProductDatabases.put("zuivel", new CategoryProductDatabase("zuivel"));
-		} catch (DatabaseException e){
-			//TODO: Delete default data
-		}
+		categoryProductDatabases = new HashMap<Category, CategoryProductDatabase>();
+		// try {
+		// categoryProductDatabases.put("charcuterie", new
+		// CategoryProductDatabase("charcuterie"));
+		// categoryProductDatabases.put("diepvries", new
+		// CategoryProductDatabase("diepvries"));
+		// categoryProductDatabases.put("kaas", new
+		// CategoryProductDatabase("kaas"));
+		// categoryProductDatabases.put("voeding", new
+		// CategoryProductDatabase("voeding"));
+		// categoryProductDatabases.put("zuivel", new
+		// CategoryProductDatabase("zuivel"));
+		// } catch (DatabaseException e){
+		// TODO: Delete default data
+		// }
 	}
 
 	/**
@@ -75,10 +79,100 @@ public class Database {
 	 */
 	public int size() {
 		int size = 0;
-		for (String key : categoryProductDatabases.keySet()) {
+		for (Category key : categoryProductDatabases.keySet()) {
 			size += categoryProductDatabases.get(key).size();
 		}
 		return size;
+	}
+
+	/**
+	 * A method which wipes all data from this database.
+	 */
+	public void clear() {
+		categoryProductDatabases.clear();
+	}
+
+	/**
+	 * A method which returns the number of categories the database contains
+	 * 
+	 * @return the number of categories in the database
+	 */
+	public int getNumberOfCategories() {
+		return categoryProductDatabases.keySet().size();
+	}
+
+	/**
+	 * A method which adds new category and prepares it's database.
+	 * 
+	 * @param category
+	 *            The new category to be added
+	 * @throws DatabaseException
+	 *             If one tries to add a category who already exists.
+	 */
+	public void addCategory(Category category) throws DatabaseException {
+		if (categoryProductDatabases.containsKey(category)) {
+			throw new DatabaseException(
+					"There is already a category with this name");
+		}
+		categoryProductDatabases.put(category, new CategoryProductDatabase());
+	}
+
+	/**
+	 * A method which gets the requested category object from the database.
+	 * 
+	 * @param category
+	 *            the requested category
+	 * @throws ServiceExcpetion
+	 *             If the requested category doesn't exist in the database
+	 */
+	public Category getCategory(Category category) throws DatabaseException {
+		for (Category key : categoryProductDatabases.keySet()) {
+			if (key.equals(category)) {
+				return key;
+			}
+		}
+		throw new DatabaseException("This category isn't in the database");
+	}
+
+	/**
+	 * A method which updates a category.
+	 * 
+	 * @param oldCategory
+	 *            The old category
+	 * @param newCategory
+	 *            The updated category
+	 * @throws DatabaseException
+	 *             If there already exists a category like the updated one. If
+	 *             there is no category like the old one. If the name of the
+	 *             updated category has not at least one letter.
+	 */
+	public void updateCategory(Category oldCategory, Category updatedCategory)
+			throws DatabaseException {
+		if (categoryProductDatabases.containsKey(updatedCategory)) {
+			throw new DatabaseException(
+					"There is already a category with this name");
+		}
+		try {
+			getCategory(oldCategory).update(updatedCategory);
+		} catch (DomainException e) {
+			throw new DatabaseException(e);
+		}
+	}
+
+	/**
+	 * A method which deletes a category from the database.
+	 * 
+	 * @param category
+	 *            The category to be deleted
+	 * @throws DatabaseException
+	 *             If there is no category with the given name
+	 */
+	public void deleteCategoryProductDatabase(Category category)
+			throws DatabaseException {
+		if (!categoryProductDatabases.containsKey(category)) {
+			throw new DatabaseException("There is no such category");
+		}
+		categoryProductDatabases.remove(category);
 	}
 
 	/**
@@ -86,19 +180,15 @@ public class Database {
 	 * the given category.
 	 * 
 	 * @param category
-	 *            The categoryProductDatabase requested
+	 *            The category of the categoryProductDatabase requested
 	 * @return The categoryProductDatabase
 	 * @throws DatabaseException
 	 *             If there is no corresponding CategoryProductDatabase for the
 	 *             requested category. I.e. there is no key for that category.
 	 */
-	public CategoryProductDatabase getCategory(String category)
+	public CategoryProductDatabase getCategoryProductDatabase(Category category)
 			throws DatabaseException {
-		if (!categoryProductDatabases.containsKey(category)) {
-			throw new DatabaseException(
-					"There is no such category in the database");
-		}
-		return categoryProductDatabases.get(category);
+		return categoryProductDatabases.get(getCategory(category));
 	}
 
 	/**
@@ -119,9 +209,9 @@ public class Database {
 	 *             is no corresponding CategoryProductDatabase for the requested
 	 *             category. I.e. there is no key for that category.
 	 */
-	public void addProduct(String category, Product article)
-			throws DatabaseException {
-		CategoryProductDatabase categoryProductDb = getCategory(category);
+	public void addProduct(Product article) throws DatabaseException {
+		CategoryProductDatabase categoryProductDb = getCategoryProductDatabase(article
+				.getCategory());
 		categoryProductDb.addProduct(article);
 	}
 
@@ -141,10 +231,30 @@ public class Database {
 	 *             for the requested category. I.e. there is no key for that
 	 *             category.
 	 */
-	public Product getProduct(String category, Long ean)
+	public Product getProduct(Category category, Long ean)
 			throws DatabaseException {
-		CategoryProductDatabase categoryProductDb = getCategory(category);
+		CategoryProductDatabase categoryProductDb = getCategoryProductDatabase(category);
 		return categoryProductDb.getProduct(ean);
+	}
+
+	/**
+	 * A method which updates a product.
+	 * 
+	 * @param oldArticle
+	 *            the info of the old product
+	 * @param updatedArticle
+	 *            the updated info
+	 * @throws DatabaseException
+	 *             If the EAN of the updated article doesn't have 13 ciphers. If
+	 *             the name of the updated article has less then 5 letters. If
+	 *             the brand of the updated article has less then 3 letters. If
+	 *             the old product doesn't exist. If the category of one of the
+	 *             two product doesn't exist.
+	 */
+	public void updateProduct(Product oldArticle, Product updatedArticle)
+			throws DatabaseException {
+			deleteProduct(oldArticle.getCategory(), oldArticle.getEan());
+			addProduct(updatedArticle);
 	}
 
 	/**
@@ -161,109 +271,21 @@ public class Database {
 	 *             there is no corresponding CategoryProductDatabase for the
 	 *             requested category. I.e. there is no key for that category.
 	 */
-	public void deleteProduct(String category, Long ean)
+	public void deleteProduct(Category category, Long ean)
 			throws DatabaseException {
-		CategoryProductDatabase categoryProductDb = getCategory(category);
+		CategoryProductDatabase categoryProductDb = getCategoryProductDatabase(category);
 		categoryProductDb.deleteProduct(ean);
 	}
 
+	// TODO:
 	/**
-	 * A method which adds new category and prepares it's database.
+	 * //Class to load data into the local Database class object private
+	 * DbReader reader;
 	 * 
-	 * @param category
-	 *            The new category to be added
-	 * @throws DatabaseException
-	 *             If one tries to add a category who already exists.
-	 */
-	public void addCategoryProductDatabase(String category)
-			throws DatabaseException {
-		if (categoryProductDatabases.containsKey(category)) {
-			throw new DatabaseException(
-					"There is already a category with this name");
-		}
-		categoryProductDatabases.put(category, new CategoryProductDatabase(category));
-	}
-
-	/**
-	 * A method which changes the name of the category.
+	 * //Commentaar private void loadProducts(){ articles = reader.load(); }
 	 * 
-	 * @param oldCategory
-	 *            The old name of the category
-	 * @param newCategory
-	 *            The new name of the category
-	 * @throws ServiceException
-	 *             If there already exists a category with the new name. If
-	 *             there is no category with the old name.
-	 */
-	public void renameCategoryProductDatabase(String oldCategory,
-			String newCategory) throws DatabaseException {
-		CategoryProductDatabase oldDb = getCategory(oldCategory);
-		if (categoryProductDatabases.containsKey(newCategory)) {
-			throw new DatabaseException(
-					"There is already a category with this name");
-		}
-		categoryProductDatabases.put(newCategory, oldDb);
-		deleteCategoryProductDatabase(oldCategory);
-		// TODO: misschien toch beter Category-klasse?
-	}
-
-	/**
-	 * A method which deletes a category from the database.
+	 * //Commentaar public void saveProducts(){
 	 * 
-	 * @param category
-	 *            The category to be deleted
-	 * @throws DatabaseException
-	 *             If there is no category with the given name
+	 * }
 	 */
-	public void deleteCategoryProductDatabase(String category)
-			throws DatabaseException {
-		if (!categoryProductDatabases.containsKey(category)) {
-			throw new DatabaseException("There is no such category");
-		}
-		categoryProductDatabases.remove(category);
-	}
-
-	/**
-	 * A method which merges two categories. The second category is ammended
-	 * into the first one. If there are products with the same EAN, the product
-	 * from the second category are kept.
-	 * 
-	 * @param categoryToBeAmmended
-	 *            The category to be amended.
-	 * @param oldCategory
-	 *            The category to which to other category will be added
-	 * @throws DatabaseException
-	 *             If at least one of the two categories given doesn't exist
-	 */
-	public void mergeCategories(String categoryToBeAmmended, String oldCategory)
-			throws DatabaseException {
-		CategoryProductDatabase updatedDb = getCategory(categoryToBeAmmended);
-		CategoryProductDatabase oldDb = getCategory(oldCategory);
-		for (Long key : oldDb.keySet()) {
-			if (updatedDb.containsEan(key)) {
-				updatedDb.updateProduct(updatedDb.getProduct(key),
-						oldDb.getProduct(key));
-			} else {
-				updatedDb.addProduct(oldDb.getProduct(key));
-			}
-		}
-		deleteCategoryProductDatabase(oldCategory);
-	}
-
-	/**
-	 * This method implements how a Database is represented as a String. I.e.
-	 * all the categories (=keys of the Map) of the Database and the contents of
-	 * those categoryProductDatabase.
-	 * 
-	 * @return The String representation of a Database
-	 */
-	@Override
-	public String toString() {
-		String result = "";
-		for (String key : categoryProductDatabases.keySet()) {
-			result += key.toUpperCase() + "\n";
-			result += categoryProductDatabases.get(key) + "\n";
-		}
-		return result;
-	}
 }

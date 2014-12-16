@@ -23,16 +23,23 @@ public class Product extends Identifier {
 	private String brand;
 
 	/**
+	 * The category of the product.
+	 */
+	private Category category;
+
+	/**
 	 * The default constructor of a product. A default Product has a EAN of 0, a
 	 * name "default_product_name" and a brand "default_brand_name".
 	 * 
 	 * @throws DomainException
 	 *             If the default value for the EAN doesn't have 13 ciphers. If
 	 *             the default value for the name doesn't have 5 letters. If the
-	 *             default value for the brand doesn't have 3 letters.
+	 *             default value for the brand doesn't have 3 letters. If the
+	 *             name of the default category contains less than 1 letter.
 	 */
 	public Product() throws DomainException {
-		this(000000000000000L, "default_product_name", "default_brand_name");
+		this(000000000000000L, "default_product_name", "default_brand_name",
+				new Category("all_products"));
 	}
 
 	/**
@@ -48,12 +55,14 @@ public class Product extends Identifier {
 	 *            The brand of the product
 	 * @throws DomainException
 	 *             If the EAN doesn't have 13 ciphers. If the name has less then
-	 *             5 letters. If the brand has less then 3 letters
+	 *             5 letters. If the brand has less then 3 letters.
 	 */
-	public Product(Long ean, String name, String brand) throws DomainException {
+	public Product(Long ean, String name, String brand, Category category)
+			throws DomainException {
 		setEan(ean);
 		setName(name);
 		setBrand(brand);
+		setCategory(category);
 	}
 
 	/**
@@ -104,6 +113,25 @@ public class Product extends Identifier {
 					"The brand must contain at least 3 letters");
 		}
 		this.brand = brand;
+	}
+
+	/**
+	 * A method which returns the category of the product.
+	 * 
+	 * @return the category of the product
+	 */
+	public Category getCategory() {
+		return category;
+	}
+
+	/**
+	 * A method which sets the category of the product to a given category.
+	 * 
+	 * @param category
+	 *            the category of the product
+	 */
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	/**
