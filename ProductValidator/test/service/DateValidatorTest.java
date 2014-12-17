@@ -6,12 +6,17 @@ package service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.util.Date;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import db.CategoryExpiryList;
 import domain.Category;
+import domain.ExpiryProduct;
 import domain.Product;
+import exception.db.DatabaseException;
 import exception.domain.DomainException;
 import exception.service.ServiceException;
 
@@ -22,15 +27,18 @@ import exception.service.ServiceException;
 public class DateValidatorTest {
 
 	private DateValidator dateValidator;
-	private int numberOfProducts, numberOfCategories;
+	private int numberOfProducts, numberOfCategories, numberOfExpiryProducts;
 	private Category zuivel, zuivel2, voeding;
 	private Product eggs, sameEanAsEggs, eggsDifferentEan, chocolate;
+	private ExpiryProduct eggsExpiry, chocolateExpiry;
+	private Date expiryDate;
 
 	@Before
 	public void initialize() throws DomainException, ServiceException {
 		dateValidator = new DateValidator();
 		numberOfProducts = dateValidator.getNumberOfProducts();
 		numberOfCategories = dateValidator.getNumberOfCategories();
+		numberOfExpiryProducts = dateValidator.getNumberOfExpiryProducts();
 		zuivel = new Category("zuivel");
 		zuivel2 = new Category("zuivel");
 		voeding = new Category("voeding");
@@ -42,7 +50,9 @@ public class DateValidatorTest {
 				"Rollie's", zuivel);
 		chocolate = new Product(7622210100085L, "Melkchocolade met nootjes",
 				"Cote d\'Or", voeding);
-
+		eggsExpiry = new ExpiryProduct(eggs, 29, 12, 2014);
+		chocolateExpiry = new ExpiryProduct(chocolate, 19, 6, 2015);
+		expiryDate = eggsExpiry.getExpiryDate(); // 29-12
 	}
 
 	@After
@@ -58,6 +68,8 @@ public class DateValidatorTest {
 		sameEanAsEggs = null;
 		eggsDifferentEan = null;
 		chocolate = null;
+		eggsExpiry = null;
+		expiryDate = null;
 	}
 
 	@Test
@@ -119,8 +131,9 @@ public class DateValidatorTest {
 		}
 	}
 
-	@Test(expected=ServiceException.class)
-	public void deleteCategory_ServiceException_When_category_does_not_exist() throws ServiceException {
+	@Test(expected = ServiceException.class)
+	public void deleteCategory_ServiceException_When_category_does_not_exist()
+			throws ServiceException {
 		dateValidator.deleteCategory(zuivel);
 	}
 
@@ -169,7 +182,7 @@ public class DateValidatorTest {
 	}
 
 	@Test(expected = ServiceException.class)
-	public void addProduct_ServiceException_When_there_is_categoryDatabase_for_the_category_of_the_product()
+	public void addProduct_ServiceException_When_there_is_no_categoryDatabase_for_the_category_of_the_product()
 			throws ServiceException {
 		dateValidator.addProduct(eggs);
 	}
@@ -251,9 +264,9 @@ public class DateValidatorTest {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
-	public void mergeCategories_Category_is_ammended(){
+	public void mergeCategories_Category_is_ammended() {
 		try {
 			dateValidator.addCategory(zuivel);
 			dateValidator.addCategory(voeding);
@@ -262,8 +275,48 @@ public class DateValidatorTest {
 			numberOfCategories = dateValidator.getNumberOfCategories();
 			numberOfProducts = dateValidator.getNumberOfProducts();
 			dateValidator.mergeCategories(zuivel, voeding);
-			assertEquals(numberOfCategories - 1, dateValidator.getNumberOfCategories());
+			assertEquals(numberOfCategories - 1,
+					dateValidator.getNumberOfCategories());
 			assertEquals(numberOfProducts, dateValidator.getNumberOfProducts());
+		} catch (ServiceException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void addExpiryProduct_Adds_ExpiryProduct_to_expiryList() {
+		try {
+			dateValidator.addCategory(zuivel);
+			dateValidator.addExpiryProduct(eggsExpiry);
+			assertEquals(numberOfExpiryProducts + 1,
+					dateValidator.getNumberOfExpiryProducts());
+		} catch (ServiceException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test(expected = ServiceException.class)
+	public void addExpiryProduct_ServiceException_When_there_is_no_categoryDatabase_for_the_category_of_the_product()
+			throws ServiceException {
+		dateValidator.addExpiryProduct(eggsExpiry);
+	}
+
+	@Test(expected = ServiceException.class)
+	public void addExpiryProduct_ServiceException_When_there_list_already_contains_this_record()
+			throws ServiceException {
+		dateValidator.addExpiryProduct(eggsExpiry);
+		dateValidator.addExpiryProduct(eggsExpiry);
+	}
+
+	@Test
+	public void getExpiryProducts_HashMap_contains_the_same_number_of_categories() throws DomainException {
+		try {
+			dateValidator.addCategory(zuivel);
+			dateValidator.addCategory(voeding);
+			dateValidator.addExpiryProduct(eggsExpiry);
+			dateValidator.addExpiryProduct(chocolateExpiry);
+			System.out.println(dateValidator.getExpiryProducts(expiryDate).values());
+			assertEquals(dateValidator.getNumberOfCategories(), dateValidator.getExpiryProducts(expiryDate).keySet().size());
 		} catch (ServiceException e) {
 			fail(e.getMessage());
 		}

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import domain.ExpiryProduct;
+import exception.domain.DomainException;
 
 public class CategoryExpiryList {
 
@@ -15,8 +16,32 @@ public class CategoryExpiryList {
 		articles = new ArrayList<ExpiryProduct>();
 	}
 	
-	public void addProduct(ExpiryProduct expiryProduct){
+	public int size(){
+		return articles.size();
+	}
+	
+	public boolean contains(ExpiryProduct record){
+		for(int i = 0; i < size(); i++){
+			if(record.equals(articles.get(i))){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void addProduct(ExpiryProduct expiryProduct) throws DomainException{
+		expiryProduct.setSpot(current);
 		articles.add(expiryProduct);			
+	}
+	
+	public ArrayList<ExpiryProduct> getExpiryProducts(Date expiryDate){
+		ArrayList<ExpiryProduct> result = new ArrayList<ExpiryProduct>();
+		for(int i = 0; i < size(); i++){
+			if(articles.get(i).getExpiryDate().equals(expiryDate)){
+				result.add(articles.get(i));
+			}
+		}
+		return result;
 	}
 	
 	public void deleteProduct(ExpiryProduct expiryProduct){
@@ -38,11 +63,11 @@ public class CategoryExpiryList {
 	}
 	
 	public void next(){
-		
+		current += 1;
 	}
 	
 	public void previous(){
-		
+		current -= 1;
 	}
 	
 	public void remove(){

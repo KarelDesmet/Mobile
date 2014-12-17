@@ -1,8 +1,8 @@
 package domain;
 
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import exception.domain.DomainException;
 
@@ -23,7 +23,7 @@ public class ExpiryProduct {
 	/**
 	 * The format of the date of expiry.
 	 */
-	private static SimpleDateFormat format = new SimpleDateFormat("dd/MM");
+	private static SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
 	/**
 	 * The date when the product is to be removed from the store.
@@ -54,9 +54,9 @@ public class ExpiryProduct {
 	 * @throws DomainException
 	 *             If the format from the date isn't right
 	 */
-	public ExpiryProduct(Product article, int day, int month)
+	public ExpiryProduct(Product article, int day, int month, int year)
 			throws DomainException {
-		this(article, day, month, -1);
+		this(article, day, month, year, 0);
 	}
 
 	/**
@@ -76,9 +76,9 @@ public class ExpiryProduct {
 	 * @throws DomainException
 	 *             If the format from the date isn't right
 	 */
-	public ExpiryProduct(Product article, int day, int month, int spot)
+	public ExpiryProduct(Product article, int day, int month, int year, int spot)
 			throws DomainException {
-		this(article, day, month, spot, false);
+		this(article, day, month, year, spot, false);
 	}
 
 	/**
@@ -97,12 +97,21 @@ public class ExpiryProduct {
 	 * @throws DomainException
 	 *             If the format from the date isn't right
 	 */
-	public ExpiryProduct(Product article, int day, int month, int spot,
+	public ExpiryProduct(Product article, int day, int month, int year, int spot,
 			boolean removed) throws DomainException {
 		setArticle(article);
 		setSpot(spot);
 		setRemoved(removed);
-		setExpiryDate(day, month);
+		setExpiryDate(day, month, year);
+	}
+	
+	/**
+	 * A method which returns the category of the product.
+	 * 
+	 * @return the category of the product
+	 */
+	public Category getCategory(){
+		return article.getCategory();
 	}
 
 	/**
@@ -142,17 +151,17 @@ public class ExpiryProduct {
 	 * @throws DomainException
 	 *             If the given date is not in the correct format
 	 */
-	public void setExpiryDate(int day, int month) throws DomainException {
+	public void setExpiryDate(int day, int month, int year) throws DomainException {
 		try {
 			String date = "";
-			if (month < 10) {
-				date += "0";
-			}
-			date += month + "/";
 			if (day < 10) {
 				date += "0";
 			}
-			date += day;
+			date += day + "/";
+			if (month < 10) {
+				date += "0";
+			}
+			date += month + "/" + year;
 			this.expiryDate = format.parse(date);
 		} catch (ParseException e) {
 			throw new DomainException("The date is not in the correct format",

@@ -1,5 +1,7 @@
 package db;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,12 +59,27 @@ public class ExpiryList {
 	}
 
 	/**
+	 * A method which returns the total amount of records in the expiryList.
+	 * I.e. the sum of the amount of products in all the different
+	 * categoryProductDatabases.
+	 * 
+	 * @return The total amount of products in the database.
+	 */
+	public int size() {
+		int size = 0;
+		for (Category key : categoryExpiryLists.keySet()) {
+			size += categoryExpiryLists.get(key).size();
+		}
+		return size;
+	}
+
+	/**
 	 * A method which wipes all data from this list.
 	 */
 	public void clear() {
 		categoryExpiryLists.clear();
 	}
-	
+
 	/**
 	 * A method which returns the number of categories the expiryList contains
 	 * 
@@ -71,7 +88,7 @@ public class ExpiryList {
 	public int getNumberOfCategories() {
 		return categoryExpiryLists.keySet().size();
 	}
-	
+
 	/**
 	 * A method which adds new category and prepares it's expiryList.
 	 * 
@@ -129,7 +146,7 @@ public class ExpiryList {
 			throw new DatabaseException(e);
 		}
 	}
-	
+
 	/**
 	 * A method which deletes a category from the database.
 	 * 
@@ -138,14 +155,13 @@ public class ExpiryList {
 	 * @throws DatabaseException
 	 *             If there is no category with the given name
 	 */
-	public void deleteCategory(Category category)
-			throws DatabaseException {
+	public void deleteCategory(Category category) throws DatabaseException {
 		if (!categoryExpiryLists.containsKey(category)) {
 			throw new DatabaseException("There is no such category");
 		}
 		categoryExpiryLists.remove(category);
 	}
-	
+
 	/**
 	 * A method which merges two categories. The second category is ammended
 	 * into the first one. If there are products with the same EAN, the product
@@ -156,14 +172,21 @@ public class ExpiryList {
 	 * @param addToThis
 	 *            The category to which to other category will be added
 	 * @throws DatabaseException
-	 *             If at least one of the two categories given doesn't exist
+	 *             If at least one of the two categories given doesn't exist. If
+	 *             the spot where the new products are added in the expiryList
+	 *             is less than zero.
 	 */
-	public void mergeCategories(Category categoryToBeAmmended, Category addToThis)
-			throws DatabaseException {
+	public void mergeCategories(Category categoryToBeAmmended,
+			Category addToThis) throws DatabaseException {
 		CategoryExpiryList addToThisList = getCategoryExpiryList(addToThis);
 		CategoryExpiryList oldList = getCategoryExpiryList(categoryToBeAmmended);
-		for(ExpiryProduct product : oldList.articles){
-			addToThisList.addProduct(product);
+		for (ExpiryProduct product : oldList.articles) {
+			try {
+				product.setSpot(0);
+				addToThisList.addProduct(product);
+			} catch (DomainException e) {
+				throw new DatabaseException(e);
+			}
 		}
 		deleteCategory(categoryToBeAmmended);
 	}
@@ -184,5 +207,96 @@ public class ExpiryList {
 		return categoryExpiryLists.get(getCategory(category));
 	}
 
+	public boolean containsRecord(ExpiryProduct record)
+			throws DatabaseException {
+		if (getCategoryExpiryList(record.getCategory()).contains(record)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * A method which adds a record of a product which is about to expire to the
+	 * list of all products who are going to expire.
+	 * 
+	 * @param article
+	 *            The record to add
+	 * @throws DatabaseException
+	 *             If the list of where this product belongs doesn't exist in
+	 *             the expiryList. If the exact same record exists in the
+	 *             expiryList
+	 */
+	public void addExpiryProduct(ExpiryProduct article)
+			throws DatabaseException {
+		if (containsRecord(article)) {
+			throw new DatabaseException(
+					"This record already exists in the list");
+		}
+		CategoryExpiryList expiryList = getCategoryExpiryList(article
+				.getCategory());
+		try {
+			expiryList.addProduct(article);
+		} catch (DomainException e) {
+			throw new DatabaseException(e);
+		}
+	}
+
+	/**
+	 * A method which selects only the products who expire at the given date.
+	 * 
+	 * @param expiryDate
+	 *            the date on which the products expire
+	 * @return The products who expire at the given date.
+	 * @throws DatabaseException
+	 *             If the requested Category doesn't exist.
+	 */
+	public Map<Category, ArrayList<ExpiryProduct>> getExpiryProducts(
+			Date expiryDate) throws DatabaseException {
+		HashMap<Category, ArrayList<ExpiryProduct>> result = new HashMap<Category, ArrayList<ExpiryProduct>>();
+		for (Category key : categoryExpiryLists.keySet()) {
+			result.put(key,
+					getCategoryExpiryList(key).getExpiryProducts(expiryDate));
+		}
+		System.out.println(result);
+		return result;
+	}
+
+	/**
+	 * A method to delete a record from the expirylist
+	 * 
+	 * @param article
+	 *            the record to remove
+	 * @throws DatabaseException
+	 *             If there is no category in the expiryList which is the same
+	 *             as that of the record
+	 */
+	public void deleteExpiryProduct(ExpiryProduct article)
+			throws DatabaseException {
+		getCategoryExpiryList(article.getCategory()).deleteProduct(article);
+	}
+	
+	/**
+	 * A method to go to the next fridge / freezer / aisle ... of the expiryList
+	 * of the given category
+	 * 
+	 * @param category the category of which list is being worked on
+	 * @throws DatabaseException
+ 	 *             If the requested Category doesn't exist.
+	 */
+	public void next(Category category) throws DatabaseException{
+		getCategoryExpiryList(category).next();
+	}
+	
+	/**
+	 * A method to go to the previous fridge / freezer / aisle ... of the expiryList
+	 * of the given category
+	 * 
+	 * @param category the category of which list is being worked on
+	 * @throws DatabaseException
+ 	 *             If the requested Category doesn't exist.
+	 */
+	public void previous(Category category) throws DatabaseException{
+		getCategoryExpiryList(category).previous();
+	}
 
 }

@@ -1,9 +1,14 @@
-//TODO: onderkant klassendiagramma
+//TODO: UPDATE + DELETE onderkant klassendiagramma
 package service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Map;
 
 import db.Database;
 import db.ExpiryList;
 import domain.Category;
+import domain.ExpiryProduct;
 import domain.Product;
 import exception.db.DatabaseException;
 import exception.service.ServiceException;
@@ -119,7 +124,7 @@ public class DateValidator {
 			mExpiryList.updateCategory(oldCategory, updatedCategory);
 		} catch (DatabaseException e) {
 			throw new ServiceException(e);
-		}		
+		}
 	}
 
 	/**
@@ -236,6 +241,16 @@ public class DateValidator {
 	}
 
 	/**
+	 * A method which returns the amount of expiryProducts this DateValidator
+	 * knows. I.e. the amount of records in the expiryList.
+	 * 
+	 * @return The amount of products known.
+	 */
+	public int getNumberOfExpiryProducts() {
+		return mExpiryList.size();
+	}
+
+	/**
 	 * A method to merge to categories. The first category is ammended with the
 	 * contents of the second. If there are products with the same EAN, the
 	 * product from the second category are kept.
@@ -252,6 +267,92 @@ public class DateValidator {
 		try {
 			mEanDatabase.mergeCategories(categoryToBeAmmended, oldCategory);
 			mExpiryList.mergeCategories(categoryToBeAmmended, oldCategory);
+		} catch (DatabaseException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	/**
+	 * A method which adds a record of a product which is about to expire to the
+	 * list of all products who are going to expire.
+	 * 
+	 * @param article
+	 *            The record to add
+	 * @throws DatabaseException
+	 *             If the list of where this product belongs doesn't exist in
+	 *             the expiryList
+	 */
+	public void addExpiryProduct(ExpiryProduct article) throws ServiceException {
+		try {
+			mExpiryList.addExpiryProduct(article);
+		} catch (DatabaseException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	/**
+	 * A method which selects only the products who expire at the given date.
+	 * 
+	 * @param expiryDate
+	 *            the date on which the products expire
+	 * @return The products who expire at the given date.
+	 * @throws ServiceException
+	 *             If the requested Category doesn't exist.
+	 */
+	public Map<Category, ArrayList<ExpiryProduct>> getExpiryProducts(
+			Date expiryDate) throws ServiceException {
+		try {
+			return mExpiryList.getExpiryProducts(expiryDate);
+		} catch (DatabaseException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	/**
+	 * A method to delete a record from the expirylist
+	 * 
+	 * @param article
+	 *            the record to remove
+	 * @throws DatabaseException
+	 *             If there is no category in the expiryList which is the same
+	 *             as that of the record
+	 */
+	public void deleteExpiryProduct(ExpiryProduct article)
+			throws ServiceException {
+		try {
+			mExpiryList.deleteExpiryProduct(article);
+		} catch (DatabaseException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	/**
+	 * A method to go to the next fridge / freezer / aisle ... of the expiryList
+	 * of the given category
+	 * 
+	 * @param category the category of which list is being worked on
+	 * @throws ServiceException
+	 *             If the requested Category doesn't exist.
+	 */
+	public void next(Category category) throws ServiceException {
+		try {
+			mExpiryList.next(category);
+		} catch (DatabaseException e) {
+			throw new ServiceException(e);
+		}
+	}
+	
+	/**
+	 * A method to go to the previous fridge / freezer / aisle ... of the expiryList
+	 * of the given category
+	 * 
+	 * @param category the category of which list is being worked on
+	 * @throws ServiceException
+	 *             If the requested Category doesn't exist.
+	 */
+	public void previous(Category category) throws ServiceException {
+		try {
+			mExpiryList.previous(category);
 		} catch (DatabaseException e) {
 			throw new ServiceException(e);
 		}
