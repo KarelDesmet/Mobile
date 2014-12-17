@@ -26,31 +26,17 @@ public class Database {
 	 * The database who holds all different categories and their respective
 	 * databases together.
 	 */
-	public Map<Category, CategoryProductDatabase> categoryProductDatabases;
+	private Map<Category, CategoryProductDatabase> categoryProductDatabases;
 
 	/**
 	 * Private constructor to prevent others creating an instance.
 	 */
 	private Database() {
 		categoryProductDatabases = new HashMap<Category, CategoryProductDatabase>();
-		// try {
-		// categoryProductDatabases.put("charcuterie", new
-		// CategoryProductDatabase("charcuterie"));
-		// categoryProductDatabases.put("diepvries", new
-		// CategoryProductDatabase("diepvries"));
-		// categoryProductDatabases.put("kaas", new
-		// CategoryProductDatabase("kaas"));
-		// categoryProductDatabases.put("voeding", new
-		// CategoryProductDatabase("voeding"));
-		// categoryProductDatabases.put("zuivel", new
-		// CategoryProductDatabase("zuivel"));
-		// } catch (DatabaseException e){
-		// TODO: Delete default data
-		// }
 	}
 
 	/**
-	 * Synchronised creator method to prevent multi-threading problems.
+	 * Synchronized creator method to prevent multi-threading problems.
 	 */
 	private synchronized static void createInstance() {
 		if (_instance == null) {
@@ -122,7 +108,7 @@ public class Database {
 	 * 
 	 * @param category
 	 *            the requested category
-	 * @throws ServiceExcpetion
+	 * @throws DatabaseException
 	 *             If the requested category doesn't exist in the database
 	 */
 	public Category getCategory(Category category) throws DatabaseException {

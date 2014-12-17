@@ -1,4 +1,4 @@
-package domain.list;
+package db;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +10,10 @@ public class CategoryExpiryList {
 
 	protected List<ExpiryProduct> articles;
 	protected int current;
+	
+	public CategoryExpiryList(){
+		articles = new ArrayList<ExpiryProduct>();
+	}
 	
 	public void addProduct(ExpiryProduct expiryProduct){
 		articles.add(expiryProduct);			

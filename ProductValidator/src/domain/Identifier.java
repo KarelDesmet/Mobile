@@ -41,4 +41,30 @@ public class Identifier {
 		}
 		this.ean = ean;
 	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((ean == null) ? 0 : ean.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Identifier other = (Identifier) obj;
+		if (ean == null) {
+			if (other.ean != null)
+				return false;
+		} else if (!ean.equals(other.ean))
+			return false;
+		return true;
+	}
+
 }

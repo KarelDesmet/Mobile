@@ -23,7 +23,7 @@ public class ExpiryProduct {
 	/**
 	 * The format of the date of expiry.
 	 */
-	private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	private static SimpleDateFormat format = new SimpleDateFormat("dd/MM");
 
 	/**
 	 * The date when the product is to be removed from the store.
@@ -47,14 +47,16 @@ public class ExpiryProduct {
 	 * 
 	 * @param article
 	 *            The product which is about to expire
-	 * @param expiryDate
-	 *            The date when it is going to expire
+	 * @param day
+	 *            The day on which the products expires
+	 * @param month
+	 *            The month in which the products expires
 	 * @throws DomainException
 	 *             If the format from the date isn't right
 	 */
-	public ExpiryProduct(Product article, String expiryDate)
+	public ExpiryProduct(Product article, int day, int month)
 			throws DomainException {
-		this(article, expiryDate, -1);
+		this(article, day, month, -1);
 	}
 
 	/**
@@ -63,8 +65,10 @@ public class ExpiryProduct {
 	 * 
 	 * @param article
 	 *            The product which is about to expire
-	 * @param expiryDate
-	 *            The date when it is going to expire
+	 * @param day
+	 *            The day on which the products expires
+	 * @param month
+	 *            The month in which the products expires
 	 * @param spot
 	 *            The spot where it is located in the store
 	 * @param removed
@@ -72,9 +76,9 @@ public class ExpiryProduct {
 	 * @throws DomainException
 	 *             If the format from the date isn't right
 	 */
-	public ExpiryProduct(Product article, String expiryDate, int spot)
+	public ExpiryProduct(Product article, int day, int month, int spot)
 			throws DomainException {
-		this(article, expiryDate, spot, false);
+		this(article, day, month, spot, false);
 	}
 
 	/**
@@ -82,21 +86,23 @@ public class ExpiryProduct {
 	 * 
 	 * @param article
 	 *            The product which is about to expire
-	 * @param expiryDate
-	 *            The date when it is going to expire
 	 * @param spot
 	 *            The spot where it is located in the store
+	 * @param day
+	 *            The day on which the products expires
+	 * @param month
+	 *            The month in which the products expires
 	 * @param removed
 	 *            True if removed from the store, false otherwise.
 	 * @throws DomainException
 	 *             If the format from the date isn't right
 	 */
-	public ExpiryProduct(Product article, String expiryDate, int spot,
+	public ExpiryProduct(Product article, int day, int month, int spot,
 			boolean removed) throws DomainException {
 		setArticle(article);
 		setSpot(spot);
 		setRemoved(removed);
-		setExpiryDate(expiryDate);
+		setExpiryDate(day, month);
 	}
 
 	/**
@@ -136,14 +142,22 @@ public class ExpiryProduct {
 	 * @throws DomainException
 	 *             If the given date is not in the correct format
 	 */
-	public void setExpiryDate(String date) throws DomainException {
+	public void setExpiryDate(int day, int month) throws DomainException {
 		try {
+			String date = "";
+			if (month < 10) {
+				date += "0";
+			}
+			date += month + "/";
+			if (day < 10) {
+				date += "0";
+			}
+			date += day;
 			this.expiryDate = format.parse(date);
 		} catch (ParseException e) {
 			throw new DomainException("The date is not in the correct format",
 					e);
 		}
-		// TODO: Correcte implementatie?
 	}
 
 	/**
@@ -189,4 +203,43 @@ public class ExpiryProduct {
 	public void setRemoved(boolean removed) {
 		this.removed = removed;
 	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((article == null) ? 0 : article.hashCode());
+		result = prime * result
+				+ ((expiryDate == null) ? 0 : expiryDate.hashCode());
+		result = prime * result + (removed ? 1231 : 1237);
+		result = prime * result + spot;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ExpiryProduct other = (ExpiryProduct) obj;
+		if (article == null) {
+			if (other.article != null)
+				return false;
+		} else if (!article.equals(other.article))
+			return false;
+		if (expiryDate == null) {
+			if (other.expiryDate != null)
+				return false;
+		} else if (!expiryDate.equals(other.expiryDate))
+			return false;
+		if (removed != other.removed)
+			return false;
+		if (spot != other.spot)
+			return false;
+		return true;
+	}
+
 }

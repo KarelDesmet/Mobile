@@ -23,7 +23,7 @@ public class MainTest {
 			//HashMap<Category, String> map = new HashMap<Category, String>();
 			//map.put(zuivel, "");
 			System.out.println(zuivel.equals(zuivel2));
-			System.out.println(db.categoryProductDatabases.containsKey(zuivel2));
+			//System.out.println(db.categoryProductDatabases.containsKey(zuivel2));
 			//System.out.println(map.containsKey(zuivel2));
 		} catch (DomainException e) {
 			e.printStackTrace();

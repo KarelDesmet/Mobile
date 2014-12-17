@@ -27,7 +27,7 @@ public class DateValidatorTest {
 	private Product eggs, sameEanAsEggs, eggsDifferentEan, chocolate;
 
 	@Before
-	public void initialize() throws DomainException {
+	public void initialize() throws DomainException, ServiceException {
 		dateValidator = new DateValidator();
 		numberOfProducts = dateValidator.getNumberOfProducts();
 		numberOfCategories = dateValidator.getNumberOfCategories();
@@ -62,6 +62,17 @@ public class DateValidatorTest {
 
 	@Test
 	public void addCategory_Creates_new_category_in_database() {
+		try {
+			dateValidator.addCategory(zuivel);
+			assertEquals(numberOfCategories + 1,
+					dateValidator.getNumberOfCategories());
+		} catch (ServiceException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void addCategory_Creates_new_category_in_expiryList() {
 		try {
 			dateValidator.addCategory(zuivel);
 			assertEquals(numberOfCategories + 1,

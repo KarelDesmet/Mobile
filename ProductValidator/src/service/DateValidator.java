@@ -2,9 +2,9 @@
 package service;
 
 import db.Database;
+import db.ExpiryList;
 import domain.Category;
 import domain.Product;
-import domain.list.ExpiryList;
 import exception.db.DatabaseException;
 import exception.service.ServiceException;
 
@@ -41,14 +41,23 @@ public class DateValidator {
 	 */
 	public void clear() {
 		mEanDatabase.clear();
+		mExpiryList.clear();
 	}
 
 	/**
 	 * A method which returns the number of categories the database contains
 	 * 
 	 * @return the number of categories in the database
+	 * @throws ServiceException
+	 *             if there are not the same amount of categories in the
+	 *             database and the expirylist
 	 */
-	public int getNumberOfCategories() {
+	public int getNumberOfCategories() throws ServiceException {
+		if (mEanDatabase.getNumberOfCategories() != mExpiryList
+				.getNumberOfCategories()) {
+			throw new ServiceException(
+					"The categories are not in sync between the productDatabase and the ExpiryList");
+		}
 		return mEanDatabase.getNumberOfCategories();
 	}
 
@@ -63,6 +72,7 @@ public class DateValidator {
 	public void addCategory(Category category) throws ServiceException {
 		try {
 			mEanDatabase.addCategory(category);
+			mExpiryList.addCategory(category);
 		} catch (DatabaseException e) {
 			throw new ServiceException(e);
 		}
@@ -74,10 +84,16 @@ public class DateValidator {
 	 * @param category
 	 *            the requested category
 	 * @throws ServiceExcpetion
-	 *             If the requested category doesn't exist in the database
+	 *             If the requested category doesn't exist in the database. If
+	 *             the categories are not in sync between the expirylist and the
+	 *             productDatabase.
 	 */
 	public Category getCategory(Category category) throws ServiceException {
 		try {
+			if (!mEanDatabase.getCategory(category).equals(
+					mExpiryList.getCategory(category))) {
+				throw new ServiceException("The categories are not in sync");
+			}
 			return mEanDatabase.getCategory(category);
 		} catch (DatabaseException e) {
 			throw new ServiceException(e);
@@ -100,9 +116,10 @@ public class DateValidator {
 			throws ServiceException {
 		try {
 			mEanDatabase.updateCategory(oldCategory, updatedCategory);
+			mExpiryList.updateCategory(oldCategory, updatedCategory);
 		} catch (DatabaseException e) {
 			throw new ServiceException(e);
-		}
+		}		
 	}
 
 	/**
@@ -116,6 +133,7 @@ public class DateValidator {
 	public void deleteCategory(Category category) throws ServiceException {
 		try {
 			mEanDatabase.deleteCategory(category);
+			mExpiryList.deleteCategory(category);
 		} catch (DatabaseException e) {
 			throw new ServiceException(e);
 		}
@@ -229,14 +247,16 @@ public class DateValidator {
 	 * @throws DatabaseException
 	 *             If at least one of the two categories given doesn't exist
 	 */
-	public void mergeCategories(Category categoryToBeAmmended, Category oldCategory) throws ServiceException {
+	public void mergeCategories(Category categoryToBeAmmended,
+			Category oldCategory) throws ServiceException {
 		try {
 			mEanDatabase.mergeCategories(categoryToBeAmmended, oldCategory);
+			mExpiryList.mergeCategories(categoryToBeAmmended, oldCategory);
 		} catch (DatabaseException e) {
 			throw new ServiceException(e);
 		}
 	}
-	
+
 	/**
 	 * The getter which returns the value of the field mEanDatabase.
 	 * 
