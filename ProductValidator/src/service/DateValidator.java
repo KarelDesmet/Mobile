@@ -370,6 +370,24 @@ public class DateValidator {
 		}
 	}
 
+	//TODO
+	public void remove(ExpiryProduct expiryProduct) throws ServiceException{
+		try {
+			mExpiryList.remove(expiryProduct);
+		} catch (DatabaseException e) {
+			throw new ServiceException(e);
+		}
+	}
+	
+	//TODO
+	public void cancelRemove(ExpiryProduct expiryProduct) throws ServiceException{
+		try {
+			mExpiryList.cancelRemove(expiryProduct);
+		} catch (DatabaseException e) {
+			throw new ServiceException(e);
+		}
+	}
+	
 	/**
 	 * The getter which returns the value of the field mEanDatabase.
 	 * 

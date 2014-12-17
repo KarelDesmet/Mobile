@@ -298,4 +298,16 @@ public class ExpiryList {
 		getCategoryExpiryList(category).previous();
 	}
 
+	//TODO
+	public void remove(ExpiryProduct expiryProduct) throws DatabaseException{
+		CategoryExpiryList list = getCategoryExpiryList(expiryProduct.getCategory());
+		list.remove(expiryProduct);		
+	}
+	
+	//TODO
+	public void cancelRemove(ExpiryProduct expiryProduct) throws DatabaseException{
+		CategoryExpiryList list = getCategoryExpiryList(expiryProduct.getCategory());
+		list.cancelRemove(expiryProduct);
+	}
+	
 }
