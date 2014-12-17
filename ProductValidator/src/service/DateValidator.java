@@ -307,6 +307,18 @@ public class DateValidator {
 			throw new ServiceException(e);
 		}
 	}
+	
+	//TODO
+	/**
+	 * 
+	 * @param category
+	 * @param expiryDate
+	 * @return
+	 * @throws ServiceException
+	 */
+	public ArrayList<ExpiryProduct> getCategoryExpiryProducts(Category category, Date expiryDate) throws ServiceException{
+		return getExpiryProducts(expiryDate).get(category);
+	}
 
 	/**
 	 * A method to delete a record from the expirylist

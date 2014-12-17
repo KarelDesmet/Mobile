@@ -257,7 +257,6 @@ public class ExpiryList {
 			result.put(key,
 					getCategoryExpiryList(key).getExpiryProducts(expiryDate));
 		}
-		System.out.println(result);
 		return result;
 	}
 

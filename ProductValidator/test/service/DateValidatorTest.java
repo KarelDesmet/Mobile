@@ -24,8 +24,8 @@ public class DateValidatorTest {
 	private DateValidator dateValidator;
 	private int numberOfProducts, numberOfCategories, numberOfExpiryProducts;
 	private Category zuivel, zuivel2, voeding;
-	private Product eggs, sameEanAsEggs, eggsDifferentEan, chocolate;
-	private ExpiryProduct eggsExpiry, chocolateExpiry;
+	private Product eggs, sameEanAsEggs, eggsDifferentEan, milk, chocolate;
+	private ExpiryProduct eggsExpiry, milkExpiry, milkExpiry2 , chocolateExpiry;
 	private Date expiryDate;
 
 	@Before
@@ -44,8 +44,12 @@ public class DateValidatorTest {
 				zuivel);
 		chocolate = new Product(7622210100085L, "Melkchocolade met nootjes",
 				710335, voeding);
+		milk = new Product(5400111000275L, "6X1L HALFVOLLE MELK+VITAMINES",
+				8731253, zuivel);
 		eggsExpiry = new ExpiryProduct(eggs, 29, 12, 2014);
 		chocolateExpiry = new ExpiryProduct(chocolate, 19, 6, 2015);
+		milkExpiry = new ExpiryProduct(milk, 29, 12, 2014);
+		milkExpiry2 = new ExpiryProduct(milk, 29, 12, 2014);
 		expiryDate = eggsExpiry.getExpiryDate(); // 29-12
 	}
 
@@ -62,8 +66,11 @@ public class DateValidatorTest {
 		sameEanAsEggs = null;
 		eggsDifferentEan = null;
 		chocolate = null;
+		milk = null;
 		eggsExpiry = null;
 		expiryDate = null;
+		milkExpiry = null;
+		milkExpiry2 = null;
 	}
 
 	@Test
@@ -310,12 +317,44 @@ public class DateValidatorTest {
 			dateValidator.addCategory(voeding);
 			dateValidator.addExpiryProduct(eggsExpiry);
 			dateValidator.addExpiryProduct(chocolateExpiry);
-			System.out.println(dateValidator.getExpiryProducts(expiryDate)
-					.values());
 			assertEquals(dateValidator.getNumberOfCategories(), dateValidator
 					.getExpiryProducts(expiryDate).keySet().size());
 		} catch (ServiceException e) {
 			fail(e.getMessage());
 		}
 	}
+
+	@Test
+	public void next_Current_is_increased_by_one(){
+		try {
+			dateValidator.addCategory(zuivel);
+			dateValidator.addExpiryProduct(eggsExpiry);
+			dateValidator.next(zuivel);
+			dateValidator.addExpiryProduct(milkExpiry);
+			dateValidator.addExpiryProduct(milkExpiry2);
+			assertEquals(0, dateValidator.getCategoryExpiryProducts(zuivel, expiryDate).get(0).getSpot());
+			assertEquals(1, dateValidator.getCategoryExpiryProducts(zuivel, expiryDate).get(1).getSpot());
+			assertEquals(1, dateValidator.getCategoryExpiryProducts(zuivel, expiryDate).get(2).getSpot());
+		} catch (ServiceException e) {
+			fail(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void previous_Current_is_decreased_by_one(){
+		try {
+			dateValidator.addCategory(zuivel);
+			dateValidator.addExpiryProduct(eggsExpiry);
+			dateValidator.next(zuivel);
+			dateValidator.addExpiryProduct(milkExpiry);
+			dateValidator.previous(zuivel);
+			dateValidator.addExpiryProduct(milkExpiry2);
+			assertEquals(0, dateValidator.getCategoryExpiryProducts(zuivel, expiryDate).get(0).getSpot());
+			assertEquals(1, dateValidator.getCategoryExpiryProducts(zuivel, expiryDate).get(1).getSpot());
+			assertEquals(0, dateValidator.getCategoryExpiryProducts(zuivel, expiryDate).get(2).getSpot());
+		} catch (ServiceException e) {
+			fail(e.getMessage());
+		}
+	}
+
 }
