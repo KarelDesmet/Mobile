@@ -4,6 +4,7 @@ package service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 
 import db.Database;
 import db.ExpiryList;
@@ -103,6 +104,11 @@ public class DateValidator {
 		} catch (DatabaseException e) {
 			throw new ServiceException(e);
 		}
+	}
+	
+	//TODO
+	public Set<Category> getCategories(){
+		return mEanDatabase.getCategories();
 	}
 
 	/**

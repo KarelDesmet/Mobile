@@ -2,6 +2,7 @@ package db;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import domain.Category;
 import domain.Product;
@@ -288,6 +289,11 @@ public class Database {
 			}
 		}
 		deleteCategory(categoryToBeAmmended);
+	}
+	
+	//TODO
+	public Set<Category> getCategories(){
+		return categoryProductDatabases.keySet();
 	}
 	
 	/**
