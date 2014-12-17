@@ -18,9 +18,9 @@ public class Product extends Identifier {
 	private String name;
 
 	/**
-	 * The brand of the product.
+	 * The hope of the product.
 	 */
-	private String brand;
+	private int hope;
 
 	/**
 	 * The category of the product.
@@ -34,34 +34,34 @@ public class Product extends Identifier {
 	 * @throws DomainException
 	 *             If the default value for the EAN doesn't have 13 ciphers. If
 	 *             the default value for the name doesn't have 5 letters. If the
-	 *             default value for the brand doesn't have 3 letters. If the
-	 *             name of the default category contains less than 1 letter.
+	 *             default value for the hope isn't a postive int. If the name
+	 *             of the default category contains less than 1 letter.
 	 */
 	public Product() throws DomainException {
-		this(000000000000000L, "default_product_name", "default_brand_name",
-				new Category("all_products"));
+		this(000000000000000L, "default_product_name", 0, new Category(
+				"default_category"));
 	}
 
 	/**
 	 * The constructor for a product with a given EAN, name and brand. A EAN
-	 * consists of 13 ciphers, a name of at least 5 letters and a brand of at
-	 * least 3 letters.
+	 * consists of 13 ciphers, a name of at least 5 letters and a hope number
+	 * which is a positive int.
 	 * 
 	 * @param ean
 	 *            The EAN of the product
 	 * @param name
 	 *            The name of the product
-	 * @param brand
-	 *            The brand of the product
+	 * @param hope
+	 *            The hope of the product
 	 * @throws DomainException
 	 *             If the EAN doesn't have 13 ciphers. If the name has less then
-	 *             5 letters. If the brand has less then 3 letters.
+	 *             5 letters. If the hope is not a positive int.
 	 */
-	public Product(Long ean, String name, String brand, Category category)
+	public Product(Long ean, String name, int hope, Category category)
 			throws DomainException {
 		setEan(ean);
 		setName(name);
-		setBrand(brand);
+		setHope(hope);
 		setCategory(category);
 	}
 
@@ -91,28 +91,27 @@ public class Product extends Identifier {
 	}
 
 	/**
-	 * A method which returns the brand of the product.
+	 * A method which returns the hope of the product.
 	 * 
-	 * @return The brand of the product
+	 * @return The hope of the product
 	 */
-	public String getBrand() {
-		return brand;
+	public int getHope() {
+		return hope;
 	}
 
 	/**
-	 * A method which sets the brand of the product to the given name.
+	 * A method which sets the hope of the product to the given integer.
 	 * 
-	 * @param brand
-	 *            The new brand of the product
+	 * @param hope
+	 *            The new hope of the product
 	 * @throws DomainException
-	 *             If the brand contains less then 3 letters
+	 *             If the hope is negative
 	 */
-	public void setBrand(String brand) throws DomainException {
-		if (brand.length() < 3) {
-			throw new DomainException(
-					"The brand must contain at least 3 letters");
+	public void setHope(int hope) throws DomainException {
+		if (hope < 1) {
+			throw new DomainException("The hope must be a positive integer");
 		}
-		this.brand = brand;
+		this.hope = hope;
 	}
 
 	/**
@@ -138,9 +137,9 @@ public class Product extends Identifier {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((brand == null) ? 0 : brand.hashCode());
 		result = prime * result
 				+ ((category == null) ? 0 : category.hashCode());
+		result = prime * result + hope;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -154,15 +153,12 @@ public class Product extends Identifier {
 		if (getClass() != obj.getClass())
 			return false;
 		Product other = (Product) obj;
-		if (brand == null) {
-			if (other.brand != null)
-				return false;
-		} else if (!brand.equals(other.brand))
-			return false;
 		if (category == null) {
 			if (other.category != null)
 				return false;
 		} else if (!category.equals(other.category))
+			return false;
+		if (hope != other.hope)
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -181,7 +177,7 @@ public class Product extends Identifier {
 	@Override
 	public String toString() {
 		String result = "";
-		result = getEan() + "\t" + getName() + "\t" + getBrand();
+		result = getEan() + "\t" + getName() + "\t" + getHope() + "\t" + getCategory();
 		return result;
 	}
 }

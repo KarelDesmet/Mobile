@@ -1,6 +1,3 @@
-//TODO: @After werkende krijgen...
-//TODO: category-exception
-//TODO: update-test
 package service;
 
 import static org.junit.Assert.assertEquals;
@@ -12,11 +9,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import db.CategoryExpiryList;
 import domain.Category;
 import domain.ExpiryProduct;
 import domain.Product;
-import exception.db.DatabaseException;
 import exception.domain.DomainException;
 import exception.service.ServiceException;
 
@@ -42,14 +37,13 @@ public class DateValidatorTest {
 		zuivel = new Category("zuivel");
 		zuivel2 = new Category("zuivel");
 		voeding = new Category("voeding");
-		eggs = new Product(5414121001733L, "Eieren 12 stuks", "Rollie's",
+		eggs = new Product(5414121001733L, "Eieren 12 stuks", 1252, zuivel);
+		sameEanAsEggs = new Product(5414121001733L, "Haha, same Ean", 1252,
 				zuivel);
-		sameEanAsEggs = new Product(5414121001733L, "Haha, same Ean", "Brand",
+		eggsDifferentEan = new Product(5414121001732L, "Eieren 12 stuks", 1252,
 				zuivel);
-		eggsDifferentEan = new Product(5414121001732L, "Eieren 12 stuks",
-				"Rollie's", zuivel);
 		chocolate = new Product(7622210100085L, "Melkchocolade met nootjes",
-				"Cote d\'Or", voeding);
+				710335, voeding);
 		eggsExpiry = new ExpiryProduct(eggs, 29, 12, 2014);
 		chocolateExpiry = new ExpiryProduct(chocolate, 19, 6, 2015);
 		expiryDate = eggsExpiry.getExpiryDate(); // 29-12
@@ -309,14 +303,17 @@ public class DateValidatorTest {
 	}
 
 	@Test
-	public void getExpiryProducts_HashMap_contains_the_same_number_of_categories() throws DomainException {
+	public void getExpiryProducts_HashMap_contains_the_same_number_of_categories()
+			throws DomainException {
 		try {
 			dateValidator.addCategory(zuivel);
 			dateValidator.addCategory(voeding);
 			dateValidator.addExpiryProduct(eggsExpiry);
 			dateValidator.addExpiryProduct(chocolateExpiry);
-			System.out.println(dateValidator.getExpiryProducts(expiryDate).values());
-			assertEquals(dateValidator.getNumberOfCategories(), dateValidator.getExpiryProducts(expiryDate).keySet().size());
+			System.out.println(dateValidator.getExpiryProducts(expiryDate)
+					.values());
+			assertEquals(dateValidator.getNumberOfCategories(), dateValidator
+					.getExpiryProducts(expiryDate).keySet().size());
 		} catch (ServiceException e) {
 			fail(e.getMessage());
 		}

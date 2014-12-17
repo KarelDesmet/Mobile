@@ -21,8 +21,8 @@ public class MainTest {
 			Category zuivel2 = new Category("zuivel");
 			ExpiryList exp = ExpiryList.getInstance();
 			exp.addCategory(zuivel);
-			ExpiryProduct record = new ExpiryProduct(new Product(5414121001733L, "Eieren 12 stuks", "Rollie's", zuivel), 29, 12, 2014);
-			ExpiryProduct record2 = new ExpiryProduct(new Product(5414121001733L, "Eieren 12 stuks", "Rollie's", zuivel), 29, 12, 2014);
+			ExpiryProduct record = new ExpiryProduct(new Product(5414121001733L, "Eieren 12 stuks", 1252, zuivel), 29, 12, 2014);
+			ExpiryProduct record2 = new ExpiryProduct(new Product(5414121001733L, "Eieren 12 stuks", 1252, zuivel), 29, 12, 2014);
 			exp.addExpiryProduct(record);			
 			//HashMap<Category, String> map = new HashMap<Category, String>();
 			//map.put(zuivel, "");
