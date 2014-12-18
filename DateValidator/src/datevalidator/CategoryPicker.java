@@ -32,7 +32,6 @@ public class CategoryPicker extends Activity {
         mDateValidator = new DateValidator();
 
         populateListView();
-        registerClickCallback();
     }
 
     public void populateListView(){
@@ -40,21 +39,6 @@ public class CategoryPicker extends Activity {
         ArrayAdapter<Category> adapter = new CategoryAdapter();
         GridView list = (GridView) findViewById(R.id.category_buttons_listView);
         list.setAdapter(adapter);
-    }
-
-    public void registerClickCallback(){
-            GridView list = (GridView) findViewById(R.id.category_buttons_listView);
-            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View viewClicked,
-                                        int position, long id) {
-
-                    Category clickedCategory = mCategories.get(position);
-                    String message = "You clicked position " + position
-                            + " Which is " + clickedCategory.getName();
-                    Toast.makeText(CategoryPicker.this, message, Toast.LENGTH_LONG).show();
-                }
-            });
     }
 
     private class CategoryAdapter extends ArrayAdapter<Category> {

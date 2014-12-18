@@ -1,361 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/expiry_list_complete"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#686868">
+    android:background="#686868"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="#000"
+        android:padding="@dimen/tiny_margin">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/yesterday"
+            android:layout_width="@dimen/day_button"
+            android:layout_height="@dimen/day_button"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/left_arrow" />
+
+        <TextView
+            android:id="@+id/day_of_the_week"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#000"
-            android:padding="@dimen/tiny_margin">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:src="@drawable/left_arrow" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/date"
-                android:textColor="#fff"
-                android:textSize="@dimen/small_title"
-                android:textStyle="bold" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/right_arrow" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#c55746">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/tiny_margin"
-                    android:src="@drawable/white_triangle" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/category_bar"
-                    android:padding="@dimen/tiny_margin"
-                    android:text="@string/charcuterie"
-                    android:textColor="#fff"
-                    android:textSize="@dimen/small_title"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#fff">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:paddingRight="@dimen/tiny_margin"
-                        android:checked="true" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:text="@string/pate"
-                        android:textColor="#888888"
-                        android:textStyle="italic">
-
-                    </TextView>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:checked="true"
-                        android:paddingRight="@dimen/tiny_margin"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:text="@string/rundsvlees"
-                        android:textColor="#888888"
-                        android:textStyle="italic">
-
-                    </TextView>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:paddingRight="@dimen/tiny_margin"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:text="@string/vleesbrood"
-                        android:textColor="#000"
-                        android:textStyle="bold">
-
-                    </TextView>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginTop="@dimen/tiny_margin"
-                    android:layout_marginBottom="@dimen/tiny_margin"
-                    android:layout_marginEnd="@dimen/great_margin"
-                    android:layout_marginStart="@dimen/great_margin"
-                    android:background="#c0c0c0" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:paddingRight="@dimen/tiny_margin"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:text="@string/salami"
-                        android:textColor="#000"
-                        android:textStyle="bold">
-
-                    </TextView>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginTop="@dimen/tiny_margin"
-                    android:layout_marginBottom="@dimen/tiny_margin"
-
-                    android:layout_marginEnd="@dimen/great_margin"
-                    android:layout_marginStart="@dimen/great_margin"
-                    android:background="#c0c0c0" />
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginEnd="@dimen/ultimate_margin"
-                    android:layout_marginStart="@dimen/ultimate_margin"
-                    android:background="#c0c0c0" />
-
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginTop="@dimen/tiny_margin"
-                    android:layout_marginBottom="@dimen/tiny_margin"
-                    android:layout_marginEnd="@dimen/great_margin"
-                    android:layout_marginStart="@dimen/great_margin"
-                    android:background="#c0c0c0" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:paddingRight="@dimen/tiny_margin"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:text="@string/hespeworst"
-                        android:textColor="#000"
-                        android:textStyle="bold">
-
-                    </TextView>
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-        </ScrollView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#35d0ff">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/tiny_margin"
-                    android:src="@drawable/black_triangle" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/category_bar"
-                    android:layout_gravity="center_vertical"
-                    android:padding="@dimen/tiny_margin"
-                    android:text="@string/freezer"
-                    android:textColor="#000"
-                    android:textSize="@dimen/small_title" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#ffff35">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/category_bar"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/tiny_margin"
-                    android:src="@drawable/black_triangle" />
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/category_bar"
-                    android:layout_gravity="center_vertical"
-                    android:padding="@dimen/tiny_margin"
-                    android:text="@string/cheese"
-                    android:textColor="#000"
-                    android:textSize="@dimen/small_title" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#ffa135">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/tiny_margin"
-                    android:src="@drawable/black_triangle" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/category_bar"
-                    android:layout_gravity="center_vertical"
-                    android:padding="@dimen/tiny_margin"
-                    android:text="@string/nutrition"
-                    android:textColor="#000"
-                    android:textSize="@dimen/small_title" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#eeeeee">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/tiny_margin"
-                    android:src="@drawable/black_triangle" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/category_bar"
-                    android:layout_gravity="center_vertical"
-                    android:padding="@dimen/tiny_margin"
-                    android:text="@string/dairy"
-                    android:textColor="#000"
-                    android:textSize="@dimen/small_title" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
+            android:layout_centerInParent="true"
+            android:text="@string/date"
+            android:textColor="#fff"
+            android:textSize="@dimen/small_title"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/tomorrow"
+            android:layout_width="@dimen/day_button"
+            android:layout_height="@dimen/day_button"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/right_arrow" />
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/expiryList_listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
 </LinearLayout>

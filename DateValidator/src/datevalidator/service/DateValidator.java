@@ -3,7 +3,9 @@ package com.pieter.declercq.datevalidator.service;
 
 import android.graphics.Color;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -37,16 +39,20 @@ public class DateValidator {
 	 */
 	private ExpiryList mExpiryList;
 
+    //TODO
+    private Date today;
+
 	/**
 	 * The default constructor of this Facade-class.
 	 */
 	public DateValidator() {
 		mEanDatabase = Database.getInstance();
 		mExpiryList = ExpiryList.getInstance();
+        today = new Date();
         try {
             addCategory(new Category("charcuterie", Color.rgb(197,87,70)));
             addCategory(new Category("diepvries", Color.rgb(53,208,255)));
-            addCategory(new Category("kaas", Color.rgb(255,255,53)));
+            addCategory(new Category("kaas", Color.rgb(255, 255, 53)));
             addCategory(new Category("voeding", Color.rgb(255,161,53)));
             addCategory(new Category("zuivel", Color.rgb(238,238,238)));
         } catch (DomainException e) {
@@ -56,7 +62,42 @@ public class DateValidator {
         }
 	}
 
-	/**
+    //TODO
+    public String today(){
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy");
+        String currentDate = sdf.format(new Date());
+        currentDate = Character.toUpperCase(currentDate.charAt(0)) + currentDate.substring(1);
+        return currentDate;
+    }
+
+    public String tomorrow(){
+        Calendar c = Calendar.getInstance();
+        c.setTime(today);
+        c.add(Calendar.DATE, 1);
+        Date newDate = c.getTime();
+
+        today = newDate;
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy");
+        String currentDate = sdf.format(newDate);
+        currentDate = Character.toUpperCase(currentDate.charAt(0)) + currentDate.substring(1);
+        return currentDate;
+    }
+
+    //TODO
+    public String yesterday(){
+        Calendar c = Calendar.getInstance();
+        c.setTime(today);
+        c.add(Calendar.DATE, -1);
+        Date newDate = c.getTime();
+
+        today = newDate;
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy");
+        String currentDate = sdf.format(newDate);
+        currentDate = Character.toUpperCase(currentDate.charAt(0)) + currentDate.substring(1);
+        return currentDate;
+    }
+
+    /**
 	 * A method which clears all data from the database.
 	 */
 	public void clear() {
