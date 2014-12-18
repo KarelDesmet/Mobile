@@ -9,11 +9,15 @@
 
     <dimen name="article_margin">4dp</dimen>
 
-    <dimen name="tiny_margin">10dp</dimen>
-    <dimen name="small_margin">20dp</dimen>
-    <dimen name="great_margin">40dp</dimen>
-    <dimen name="ultimate_margin">100dp</dimen>
+    <dimen name="tiny_margin">20dp</dimen>
+    <dimen name="small_margin">40dp</dimen>
+    <dimen name="great_margin">80dp</dimen>
+    <dimen name="ultimate_margin">120dp</dimen>
+
     <dimen name="category_bar">60dp</dimen>
     <dimen name="articlename_textsize">24sp</dimen>
     <dimen name="checkbox_size">30sp</dimen>
+
+    <dimen name="category_button">20dp</dimen>
+
 </resources>

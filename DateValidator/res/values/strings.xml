@@ -15,20 +15,20 @@
     <string name="vleesbrood">Vleesbrood mosterd</string>
     <string name="salami">Ardense salami</string>
     <string name="hespeworst">Hespeworst Weight Watchers</string>
-    <string name="start_title">Datumcontrole</string>
-    <string name="overzicht">Overzicht</string>
-    <string name="nieuwe_lijst">Nieuwe Lijst</string>
+    <string name="start_title">Date check</string>
+    <string name="overzicht">Summary</string>
+    <string name="nieuwe_lijst">New list</string>
     <string name="proxy">Proxy Delhaize Sint-Denijs</string>
     <string name="scan">Scan</string>
     <string name="barcode">Barcode</string>
-    <string name="naam">Naam</string>
-    <string name="merk">Merk</string>
-    <string name="datum">Datum</string>
-    <string name="voegtoe">Voeg Toe</string>
-    <string name="verwijder">Verwijder</string>
-    <string name="vorig">Vorig Product</string>
-    <string name="frigo">Frigo 1</string>
-    <string name="volgendeFrigo">Volgende Frigo</string>
-    <string name="vorigeFrigo">Vorige Frigo</string>
+    <string name="naam">Name</string>
+    <string name="merk">HOPE</string>
+    <string name="datum">Date</string>
+    <string name="voegtoe">Add</string>
+    <string name="verwijder">Delete</string>
+    <string name="vorig">Previous product</string>
+    <string name="frigo">Fridge 1</string>
+    <string name="volgendeFrigo">Next fridge</string>
+    <string name="vorigeFrigo">Previous fridge</string>
 
 </resources>

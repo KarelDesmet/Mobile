@@ -356,5 +356,16 @@ public class DateValidatorTest {
 			fail(e.getMessage());
 		}
 	}
+	
+	@Test
+	public void getCategories_ArrayList_when_summoned(){
+		try {
+			dateValidator.addCategory(zuivel);
+			dateValidator.addCategory(voeding);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 }
