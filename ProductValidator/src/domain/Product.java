@@ -83,7 +83,7 @@ public class Product extends Identifier {
 	 *             If the name doesn't contain at least 5 letters
 	 */
 	public void setName(String name) throws DomainException {
-		if (name.length() < 5) {
+		if (name.length() < 1) {
 			throw new DomainException(
 					"The name must contain at least 5 letters");
 		}
@@ -97,6 +97,10 @@ public class Product extends Identifier {
 	 */
 	public int getHope() {
 		return hope;
+	}
+	
+	public String getHopeString() {
+		return ""+hope;
 	}
 
 	/**

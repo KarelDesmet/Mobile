@@ -1,14 +1,14 @@
-package com.pieter.declercq.datevalidator.db;
+package datevalidator.db;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.pieter.declercq.datevalidator.domain.Category;
-import com.pieter.declercq.datevalidator.domain.ExpiryProduct;
-import com.pieter.declercq.datevalidator.exception.db.DatabaseException;
-import com.pieter.declercq.datevalidator.exception.domain.DomainException;
+import datevalidator.domain.Category;
+import datevalidator.domain.ExpiryProduct;
+import datevalidator.exception.db.DatabaseException;
+import datevalidator.exception.domain.DomainException;
 
 /**
  * A class who represents the expiryList of all the products who are going to

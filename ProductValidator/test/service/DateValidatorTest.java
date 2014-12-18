@@ -3,7 +3,14 @@ package service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.Date;
+
+import jxl.read.biff.BiffException;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -12,6 +19,7 @@ import org.junit.Test;
 import domain.Category;
 import domain.ExpiryProduct;
 import domain.Product;
+import exception.db.DatabaseException;
 import exception.domain.DomainException;
 import exception.service.ServiceException;
 
@@ -29,7 +37,7 @@ public class DateValidatorTest {
 	private Date expiryDate;
 
 	@Before
-	public void initialize() throws DomainException, ServiceException {
+	public void initialize() throws DomainException, ServiceException, BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DatabaseException, RowsExceededException, WriteException {
 		dateValidator = new DateValidator();
 		numberOfProducts = dateValidator.getNumberOfProducts();
 		numberOfCategories = dateValidator.getNumberOfCategories();

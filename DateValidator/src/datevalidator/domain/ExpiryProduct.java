@@ -1,10 +1,10 @@
-package com.pieter.declercq.datevalidator.domain;
+package datevalidator.domain;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.pieter.declercq.datevalidator.exception.domain.DomainException;
+import datevalidator.exception.domain.DomainException;
 
 /**
  * A class which represents a record about a product which goes overdue at a

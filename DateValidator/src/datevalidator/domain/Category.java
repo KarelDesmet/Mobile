@@ -1,8 +1,7 @@
-package com.pieter.declercq.datevalidator.domain;
+package datevalidator.domain;
 
 import android.graphics.Color;
-
-import com.pieter.declercq.datevalidator.exception.domain.DomainException;
+import datevalidator.exception.domain.DomainException;
 
 /**
  * A class which represents a category in which a product can be sorted.d

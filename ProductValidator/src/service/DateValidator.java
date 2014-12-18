@@ -1,17 +1,24 @@
 //TODO: UPDATE + DELETE onderkant klassendiagramma
 package service;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
+import jxl.read.biff.BiffException;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
 import db.Database;
 import db.ExpiryList;
 import domain.Category;
 import domain.ExpiryProduct;
 import domain.Product;
 import exception.db.DatabaseException;
+import exception.domain.DomainException;
 import exception.service.ServiceException;
 
 /**
@@ -36,8 +43,16 @@ public class DateValidator {
 
 	/**
 	 * The default constructor of this Facade-class.
+	 * @throws IOException 
+	 * @throws NoSuchProviderException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws BiffException 
+	 * @throws DomainException 
+	 * @throws DatabaseException 
+	 * @throws WriteException 
+	 * @throws RowsExceededException 
 	 */
-	public DateValidator() {
+	public DateValidator() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException, RowsExceededException, WriteException {
 		mEanDatabase = Database.getInstance();
 		mExpiryList = ExpiryList.getInstance();
 	}
@@ -106,10 +121,7 @@ public class DateValidator {
 		}
 	}
 	
-	//TODO
-	public Set<Category> getCategories(){
-		return mEanDatabase.getCategories();
-	}
+
 
 	/**
 	 * A method which changes the name of a category.

@@ -1,7 +1,5 @@
 //TODO: UPDATE + DELETE onderkant klassendiagramma
-package com.pieter.declercq.datevalidator.service;
-
-import android.graphics.Color;
+package datevalidator.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,14 +8,15 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
-import com.pieter.declercq.datevalidator.db.Database;
-import com.pieter.declercq.datevalidator.db.ExpiryList;
-import com.pieter.declercq.datevalidator.domain.Category;
-import com.pieter.declercq.datevalidator.domain.ExpiryProduct;
-import com.pieter.declercq.datevalidator.domain.Product;
-import com.pieter.declercq.datevalidator.exception.db.DatabaseException;
-import com.pieter.declercq.datevalidator.exception.domain.DomainException;
-import com.pieter.declercq.datevalidator.exception.service.ServiceException;
+import android.graphics.Color;
+import datevalidator.db.Database;
+import datevalidator.db.ExpiryList;
+import datevalidator.domain.Category;
+import datevalidator.domain.ExpiryProduct;
+import datevalidator.domain.Product;
+import datevalidator.exception.db.DatabaseException;
+import datevalidator.exception.domain.DomainException;
+import datevalidator.exception.service.ServiceException;
 
 /**
  * A Facade class. This class allows you to add, see, update and delete products
@@ -164,6 +163,11 @@ public class DateValidator {
 	//TODO
 	public ArrayList<Category> getCategories(){
 		return mEanDatabase.getCategories();
+	}
+	
+	//TODO
+	public Set<Category> getCategoriesSet(){
+		return mEanDatabase.getCategoriesSet();
 	}
 
 	/**

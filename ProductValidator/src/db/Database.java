@@ -1,9 +1,17 @@
 package db;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import jxl.read.biff.BiffException;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
 import domain.Category;
 import domain.Product;
 import exception.db.DatabaseException;
@@ -22,24 +30,58 @@ public class Database {
 	 * The one and only instance of this database.
 	 */
 	private static Database _instance;
+	
+	private ExcelReader xlr = new ExcelReader();
+	private DatabaseExcelWriter xlw = new DatabaseExcelWriter();
 
 	/**
 	 * The database who holds all different categories and their respective
 	 * databases together.
 	 */
 	private Map<Category, CategoryProductDatabase> categoryProductDatabases;
+	
+	private static List<Product> producten = new ArrayList<Product>();
 
 	/**
 	 * Private constructor to prevent others creating an instance.
+	 * @throws IOException
+	 * @throws NoSuchProviderException
+	 * @throws NoSuchAlgorithmException
+	 * @throws BiffException
+	 * @throws DomainException 
+	 * @throws DatabaseException 
+	 * @throws WriteException 
+	 * @throws RowsExceededException 
 	 */
-	private Database() {
+	private Database() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException, RowsExceededException, WriteException {
 		categoryProductDatabases = new HashMap<Category, CategoryProductDatabase>();
+		xlr.read();
+		Set<Category> categorienSet = xlr.getCategorien();
+		for(Category c : categorienSet){
+			addCategory(c);
+		}
+		producten = xlr.getProducten();
+		for(Product p : producten){
+			addProduct(p);
+		}
+	}
+	
+	public static List<Product> getProducten(){
+		return producten;
 	}
 
 	/**
 	 * Synchronized creator method to prevent multi-threading problems.
+	 * @throws IOException 
+	 * @throws NoSuchProviderException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws BiffException 
+	 * @throws DomainException 
+	 * @throws DatabaseException 
+	 * @throws WriteException 
+	 * @throws RowsExceededException 
 	 */
-	private synchronized static void createInstance() {
+	private synchronized static void createInstance() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException, RowsExceededException, WriteException {
 		if (_instance == null) {
 			_instance = new Database();
 		}
@@ -49,8 +91,16 @@ public class Database {
 	 * The only way to access the instance of the this class.
 	 * 
 	 * @return The database of all known products
+	 * @throws IOException 
+	 * @throws NoSuchProviderException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws BiffException 
+	 * @throws DomainException 
+	 * @throws DatabaseException 
+	 * @throws WriteException 
+	 * @throws RowsExceededException 
 	 */
-	public static Database getInstance() {
+	public static Database getInstance() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException, RowsExceededException, WriteException {
 		if (_instance == null) {
 			createInstance();
 		}
@@ -292,8 +342,12 @@ public class Database {
 	}
 	
 	//TODO
-	public Set<Category> getCategories(){
+	public Set<Category> getCategoriesSet(){
 		return categoryProductDatabases.keySet();
+	}
+	
+	public void writeToExcel() throws RowsExceededException, WriteException, IOException{
+		xlw.write();
 	}
 	
 	/**

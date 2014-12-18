@@ -1,11 +1,13 @@
 package main;
 
-import java.util.Date;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 
-import db.ExpiryList;
+import jxl.read.biff.BiffException;
+import jxl.write.WriteException;
+import service.DateValidator;
 import domain.Category;
-import domain.ExpiryProduct;
-import domain.Product;
 import exception.db.DatabaseException;
 import exception.domain.DomainException;
 
@@ -16,7 +18,7 @@ public class MainTest {
 	 * @throws DatabaseException 
 	 */
 	public static void main(String[] args) throws DatabaseException {
-		try {
+		/*try {
 			Category zuivel = new Category("zuivel");
 			Category zuivel2 = new Category("zuivel");
 			ExpiryList exp = ExpiryList.getInstance();
@@ -32,11 +34,21 @@ public class MainTest {
 			Date date1 = record.getExpiryDate();
 			Date date2 = record2.getExpiryDate();
 			System.out.println(date1.equals(date2));
+			
 		} catch (DomainException e) {
 			e.printStackTrace();
 		}
 		
-		
+		*/
+		try {
+			DateValidator service = new DateValidator();
+			System.out.println(service.getCategoriesSet());
+			
+		} catch (BiffException | NoSuchAlgorithmException
+				| NoSuchProviderException | IOException | DomainException | WriteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

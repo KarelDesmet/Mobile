@@ -1,4 +1,4 @@
-package com.pieter.declercq.datevalidator.exception.service;
+package datevalidator.exception.service;
 
 public class ServiceException extends Exception {
 

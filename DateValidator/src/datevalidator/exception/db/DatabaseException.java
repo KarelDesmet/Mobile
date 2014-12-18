@@ -1,4 +1,4 @@
-package com.pieter.declercq.datevalidator.exception.db;
+package datevalidator.exception.db;
 
 public class DatabaseException extends Exception {
 

@@ -1,6 +1,6 @@
-package com.pieter.declercq.datevalidator.domain;
+package datevalidator.domain;
 
-import com.pieter.declercq.datevalidator.exception.domain.DomainException;
+import datevalidator.exception.domain.DomainException;
 
 /**
  * This class provides an unique EAN. This must contain of 13 ciphers.
