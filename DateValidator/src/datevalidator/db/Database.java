@@ -374,7 +374,7 @@ public class Database {
 	}
 
 	public Product getProductByEan(Long eanLong) throws DomainException {
-		Product prod = new Product();
+		Product prod = null;
 		for(Product p : producten){
 			if(p.getEan().equals(eanLong)){
 				prod = p;

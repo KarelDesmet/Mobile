@@ -21,14 +21,14 @@ import datevalidator.exception.domain.DomainException;
 
 public class ExcelExpiryReader{
 
-	private File file = new File("ProductDatabaseFinal.xls");
+	private File file = new File("ExpiryListFinal.xls");
 	private int row;
 	private List<ExpiryProduct> list = new ArrayList<ExpiryProduct>();
 	private Set<Category> categorien = new HashSet<Category>();
 	
 	public void read() throws BiffException, IOException, NoSuchAlgorithmException, NoSuchProviderException, DomainException, DatabaseException{
 		Workbook workbook = Workbook.getWorkbook(file);
-		Sheet blad = workbook.getSheet("Blad2");
+		Sheet blad = workbook.getSheet("Blad1");
 		readProducten(blad);
 		workbook.close();
 	}

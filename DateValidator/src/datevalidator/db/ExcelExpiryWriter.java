@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -21,12 +22,12 @@ import datevalidator.exception.domain.DomainException;
 
 public class ExcelExpiryWriter{
 
-	private File file = new File("ProductDatabaseFinal.xls");
+	private File file = new File("ExpiryListFinal.xls");
 	
 	public void write() throws IOException, RowsExceededException,
 			WriteException, DatabaseException, BiffException, NoSuchAlgorithmException, NoSuchProviderException, DomainException {
 		WritableWorkbook Werkboek = Workbook.createWorkbook(file);
-		WritableSheet producten = Werkboek.createSheet("Blad2", 0);
+		WritableSheet producten = Werkboek.createSheet("Blad1", 0);
 		writeCatalogi(producten);
 		Werkboek.write();
 		Werkboek.close();
@@ -55,14 +56,19 @@ public class ExcelExpiryWriter{
 			for(ExpiryProduct ep : cel.getAllExpiryProducts()){
 				Label ean = new Label(0, r, ep.getArticle().getEan().toString());
 				Date date = ep.getExpiryDate();
-				int day = date.getDate();
-				int month = date.getDate();
-				int year = date.getDate();
-				Label dayLabel = new Label(0, r, ""+day);
-				Label monthLabel = new Label(0, r, ""+month);
-				Label yearLabel = new Label(0, r, ""+year);
-				Label spot = new Label(0, r, ""+ep.getSpot());
-				Label removed = new Label(0, r, ""+ep.isRemoved());
+				SimpleDateFormat sdf = new SimpleDateFormat("dd");
+				int day = Integer.parseInt(sdf.format(date));
+				date = ep.getExpiryDate();
+				sdf = new SimpleDateFormat("MM");
+				int month = Integer.parseInt(sdf.format(date));
+				date = ep.getExpiryDate();
+				sdf = new SimpleDateFormat("yyyy");
+				int year = Integer.parseInt(sdf.format(date));
+				Label dayLabel = new Label(1, r, ""+day);
+				Label monthLabel = new Label(2, r, ""+month);
+				Label yearLabel = new Label(3, r, ""+year);
+				Label spot = new Label(4, r, ""+ep.getSpot());
+				Label removed = new Label(5, r, ""+ep.isRemoved());
 				
 				tabblad.addCell(ean);
 				tabblad.addCell(dayLabel);

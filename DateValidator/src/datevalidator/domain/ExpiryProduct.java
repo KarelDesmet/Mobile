@@ -6,6 +6,7 @@ import java.util.Date;
 
 import datevalidator.exception.domain.DomainException;
 
+
 /**
  * A class which represents a record about a product which goes overdue at a
  * certain date. It tells us which Product it is, when it goes bad, where it is

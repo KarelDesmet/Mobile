@@ -1,6 +1,5 @@
 package datevalidator.domain;
 
-import android.graphics.Color;
 import datevalidator.exception.domain.DomainException;
 
 /**
@@ -15,11 +14,6 @@ public class Category {
 	 */
 	private String name;
 
-    /**
-     * The color associated with this category
-     */
-    private int color;
-
 	/**
 	 * Creates a category with the given string as name.
 	 * 
@@ -29,13 +23,8 @@ public class Category {
 	 *             If the given name has no at least one letter
 	 */
 	public Category(String name) throws DomainException {
-		this(name, Color.LTGRAY );
+		setName(name);
 	}
-
-    public Category(String name, int color ) throws DomainException {
-        setName(name);
-        setColor(color);
-    }
 
 	/**
 	 * Returns the name of this category.
@@ -61,16 +50,6 @@ public class Category {
 		}
 		this.name = name;
 	}
-
-    //TODO
-    public int getColor(){
-        return this.color;
-    }
-
-    //TODO
-    public void setColor(int color){
-        this.color = color;
-    }
 
 	/**
 	 * A method which sets the info of this category to the info of the updated
@@ -111,4 +90,8 @@ public class Category {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return name;
+	}
 }

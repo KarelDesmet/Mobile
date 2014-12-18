@@ -48,11 +48,11 @@ public class MainTest {
 			System.out.println(service.getCategoriesSet());
 			System.out.println("Number of exp: " + service.getNumberOfExpiryProducts());
 			System.out.println("Number of p: " + service.getNumberOfProducts());
-			service.addExpiryProduct(new ExpiryProduct(new Product(5414121001733L, "Eieren 12 stuks", 1252, new Category("zuivel")), 30, 12, 2014));
-			System.out.println("Number of exp: " + service.getNumberOfExpiryProducts());
+			//service.addExpiryProduct(new ExpiryProduct(new Product(5414121001733L, "Eieren 12 stuks", 1252, new Category("zuivel")), 30, 12, 2014));
+			//System.out.println("Number of exp: " + service.getNumberOfExpiryProducts());
 			service.writeToExcel();
 		} catch (BiffException | NoSuchAlgorithmException
-				| NoSuchProviderException | IOException | DomainException | WriteException | ServiceException e) {
+				| NoSuchProviderException | IOException | DomainException | WriteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -2,17 +2,17 @@
 package datevalidator.service;
 
 import java.io.IOException;
+
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
 import jxl.read.biff.BiffException;
-import android.graphics.Color;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
 import datevalidator.db.Database;
 import datevalidator.db.ExpiryList;
 import datevalidator.domain.Category;
@@ -42,71 +42,23 @@ public class DateValidator {
 	 */
 	private ExpiryList mExpiryList;
 
-    //TODO
-    private Date today;
-
 	/**
 	 * The default constructor of this Facade-class.
-	 * @throws DatabaseException 
-	 * @throws DomainException 
 	 * @throws IOException 
 	 * @throws NoSuchProviderException 
 	 * @throws NoSuchAlgorithmException 
 	 * @throws BiffException 
+	 * @throws DomainException 
+	 * @throws DatabaseException 
+	 * @throws WriteException 
+	 * @throws RowsExceededException 
 	 */
-	public DateValidator() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException {
+	public DateValidator() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException, RowsExceededException, WriteException {
 		mEanDatabase = Database.getInstance();
 		mExpiryList = ExpiryList.getInstance();
-        today = new Date();
-        try {
-            addCategory(new Category("charcuterie", Color.rgb(197,87,70)));
-            addCategory(new Category("diepvries", Color.rgb(53,208,255)));
-            addCategory(new Category("kaas", Color.rgb(255, 255, 53)));
-            addCategory(new Category("voeding", Color.rgb(255,161,53)));
-            addCategory(new Category("zuivel", Color.rgb(238,238,238)));
-        } catch (DomainException e) {
-            //do nothing atm
-        } catch (ServiceException e) {
-            //do nothing atm
-        }
 	}
 
-    //TODO
-    public String today(){
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy");
-        String currentDate = sdf.format(new Date());
-        currentDate = Character.toUpperCase(currentDate.charAt(0)) + currentDate.substring(1);
-        return currentDate;
-    }
-
-    public String tomorrow(){
-        Calendar c = Calendar.getInstance();
-        c.setTime(today);
-        c.add(Calendar.DATE, 1);
-        Date newDate = c.getTime();
-
-        today = newDate;
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy");
-        String currentDate = sdf.format(newDate);
-        currentDate = Character.toUpperCase(currentDate.charAt(0)) + currentDate.substring(1);
-        return currentDate;
-    }
-
-    //TODO
-    public String yesterday(){
-        Calendar c = Calendar.getInstance();
-        c.setTime(today);
-        c.add(Calendar.DATE, -1);
-        Date newDate = c.getTime();
-
-        today = newDate;
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy");
-        String currentDate = sdf.format(newDate);
-        currentDate = Character.toUpperCase(currentDate.charAt(0)) + currentDate.substring(1);
-        return currentDate;
-    }
-
-    /**
+	/**
 	 * A method which clears all data from the database.
 	 */
 	public void clear() {
@@ -153,7 +105,7 @@ public class DateValidator {
 	 * 
 	 * @param category
 	 *            the requested category
-	 * @throws ServiceException
+	 * @throws ServiceExcpetion
 	 *             If the requested category doesn't exist in the database. If
 	 *             the categories are not in sync between the expirylist and the
 	 *             productDatabase.
@@ -170,22 +122,14 @@ public class DateValidator {
 		}
 	}
 	
-	//TODO
-	public ArrayList<Category> getCategories(){
-		return mEanDatabase.getCategories();
-	}
-	
-	//TODO
-	public Set<Category> getCategoriesSet(){
-		return mEanDatabase.getCategoriesSet();
-	}
+
 
 	/**
 	 * A method which changes the name of a category.
 	 * 
 	 * @param oldCategory
 	 *            The old category
-	 * @param updatedCategory
+	 * @param newCategory
 	 *            The updated category
 	 * @throws ServiceException
 	 *             If there already exists a category like the updated one. If
@@ -502,5 +446,14 @@ public class DateValidator {
 	public void setExpiryList(ExpiryList mExpiryList) {
 		this.mExpiryList = mExpiryList;
 	}
+	
+	public Set<Category> getCategoriesSet(){
+		return mEanDatabase.getCategoriesSet();
+	}
 
+	public void writeToExcel() throws RowsExceededException, WriteException, BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException{
+		mEanDatabase.writeToExcel();
+		mExpiryList.writeToExcel();
+	}
+	
 }
