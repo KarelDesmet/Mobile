@@ -55,6 +55,11 @@ public class CategoryExpiryList {
 	}
 	
 	//TODO
+		public List<ExpiryProduct> getAllExpiryProducts(){
+			return articles;
+		}
+	
+	//TODO
 	public void deleteProduct(ExpiryProduct expiryProduct){
 		articles.remove(expiryProduct);			
 	}

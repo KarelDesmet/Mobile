@@ -12,7 +12,7 @@ import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 import datevalidator.domain.Product;
 
-public class ExcelWriter{
+public class ExcelDatabaseWriter{
 
 	private File file = new File("ProductDatabaseFinal.xls");
 	

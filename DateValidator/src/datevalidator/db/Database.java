@@ -31,8 +31,8 @@ public class Database {
 	 */
 	private static Database _instance;
 	
-	private ExcelReader xlr = new ExcelReader();
-	private ExcelWriter xlw = new ExcelWriter();
+	private ExcelDatabaseReader xlr = new ExcelDatabaseReader();
+	private ExcelDatabaseWriter xlw = new ExcelDatabaseWriter();
 
 	/**
 	 * The database who holds all different categories and their respective

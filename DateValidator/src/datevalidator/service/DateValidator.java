@@ -1,6 +1,9 @@
 //TODO: UPDATE + DELETE onderkant klassendiagramma
 package datevalidator.service;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -8,6 +11,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
+import jxl.read.biff.BiffException;
 import android.graphics.Color;
 import datevalidator.db.Database;
 import datevalidator.db.ExpiryList;
@@ -43,8 +47,14 @@ public class DateValidator {
 
 	/**
 	 * The default constructor of this Facade-class.
+	 * @throws DatabaseException 
+	 * @throws DomainException 
+	 * @throws IOException 
+	 * @throws NoSuchProviderException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws BiffException 
 	 */
-	public DateValidator() {
+	public DateValidator() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException {
 		mEanDatabase = Database.getInstance();
 		mExpiryList = ExpiryList.getInstance();
         today = new Date();

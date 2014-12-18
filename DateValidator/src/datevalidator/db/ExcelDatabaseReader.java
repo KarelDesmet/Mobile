@@ -17,7 +17,7 @@ import datevalidator.domain.Category;
 import datevalidator.domain.Product;
 import datevalidator.exception.domain.DomainException;
 
-public class ExcelReader{
+public class ExcelDatabaseReader{
 
 	private File file = new File("ProductDatabaseFinal.xls");
 	private int row;

@@ -57,6 +57,10 @@ public class ExpiryList {
 		}
 		return _instance;
 	}
+	
+	public Map<Category, CategoryExpiryList> getCategoryExpiryMap(){
+		return categoryExpiryLists;
+	}
 
 	/**
 	 * A method which returns the total amount of records in the expiryList.
