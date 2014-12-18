@@ -18,7 +18,8 @@
         android:textColor="#fff"
         android:textStyle="bold"/>
 
-    <ListView
+    <GridView
+        android:numColumns="1"
         android:id="@+id/category_buttons_listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,8 +29,8 @@
         android:layout_marginRight="@dimen/ultimate_margin"
         android:layout_marginTop="@dimen/tiny_margin"
         android:divider="@android:color/transparent"
-        android:dividerHeight="@dimen/title"
+        android:verticalSpacing="@dimen/title"
         android:background="#686868">
 
-    </ListView>
+    </GridView>
 </LinearLayout>

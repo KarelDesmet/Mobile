@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -37,12 +38,12 @@ public class CategoryPicker extends Activity {
     public void populateListView(){
         mCategories = mDateValidator.getCategories();
         ArrayAdapter<Category> adapter = new CategoryAdapter();
-        ListView list = (ListView) findViewById(R.id.category_buttons_listView);
+        GridView list = (GridView) findViewById(R.id.category_buttons_listView);
         list.setAdapter(adapter);
     }
 
     public void registerClickCallback(){
-            ListView list = (ListView) findViewById(R.id.category_buttons_listView);
+            GridView list = (GridView) findViewById(R.id.category_buttons_listView);
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View viewClicked,
