@@ -31,29 +31,27 @@ public class Database {
 	 */
 	private static Database _instance;
 	
-	private ExcelReader xlr = new ExcelReader();
-	private ExcelWriter xlw = new ExcelWriter();
+	private ExcelDatabaseReader xlr = new ExcelDatabaseReader();
+	private ExcelDatabaseWriter xlw = new ExcelDatabaseWriter();
 
 	/**
 	 * The database who holds all different categories and their respective
 	 * databases together.
 	 */
 	private Map<Category, CategoryProductDatabase> categoryProductDatabases;
-	
-	private static List<Product> producten = new ArrayList<Product>();
 
+	private List<Product> producten = new ArrayList<Product>();
+	
 	/**
 	 * Private constructor to prevent others creating an instance.
-	 * @throws IOException
-	 * @throws NoSuchProviderException
-	 * @throws NoSuchAlgorithmException
-	 * @throws BiffException
 	 * @throws DomainException 
+	 * @throws IOException 
+	 * @throws NoSuchProviderException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws BiffException 
 	 * @throws DatabaseException 
-	 * @throws WriteException 
-	 * @throws RowsExceededException 
 	 */
-	private Database() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException, RowsExceededException, WriteException {
+	private Database() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException {
 		categoryProductDatabases = new HashMap<Category, CategoryProductDatabase>();
 		xlr.read();
 		Set<Category> categorienSet = xlr.getCategorien();
@@ -66,22 +64,20 @@ public class Database {
 		}
 	}
 	
-	public static List<Product> getProducten(){
+	public List<Product> getProducten(){
 		return producten;
 	}
 
 	/**
 	 * Synchronized creator method to prevent multi-threading problems.
+	 * @throws DatabaseException 
+	 * @throws DomainException 
 	 * @throws IOException 
 	 * @throws NoSuchProviderException 
 	 * @throws NoSuchAlgorithmException 
 	 * @throws BiffException 
-	 * @throws DomainException 
-	 * @throws DatabaseException 
-	 * @throws WriteException 
-	 * @throws RowsExceededException 
 	 */
-	private synchronized static void createInstance() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException, RowsExceededException, WriteException {
+	private synchronized static void createInstance() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException {
 		if (_instance == null) {
 			_instance = new Database();
 		}
@@ -91,16 +87,14 @@ public class Database {
 	 * The only way to access the instance of the this class.
 	 * 
 	 * @return The database of all known products
+	 * @throws DatabaseException 
+	 * @throws DomainException 
 	 * @throws IOException 
 	 * @throws NoSuchProviderException 
 	 * @throws NoSuchAlgorithmException 
 	 * @throws BiffException 
-	 * @throws DomainException 
-	 * @throws DatabaseException 
-	 * @throws WriteException 
-	 * @throws RowsExceededException 
 	 */
-	public static Database getInstance() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException, RowsExceededException, WriteException {
+	public static Database getInstance() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException {
 		if (_instance == null) {
 			createInstance();
 		}
@@ -176,7 +170,7 @@ public class Database {
 	 * 
 	 * @param oldCategory
 	 *            The old category
-	 * @param newCategory
+	 * @param updatedCategory
 	 *            The updated category
 	 * @throws DatabaseException
 	 *             If there already exists a category like the updated one. If
@@ -234,9 +228,7 @@ public class Database {
 	 * occurs when a product exist in that category with that EAN. The check
 	 * happens at those levels and not here in order to allow initial errors of
 	 * category to be corrected at a later time without aborting the process.
-	 * 
-	 * @param category
-	 *            The category of the product
+	 *
 	 * @param article
 	 *            The article to be added to the database
 	 * @throws DatabaseException
@@ -342,13 +334,20 @@ public class Database {
 	}
 	
 	//TODO
+	public ArrayList<Category> getCategories(){
+        ArrayList<Category> result = new ArrayList<Category>();
+        for(Category c : categoryProductDatabases.keySet()){
+            result.add(c);
+        }
+        return result;
+	}
+	
 	public Set<Category> getCategoriesSet(){
 		return categoryProductDatabases.keySet();
 	}
 	
-	
 	//Gebruik deze methode om alle producten dat in de Database klasse zitten in een excel bestand te schrijven.
-	public void writeToExcel() throws RowsExceededException, WriteException, IOException{
+	public void writeToExcel() throws RowsExceededException, WriteException, IOException, BiffException, NoSuchAlgorithmException, NoSuchProviderException, DomainException, DatabaseException{
 		xlw.write();
 	}
 	
@@ -372,6 +371,16 @@ public class Database {
 			result += categoryProductDatabases.get(key) + "\n";
 		}
 		return result;
+	}
+
+	public Product getProductByEan(Long eanLong) throws DomainException {
+		Product prod = null;
+		for(Product p : producten){
+			if(p.getEan().equals(eanLong)){
+				prod = p;
+			}
+		}
+		return prod;
 	}
 
 	// TODO:

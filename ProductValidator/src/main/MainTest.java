@@ -8,8 +8,11 @@ import jxl.read.biff.BiffException;
 import jxl.write.WriteException;
 import service.DateValidator;
 import domain.Category;
+import domain.ExpiryProduct;
+import domain.Product;
 import exception.db.DatabaseException;
 import exception.domain.DomainException;
+import exception.service.ServiceException;
 
 public class MainTest {
 
@@ -43,9 +46,13 @@ public class MainTest {
 		try {
 			DateValidator service = new DateValidator();
 			System.out.println(service.getCategoriesSet());
-			
+			System.out.println("Number of exp: " + service.getNumberOfExpiryProducts());
+			System.out.println("Number of p: " + service.getNumberOfProducts());
+			service.addExpiryProduct(new ExpiryProduct(new Product(5414121001733L, "Eieren 12 stuks", 1252, new Category("zuivel")), 30, 12, 2014));
+			System.out.println("Number of exp: " + service.getNumberOfExpiryProducts());
+			service.writeToExcel();
 		} catch (BiffException | NoSuchAlgorithmException
-				| NoSuchProviderException | IOException | DomainException | WriteException e) {
+				| NoSuchProviderException | IOException | DomainException | WriteException | ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

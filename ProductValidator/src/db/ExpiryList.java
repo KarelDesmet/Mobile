@@ -1,10 +1,18 @@
 package db;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import jxl.read.biff.BiffException;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
 import domain.Category;
 import domain.ExpiryProduct;
 import exception.db.DatabaseException;
@@ -23,23 +31,48 @@ public class ExpiryList {
 	 */
 	private static ExpiryList _instance;
 
+	private ExcelExpiryReader xlr = new ExcelExpiryReader();
+	private ExcelExpiryWriter xlw = new ExcelExpiryWriter();
+	
 	/**
 	 * The list who holds all different categories and their respective
 	 * expiryList together.
 	 */
 	private Map<Category, CategoryExpiryList> categoryExpiryLists;
+	private List<ExpiryProduct> expiryProducten = new ArrayList<ExpiryProduct>();
 
 	/**
 	 * Private constructor to prevent others creating an instance.
+	 * @throws DatabaseException 
+	 * @throws DomainException 
+	 * @throws IOException 
+	 * @throws NoSuchProviderException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws BiffException 
 	 */
-	private ExpiryList() {
+	private ExpiryList() throws DatabaseException, BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException {
 		categoryExpiryLists = new HashMap<Category, CategoryExpiryList>();
+		xlr.read();
+		Set<Category> categorienSet = xlr.getCategorien();
+		for(Category c : categorienSet){
+			addCategory(c);
+		}
+		expiryProducten = xlr.getProducten();
+		for(ExpiryProduct p : expiryProducten){
+			addExpiryProduct(p);
+		}
 	}
 
 	/**
 	 * Synchronized creator method to prevent multi-threading problems.
+	 * @throws DomainException 
+	 * @throws IOException 
+	 * @throws DatabaseException 
+	 * @throws NoSuchProviderException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws BiffException 
 	 */
-	private synchronized static void createInstance() {
+	private synchronized static void createInstance() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, DatabaseException, IOException, DomainException {
 		if (_instance == null) {
 			_instance = new ExpiryList();
 		}
@@ -50,12 +83,22 @@ public class ExpiryList {
 	 * 
 	 * @return The expiryList of all products who are going to expire within a
 	 *         certain time
+	 * @throws DomainException 
+	 * @throws IOException 
+	 * @throws DatabaseException 
+	 * @throws NoSuchProviderException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws BiffException 
 	 */
-	public static ExpiryList getInstance() {
+	public static ExpiryList getInstance() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, DatabaseException, IOException, DomainException {
 		if (_instance == null) {
 			createInstance();
 		}
 		return _instance;
+	}
+	
+	public Map<Category, CategoryExpiryList> getCategoryExpiryMap(){
+		return categoryExpiryLists;
 	}
 
 	/**
@@ -308,6 +351,11 @@ public class ExpiryList {
 	public void cancelRemove(ExpiryProduct expiryProduct) throws DatabaseException{
 		CategoryExpiryList list = getCategoryExpiryList(expiryProduct.getCategory());
 		list.cancelRemove(expiryProduct);
+	}
+	
+	//Gebruik deze methode om alle producten dat in de ExpiryList klasse zitten in een excel bestand te schrijven.
+	public void writeToExcel() throws RowsExceededException, WriteException, IOException, BiffException, NoSuchAlgorithmException, NoSuchProviderException, DomainException, DatabaseException{
+		xlw.write();
 	}
 	
 }

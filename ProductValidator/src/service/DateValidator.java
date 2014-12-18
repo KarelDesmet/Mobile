@@ -451,4 +451,9 @@ public class DateValidator {
 		return mEanDatabase.getCategoriesSet();
 	}
 
+	public void writeToExcel() throws RowsExceededException, WriteException, BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException{
+		mEanDatabase.writeToExcel();
+		mExpiryList.writeToExcel();
+	}
+	
 }
