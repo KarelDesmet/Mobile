@@ -2,22 +2,27 @@ package datevalidator.db;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.List;
 
 import jxl.Workbook;
+import jxl.read.biff.BiffException;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 import datevalidator.domain.Product;
+import datevalidator.exception.db.DatabaseException;
+import datevalidator.exception.domain.DomainException;
 
 public class ExcelDatabaseWriter{
 
 	private File file = new File("ProductDatabaseFinal.xls");
 	
 	public void write() throws IOException, RowsExceededException,
-			WriteException {
+			WriteException, BiffException, NoSuchAlgorithmException, NoSuchProviderException, DomainException, DatabaseException {
 		WritableWorkbook Werkboek = Workbook.createWorkbook(file);
 		WritableSheet producten = Werkboek.createSheet("Blad1", 0);
 		writeCatalogi(producten);
@@ -25,8 +30,8 @@ public class ExcelDatabaseWriter{
 		Werkboek.close();
 	}
 
-	public void writeCatalogi(WritableSheet tabblad) throws IOException, RowsExceededException, WriteException {
-		List<Product> producten = Database.getProducten();
+	public void writeCatalogi(WritableSheet tabblad) throws IOException, RowsExceededException, WriteException, BiffException, NoSuchAlgorithmException, NoSuchProviderException, DomainException, DatabaseException {
+		List<Product> producten = Database.getInstance().getProducten();
 		Label kolomEan = new Label(0, 0, "EAN");
 		Label kolomNaam = new Label(1, 0, "Name");
 		Label kolomHope = new Label(2, 0, "HOPE");

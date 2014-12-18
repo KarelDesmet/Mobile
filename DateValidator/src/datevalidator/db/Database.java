@@ -40,7 +40,7 @@ public class Database {
 	 */
 	private Map<Category, CategoryProductDatabase> categoryProductDatabases;
 
-	private static List<Product> producten = new ArrayList<Product>();
+	private List<Product> producten = new ArrayList<Product>();
 	
 	/**
 	 * Private constructor to prevent others creating an instance.
@@ -64,7 +64,7 @@ public class Database {
 		}
 	}
 	
-	public static List<Product> getProducten(){
+	public List<Product> getProducten(){
 		return producten;
 	}
 
@@ -347,7 +347,7 @@ public class Database {
 	}
 	
 	//Gebruik deze methode om alle producten dat in de Database klasse zitten in een excel bestand te schrijven.
-	public void writeToExcel() throws RowsExceededException, WriteException, IOException{
+	public void writeToExcel() throws RowsExceededException, WriteException, IOException, BiffException, NoSuchAlgorithmException, NoSuchProviderException, DomainException, DatabaseException{
 		xlw.write();
 	}
 	

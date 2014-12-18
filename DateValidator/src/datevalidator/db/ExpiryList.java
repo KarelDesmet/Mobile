@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.Set;
 
 import jxl.read.biff.BiffException;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
 import datevalidator.domain.Category;
 import datevalidator.domain.ExpiryProduct;
 import datevalidator.exception.db.DatabaseException;
@@ -349,6 +351,11 @@ public class ExpiryList {
 	public void cancelRemove(ExpiryProduct expiryProduct) throws DatabaseException{
 		CategoryExpiryList list = getCategoryExpiryList(expiryProduct.getCategory());
 		list.cancelRemove(expiryProduct);
+	}
+	
+	//Gebruik deze methode om alle producten dat in de ExpiryList klasse zitten in een excel bestand te schrijven.
+	public void writeToExcel() throws RowsExceededException, WriteException, IOException, BiffException, NoSuchAlgorithmException, NoSuchProviderException, DomainException, DatabaseException{
+		xlw.write();
 	}
 	
 }
