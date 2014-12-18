@@ -14,47 +14,57 @@ import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 import datevalidator.domain.Category;
+import datevalidator.domain.ExpiryProduct;
 import datevalidator.domain.Product;
+import datevalidator.exception.db.DatabaseException;
 import datevalidator.exception.domain.DomainException;
 
 public class ExcelExpiryReader{
 
 	private File file = new File("ProductDatabaseFinal.xls");
 	private int row;
-	private List<Product> list = new ArrayList<Product>();
+	private List<ExpiryProduct> list = new ArrayList<ExpiryProduct>();
 	private Set<Category> categorien = new HashSet<Category>();
-
-	public void read() throws BiffException, IOException, NoSuchAlgorithmException, NoSuchProviderException, DomainException{
+	
+	public void read() throws BiffException, IOException, NoSuchAlgorithmException, NoSuchProviderException, DomainException, DatabaseException{
 		Workbook workbook = Workbook.getWorkbook(file);
-		Sheet blad = workbook.getSheet("Blad1");
+		Sheet blad = workbook.getSheet("Blad2");
 		readProducten(blad);
 		workbook.close();
 	}
 
-	public void readProducten(Sheet sheet) throws DomainException {
+	public void readProducten(Sheet sheet) throws DomainException, BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DatabaseException {
 		boolean stop = false;
 		while (stop == false) {
 			for (row = 1; row < sheet.getRows(); row++) {
 				Cell ean = sheet.getCell(0, row);
-				Cell naam = sheet.getCell(1, row);
-				Cell hope = sheet.getCell(2, row);
-				Cell category = sheet.getCell(3, row);
+				Cell day = sheet.getCell(1, row);
+				Cell month = sheet.getCell(2, row);
+				Cell year = sheet.getCell(3, row);
+				Cell spot = sheet.getCell(4, row);
+				Cell removed = sheet.getCell(5, row);
 				String eanContent = ean.getContents();
-				String naamContent = naam.getContents();
-				String hopeContent = hope.getContents();
-				String categoryContent = category.getContents();
+				String dayContent = day.getContents();
+				String monthContent = month.getContents();
+				String yearContent = year.getContents();
+				String spotContent = spot.getContents();
+				String removedContent = removed.getContents();
 				Long eanLong = Long.parseLong(eanContent);
-				int hopeInt = Integer.parseInt(hopeContent);
-				Category categoryC = new Category(categoryContent);
-				categorien.add(categoryC);
-				Product pr = new Product(eanLong, naamContent, hopeInt, categoryC);
-				list.add(pr);
+				int dayInt = Integer.parseInt(dayContent);
+				int monthInt = Integer.parseInt(monthContent);
+				int yearInt = Integer.parseInt(yearContent);
+				int spotInt = Integer.parseInt(spotContent);
+				boolean rem = Boolean.parseBoolean(removedContent);
+				Product article = Database.getInstance().getProductByEan(eanLong);
+				ExpiryProduct ep = new ExpiryProduct(article, dayInt, monthInt, yearInt, spotInt, rem);
+				categorien.add(ep.getCategory());
+				list.add(ep);
 				stop = true;
 			}
 		}
 	}
 
-	public List<Product> getProducten(){
+	public List<ExpiryProduct> getProducten(){
 		return list;
 	}
 	

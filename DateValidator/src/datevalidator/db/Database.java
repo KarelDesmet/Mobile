@@ -373,6 +373,16 @@ public class Database {
 		return result;
 	}
 
+	public Product getProductByEan(Long eanLong) throws DomainException {
+		Product prod = new Product();
+		for(Product p : producten){
+			if(p.getEan().equals(eanLong)){
+				prod = p;
+			}
+		}
+		return prod;
+	}
+
 	// TODO:
 	/**
 	 * //Class to load data into the local Database class object private
