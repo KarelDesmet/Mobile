@@ -64,11 +64,11 @@ public class ExcelExpiryWriter{
 				date = ep.getExpiryDate();
 				sdf = new SimpleDateFormat("yyyy");
 				int year = Integer.parseInt(sdf.format(date));
-				Label dayLabel = new Label(0, r, ""+day);
-				Label monthLabel = new Label(0, r, ""+month);
-				Label yearLabel = new Label(0, r, ""+year);
-				Label spot = new Label(0, r, ""+ep.getSpot());
-				Label removed = new Label(0, r, ""+ep.isRemoved());
+				Label dayLabel = new Label(1, r, ""+day);
+				Label monthLabel = new Label(2, r, ""+month);
+				Label yearLabel = new Label(3, r, ""+year);
+				Label spot = new Label(4, r, ""+ep.getSpot());
+				Label removed = new Label(5, r, ""+ep.isRemoved());
 				
 				tabblad.addCell(ean);
 				tabblad.addCell(dayLabel);
