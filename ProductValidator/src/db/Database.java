@@ -346,8 +346,15 @@ public class Database {
 		return categoryProductDatabases.keySet();
 	}
 	
+	
+	//Gebruik deze methode om alle producten dat in de Database klasse zitten in een excel bestand te schrijven.
 	public void writeToExcel() throws RowsExceededException, WriteException, IOException{
 		xlw.write();
+	}
+	
+	//Gebruik deze methode om een product aan de Database klasse toe te voegen.
+	public void addProductToDB(Product product){
+		producten.add(product);
 	}
 	
 	/**
