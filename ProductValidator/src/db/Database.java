@@ -32,7 +32,7 @@ public class Database {
 	private static Database _instance;
 	
 	private ExcelReader xlr = new ExcelReader();
-	private DatabaseExcelWriter xlw = new DatabaseExcelWriter();
+	private ExcelWriter xlw = new ExcelWriter();
 
 	/**
 	 * The database who holds all different categories and their respective

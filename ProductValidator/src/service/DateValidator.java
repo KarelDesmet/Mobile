@@ -2,6 +2,7 @@
 package service;
 
 import java.io.IOException;
+
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.ArrayList;
@@ -444,6 +445,10 @@ public class DateValidator {
 	 */
 	public void setExpiryList(ExpiryList mExpiryList) {
 		this.mExpiryList = mExpiryList;
+	}
+	
+	public Set<Category> getCategoriesSet(){
+		return mEanDatabase.getCategoriesSet();
 	}
 
 }
