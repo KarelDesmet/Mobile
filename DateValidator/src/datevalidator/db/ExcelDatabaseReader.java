@@ -1,4 +1,4 @@
-package datevalidator.db;
+package com.pieter.declercq.datevalidator.db;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,9 +13,9 @@ import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
-import datevalidator.domain.Category;
-import datevalidator.domain.Product;
-import datevalidator.exception.domain.DomainException;
+import com.pieter.declercq.datevalidator.domain.Category;
+import com.pieter.declercq.datevalidator.domain.Product;
+import com.pieter.declercq.datevalidator.exception.domain.DomainException;
 
 public class ExcelDatabaseReader{
 

@@ -1,65 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#686868">
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#686868">
+
+    <TextView
+        android:id="@+id/title_startMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/small_margin"
+        android:gravity="center_horizontal"
+        android:text="@string/start_title"
+        android:textColor="#fff"
+        android:textSize="@dimen/title"
+        android:textStyle="bold" />
+
 
     <LinearLayout
         android:id="@+id/CategoriesLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/title_startMenu"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/small_margin"
-            android:gravity="center_horizontal"
-            android:text="@string/start_title"
-            android:textSize="@dimen/title"
-            android:textColor="#fff"
-            android:textStyle="bold"/>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_startMenu"
+        android:layout_above="@+id/proxy"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
         <Button
+            android:id="@+id/new_list_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/category_bar"
+            android:layout_marginBottom="@dimen/great_margin"
             android:layout_marginLeft="@dimen/great_margin"
             android:layout_marginRight="@dimen/great_margin"
             android:layout_marginTop="@dimen/great_margin"
-            android:layout_marginBottom="@dimen/great_margin"
             android:background="#fff"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/nieuwe_lijst"
             android:textColor="#000"
-            android:textStyle="bold"
             android:textSize="@dimen/small_title"
-            android:gravity="center_horizontal"
-            android:text="@string/charcuterie"/>
+            android:textStyle="bold" />
 
         <Button
+            android:id="@+id/summary_list_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/category_bar"
+            android:layout_marginBottom="@dimen/great_margin"
             android:layout_marginLeft="@dimen/great_margin"
             android:layout_marginRight="@dimen/great_margin"
             android:layout_marginTop="@dimen/great_margin"
-            android:layout_marginBottom="@dimen/great_margin"
             android:background="#fff"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/overzicht"
             android:textColor="#000"
-            android:textStyle="bold"
             android:textSize="@dimen/small_title"
-            android:gravity="center_horizontal"
-            android:text="@string/charcuterie"/>
-        
-        <TextView
-            android:id="@+id/proxy"            
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/small_margin"
-            android:gravity="center_horizontal"
-            android:text="@string/proxy"
-            android:textSize="@dimen/small_title"
-            android:textColor="#fff"
-            android:textStyle="bold"/>
-        
+            android:textStyle="bold" />
+
     </LinearLayout>
 
-</ScrollView>
+    <TextView
+        android:id="@+id/proxy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/small_margin"
+        android:gravity="center_horizontal"
+        android:text="@string/proxy"
+        android:textColor="#fff"
+        android:textSize="@dimen/small_title"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

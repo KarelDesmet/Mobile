@@ -15,6 +15,8 @@
     <dimen name="ultimate_margin">120dp</dimen>
 
     <dimen name="category_bar">60dp</dimen>
+    <dimen name="category_bar_width">350dp</dimen>
+
     <dimen name="articlename_textsize">24sp</dimen>
     <dimen name="checkbox_size">30sp</dimen>
 

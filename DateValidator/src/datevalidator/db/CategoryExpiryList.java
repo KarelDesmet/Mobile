@@ -1,12 +1,13 @@
-package datevalidator.db;
+package com.pieter.declercq.datevalidator.db;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import datevalidator.domain.ExpiryProduct;
-import datevalidator.exception.db.DatabaseException;
-import datevalidator.exception.domain.DomainException;
+
+import com.pieter.declercq.datevalidator.domain.ExpiryProduct;
+import com.pieter.declercq.datevalidator.exception.db.DatabaseException;
+import com.pieter.declercq.datevalidator.exception.domain.DomainException;
 
 //TODO
 public class CategoryExpiryList {

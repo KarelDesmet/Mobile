@@ -1,6 +1,6 @@
-package datevalidator.domain;
+package com.pieter.declercq.datevalidator.domain;
 
-import datevalidator.exception.domain.DomainException;
+import com.pieter.declercq.datevalidator.exception.domain.DomainException;
 
 /**
  * This class represents an article. It has an EAN as Identifier, a name which
@@ -112,9 +112,9 @@ public class Product extends Identifier {
 	 *             If the hope is negative
 	 */
 	public void setHope(int hope) throws DomainException {
-		if (hope < 1) {
-			throw new DomainException("The hope must be a positive integer");
-		}
+		//if (hope < 1) {
+		//	throw new DomainException("The hope must be a positive integer");
+		//}
 		this.hope = hope;
 	}
 

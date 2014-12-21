@@ -1,6 +1,8 @@
-package datevalidator.domain;
+package com.pieter.declercq.datevalidator.domain;
 
-import datevalidator.exception.domain.DomainException;
+import android.graphics.Color;
+
+import com.pieter.declercq.datevalidator.exception.domain.DomainException;
 
 /**
  * A class which represents a category in which a product can be sorted.d
@@ -14,6 +16,16 @@ public class Category {
 	 */
 	private String name;
 
+    /**
+     * The mColor of the category.
+     */
+    private int mColor;
+
+    /**
+     * Which deteremines if a category is selected of not.
+     */
+    private boolean mSelected;
+
 	/**
 	 * Creates a category with the given string as name.
 	 * 
@@ -23,8 +35,15 @@ public class Category {
 	 *             If the given name has no at least one letter
 	 */
 	public Category(String name) throws DomainException {
-		setName(name);
+        this(name, Color.rgb(205, 205, 193));
 	}
+
+    //TODO
+    public Category(String name, int mColor) throws DomainException{
+        setName(name);
+        setmColor(mColor);
+        setmSelected(false);
+    }
 
 	/**
 	 * Returns the name of this category.
@@ -44,12 +63,30 @@ public class Category {
 	 *             If the given name has not at least one letter
 	 */
 	public void setName(String name) throws DomainException {
-		if (name.length() < 1) {
-			throw new DomainException(
-					"The name of the category must contain at least one letter.");
-		}
+		//if (name.length() < 1) {
+		//	throw new DomainException(
+		//			"The name of the category must contain at least one letter.");
+		//}
 		this.name = name;
 	}
+
+    //TODO
+    public int getmColor(){
+        return this.mColor;
+    }
+
+    public boolean ismSelected() {
+        return mSelected;
+    }
+
+    public void setmSelected(boolean mSelected) {
+        this.mSelected = mSelected;
+    }
+
+    //TODO
+    public void setmColor(int mColor){
+        this.mColor = mColor;
+    }
 
 	/**
 	 * A method which sets the info of this category to the info of the updated

@@ -1,4 +1,4 @@
-package datevalidator.db;
+package com.pieter.declercq.datevalidator.db;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,10 +15,10 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
-import datevalidator.domain.Category;
-import datevalidator.domain.ExpiryProduct;
-import datevalidator.exception.db.DatabaseException;
-import datevalidator.exception.domain.DomainException;
+import com.pieter.declercq.datevalidator.domain.Category;
+import com.pieter.declercq.datevalidator.domain.ExpiryProduct;
+import com.pieter.declercq.datevalidator.exception.db.DatabaseException;
+import com.pieter.declercq.datevalidator.exception.domain.DomainException;
 
 public class ExcelExpiryWriter{
 

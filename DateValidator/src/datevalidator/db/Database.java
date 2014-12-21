@@ -1,4 +1,4 @@
-package datevalidator.db;
+package com.pieter.declercq.datevalidator.db;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -12,10 +12,10 @@ import java.util.Set;
 import jxl.read.biff.BiffException;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
-import datevalidator.domain.Category;
-import datevalidator.domain.Product;
-import datevalidator.exception.db.DatabaseException;
-import datevalidator.exception.domain.DomainException;
+import com.pieter.declercq.datevalidator.domain.Category;
+import com.pieter.declercq.datevalidator.domain.Product;
+import com.pieter.declercq.datevalidator.exception.db.DatabaseException;
+import com.pieter.declercq.datevalidator.exception.domain.DomainException;
 
 /**
  * A database class which acts as the container for the different databases for
@@ -44,16 +44,10 @@ public class Database {
 	
 	/**
 	 * Private constructor to prevent others creating an instance.
-	 * @throws DomainException 
-	 * @throws IOException 
-	 * @throws NoSuchProviderException 
-	 * @throws NoSuchAlgorithmException 
-	 * @throws BiffException 
-	 * @throws DatabaseException 
 	 */
-	private Database() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException {
+	private Database() {
 		categoryProductDatabases = new HashMap<Category, CategoryProductDatabase>();
-		xlr.read();
+/*		xlr.read();
 		Set<Category> categorienSet = xlr.getCategorien();
 		for(Category c : categorienSet){
 			addCategory(c);
@@ -62,7 +56,7 @@ public class Database {
 		for(Product p : producten){
 			addProduct(p);
 		}
-	}
+*/	}
 	
 	public List<Product> getProducten(){
 		return producten;
@@ -70,14 +64,8 @@ public class Database {
 
 	/**
 	 * Synchronized creator method to prevent multi-threading problems.
-	 * @throws DatabaseException 
-	 * @throws DomainException 
-	 * @throws IOException 
-	 * @throws NoSuchProviderException 
-	 * @throws NoSuchAlgorithmException 
-	 * @throws BiffException 
 	 */
-	private synchronized static void createInstance() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException {
+	private synchronized static void createInstance() {
 		if (_instance == null) {
 			_instance = new Database();
 		}
@@ -87,14 +75,8 @@ public class Database {
 	 * The only way to access the instance of the this class.
 	 * 
 	 * @return The database of all known products
-	 * @throws DatabaseException 
-	 * @throws DomainException 
-	 * @throws IOException 
-	 * @throws NoSuchProviderException 
-	 * @throws NoSuchAlgorithmException 
-	 * @throws BiffException 
 	 */
-	public static Database getInstance() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException {
+	public static Database getInstance() {
 		if (_instance == null) {
 			createInstance();
 		}

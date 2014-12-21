@@ -1,6 +1,6 @@
-package datevalidator.domain;
+package com.pieter.declercq.datevalidator.domain;
 
-import datevalidator.exception.domain.DomainException;
+import com.pieter.declercq.datevalidator.exception.domain.DomainException;
 
 /**
  * This class provides an unique EAN. This must contain of 13 ciphers.
@@ -33,12 +33,12 @@ public class Identifier {
 	 *             If the ean doesn't consist of 8 or 13 ciphers
 	 */
 	public void setEan(Long ean) throws DomainException {
-		if (ean < 1000000000000L || ean > 9999999999999L) { // EAN13
-			if (ean < 10000000L || ean > 99999999L) { //EAN8
-				throw new DomainException(
-						"The EAN doesn't have exact 8 or 13 ciphers");
-			}
-		}
+//		if (ean < 1000000000000L || ean > 9999999999999L) { // EAN13
+//			if (ean < 10000000L || ean > 99999999L) { //EAN8
+//				throw new DomainException(
+//						"The EAN doesn't have exact 8 or 13 ciphers");
+//			}
+//		}
 		this.ean = ean;
 	}
 	

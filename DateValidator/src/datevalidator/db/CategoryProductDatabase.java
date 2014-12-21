@@ -1,11 +1,11 @@
-package datevalidator.db;
+package com.pieter.declercq.datevalidator.db;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import datevalidator.domain.Product;
-import datevalidator.exception.db.DatabaseException;
+import com.pieter.declercq.datevalidator.domain.Product;
+import com.pieter.declercq.datevalidator.exception.db.DatabaseException;
 
 /**
  * A class which is a database for products. It contains a Map with the EAN as

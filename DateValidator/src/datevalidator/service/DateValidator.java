@@ -1,11 +1,16 @@
 //TODO: UPDATE + DELETE onderkant klassendiagramma
-package datevalidator.service;
+package com.pieter.declercq.datevalidator.service;
+
+import android.app.Service;
+import android.graphics.Color;
 
 import java.io.IOException;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -13,14 +18,14 @@ import java.util.Set;
 import jxl.read.biff.BiffException;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
-import datevalidator.db.Database;
-import datevalidator.db.ExpiryList;
-import datevalidator.domain.Category;
-import datevalidator.domain.ExpiryProduct;
-import datevalidator.domain.Product;
-import datevalidator.exception.db.DatabaseException;
-import datevalidator.exception.domain.DomainException;
-import datevalidator.exception.service.ServiceException;
+import com.pieter.declercq.datevalidator.db.Database;
+import com.pieter.declercq.datevalidator.db.ExpiryList;
+import com.pieter.declercq.datevalidator.domain.Category;
+import com.pieter.declercq.datevalidator.domain.ExpiryProduct;
+import com.pieter.declercq.datevalidator.domain.Product;
+import com.pieter.declercq.datevalidator.exception.db.DatabaseException;
+import com.pieter.declercq.datevalidator.exception.domain.DomainException;
+import com.pieter.declercq.datevalidator.exception.service.ServiceException;
 
 /**
  * A Facade class. This class allows you to add, see, update and delete products
@@ -42,20 +47,18 @@ public class DateValidator {
 	 */
 	private ExpiryList mExpiryList;
 
+    /**
+     * Today's date
+     */
+    private Date today;
+
 	/**
 	 * The default constructor of this Facade-class.
-	 * @throws IOException 
-	 * @throws NoSuchProviderException 
-	 * @throws NoSuchAlgorithmException 
-	 * @throws BiffException 
-	 * @throws DomainException 
-	 * @throws DatabaseException 
-	 * @throws WriteException 
-	 * @throws RowsExceededException 
 	 */
-	public DateValidator() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException, RowsExceededException, WriteException {
+	public DateValidator() throws ServiceException {
 		mEanDatabase = Database.getInstance();
 		mExpiryList = ExpiryList.getInstance();
+        today = new Date();
 	}
 
 	/**
@@ -65,6 +68,44 @@ public class DateValidator {
 		mEanDatabase.clear();
 		mExpiryList.clear();
 	}
+
+
+         //TODO
+         public String today(){
+             SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy");
+             String currentDate = sdf.format(new Date());
+             currentDate = Character.toUpperCase(currentDate.charAt(0)) + currentDate.substring(1);
+             return currentDate;
+         }
+
+         public String tomorrow(){
+             Calendar c = Calendar.getInstance();
+             c.setTime(today);
+             c.add(Calendar.DATE, 1);
+             Date newDate = c.getTime();
+
+             today = newDate;
+             SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy");
+             String currentDate = sdf.format(newDate);
+             currentDate = Character.toUpperCase(currentDate.charAt(0)) + currentDate.substring(1);
+             return currentDate;
+         }
+
+         //TODO
+         public String yesterday(){
+             Calendar c = Calendar.getInstance();
+             c.setTime(today);
+             c.add(Calendar.DATE, -1);
+             Date newDate = c.getTime();
+
+             today = newDate;
+             SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy");
+             String currentDate = sdf.format(newDate);
+             currentDate = Character.toUpperCase(currentDate.charAt(0)) + currentDate.substring(1);
+             return currentDate;
+         }
+
+
 
 	/**
 	 * A method which returns the number of categories the database contains
@@ -105,7 +146,7 @@ public class DateValidator {
 	 * 
 	 * @param category
 	 *            the requested category
-	 * @throws ServiceExcpetion
+	 * @throws ServiceException
 	 *             If the requested category doesn't exist in the database. If
 	 *             the categories are not in sync between the expirylist and the
 	 *             productDatabase.
@@ -129,7 +170,7 @@ public class DateValidator {
 	 * 
 	 * @param oldCategory
 	 *            The old category
-	 * @param newCategory
+	 * @param updatedCategory
 	 *            The updated category
 	 * @throws ServiceException
 	 *             If there already exists a category like the updated one. If
@@ -450,6 +491,14 @@ public class DateValidator {
 	public Set<Category> getCategoriesSet(){
 		return mEanDatabase.getCategoriesSet();
 	}
+
+    public ArrayList<Category> getCategories() {
+        ArrayList<Category> result = new ArrayList<Category>();
+        for(Category c : getCategoriesSet()){
+            result.add(c);
+        }
+        return result;
+    }
 
 	public void writeToExcel() throws RowsExceededException, WriteException, BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException, DatabaseException{
 		mEanDatabase.writeToExcel();

@@ -1,4 +1,4 @@
-package datevalidator.exception.domain;
+package com.pieter.declercq.datevalidator.exception.domain;
 
 public class DomainException extends Exception {
 

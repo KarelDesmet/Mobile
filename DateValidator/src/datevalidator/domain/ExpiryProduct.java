@@ -1,10 +1,10 @@
-package datevalidator.domain;
+package com.pieter.declercq.datevalidator.domain;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import datevalidator.exception.domain.DomainException;
+import com.pieter.declercq.datevalidator.exception.domain.DomainException;
 
 
 /**

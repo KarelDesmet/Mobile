@@ -1,4 +1,4 @@
-package datevalidator.db;
+package com.pieter.declercq.datevalidator.db;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -13,10 +13,10 @@ import java.util.Set;
 import jxl.read.biff.BiffException;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
-import datevalidator.domain.Category;
-import datevalidator.domain.ExpiryProduct;
-import datevalidator.exception.db.DatabaseException;
-import datevalidator.exception.domain.DomainException;
+import com.pieter.declercq.datevalidator.domain.Category;
+import com.pieter.declercq.datevalidator.domain.ExpiryProduct;
+import com.pieter.declercq.datevalidator.exception.db.DatabaseException;
+import com.pieter.declercq.datevalidator.exception.domain.DomainException;
 
 /**
  * A class who represents the expiryList of all the products who are going to
@@ -43,16 +43,10 @@ public class ExpiryList {
 
 	/**
 	 * Private constructor to prevent others creating an instance.
-	 * @throws DatabaseException 
-	 * @throws DomainException 
-	 * @throws IOException 
-	 * @throws NoSuchProviderException 
-	 * @throws NoSuchAlgorithmException 
-	 * @throws BiffException 
 	 */
-	private ExpiryList() throws DatabaseException, BiffException, NoSuchAlgorithmException, NoSuchProviderException, IOException, DomainException {
+	private ExpiryList() {
 		categoryExpiryLists = new HashMap<Category, CategoryExpiryList>();
-		xlr.read();
+/*		xlr.read();
 		Set<Category> categorienSet = xlr.getCategorien();
 		for(Category c : categorienSet){
 			addCategory(c);
@@ -61,18 +55,12 @@ public class ExpiryList {
 		for(ExpiryProduct p : expiryProducten){
 			addExpiryProduct(p);
 		}
-	}
+*/	}
 
 	/**
 	 * Synchronized creator method to prevent multi-threading problems.
-	 * @throws DomainException 
-	 * @throws IOException 
-	 * @throws DatabaseException 
-	 * @throws NoSuchProviderException 
-	 * @throws NoSuchAlgorithmException 
-	 * @throws BiffException 
 	 */
-	private synchronized static void createInstance() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, DatabaseException, IOException, DomainException {
+	private synchronized static void createInstance() {
 		if (_instance == null) {
 			_instance = new ExpiryList();
 		}
@@ -83,14 +71,8 @@ public class ExpiryList {
 	 * 
 	 * @return The expiryList of all products who are going to expire within a
 	 *         certain time
-	 * @throws DomainException 
-	 * @throws IOException 
-	 * @throws DatabaseException 
-	 * @throws NoSuchProviderException 
-	 * @throws NoSuchAlgorithmException 
-	 * @throws BiffException 
 	 */
-	public static ExpiryList getInstance() throws BiffException, NoSuchAlgorithmException, NoSuchProviderException, DatabaseException, IOException, DomainException {
+	public static ExpiryList getInstance() {
 		if (_instance == null) {
 			createInstance();
 		}
