@@ -8,9 +8,7 @@ import java.io.IOException;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -47,18 +45,12 @@ public class DateValidator {
 	 */
 	private ExpiryList mExpiryList;
 
-    /**
-     * Today's date
-     */
-    private Date today;
-
 	/**
 	 * The default constructor of this Facade-class.
 	 */
 	public DateValidator() throws ServiceException {
 		mEanDatabase = Database.getInstance();
 		mExpiryList = ExpiryList.getInstance();
-        today = new Date();
 	}
 
 	/**
@@ -68,44 +60,6 @@ public class DateValidator {
 		mEanDatabase.clear();
 		mExpiryList.clear();
 	}
-
-
-         //TODO
-         public String today(){
-             SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy");
-             String currentDate = sdf.format(new Date());
-             currentDate = Character.toUpperCase(currentDate.charAt(0)) + currentDate.substring(1);
-             return currentDate;
-         }
-
-         public String tomorrow(){
-             Calendar c = Calendar.getInstance();
-             c.setTime(today);
-             c.add(Calendar.DATE, 1);
-             Date newDate = c.getTime();
-
-             today = newDate;
-             SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy");
-             String currentDate = sdf.format(newDate);
-             currentDate = Character.toUpperCase(currentDate.charAt(0)) + currentDate.substring(1);
-             return currentDate;
-         }
-
-         //TODO
-         public String yesterday(){
-             Calendar c = Calendar.getInstance();
-             c.setTime(today);
-             c.add(Calendar.DATE, -1);
-             Date newDate = c.getTime();
-
-             today = newDate;
-             SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd/MM/yyyy");
-             String currentDate = sdf.format(newDate);
-             currentDate = Character.toUpperCase(currentDate.charAt(0)) + currentDate.substring(1);
-             return currentDate;
-         }
-
-
 
 	/**
 	 * A method which returns the number of categories the database contains

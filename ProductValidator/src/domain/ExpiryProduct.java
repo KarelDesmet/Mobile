@@ -251,4 +251,10 @@ public class ExpiryProduct {
 		return true;
 	}
 
+	@Override
+	public String toString(){
+		String result = "";
+		result += getArticle().getName() + "\t" + getExpiryDate();
+		return result;
+	}
 }

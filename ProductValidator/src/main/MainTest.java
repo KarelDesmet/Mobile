@@ -3,9 +3,11 @@ package main;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.util.Date;
 
 import jxl.read.biff.BiffException;
 import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
 import service.DateValidator;
 import domain.Category;
 import domain.ExpiryProduct;
@@ -42,7 +44,7 @@ public class MainTest {
 			e.printStackTrace();
 		}
 		
-		*/
+		
 		try {
 			DateValidator service = new DateValidator();
 			System.out.println(service.getCategoriesSet());
@@ -56,7 +58,26 @@ public class MainTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		*/
+		try {
+			DateValidator dv = new DateValidator();
+			dv.addCategory(new Category("zuivel2"));
+			Product p = new Product(5410093146588L, "Test productje", 1, new Category("zuivel2"));
+			ExpiryProduct ep = new ExpiryProduct(p, 21, 12, 2014);
+			Date date = ep.getExpiryDate();
+			dv.addProduct(p);
+			dv.addExpiryProduct(ep);
+			System.out.println(dv.getNumberOfExpiryProducts());
+			System.out.println(dv.getExpiryList().getCategoryExpiryMap().get(new Category("zuivel2")).getExpiryProducts(date));
+		} catch (BiffException
+				| NoSuchAlgorithmException | NoSuchProviderException
+				| WriteException | IOException | DomainException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

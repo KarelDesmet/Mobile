@@ -17,14 +17,9 @@ public class Category {
 	private String name;
 
     /**
-     * The mColor of the category.
+     * The color of the category.
      */
-    private int mColor;
-
-    /**
-     * Which deteremines if a category is selected of not.
-     */
-    private boolean mSelected;
+    private int color;
 
 	/**
 	 * Creates a category with the given string as name.
@@ -35,14 +30,14 @@ public class Category {
 	 *             If the given name has no at least one letter
 	 */
 	public Category(String name) throws DomainException {
-        this(name, Color.rgb(205, 205, 193));
+		setName(name);
+        setColor(Color.rgb(205,205,193));
 	}
 
     //TODO
-    public Category(String name, int mColor) throws DomainException{
+    public Category(String name, int color) throws DomainException{
         setName(name);
-        setmColor(mColor);
-        setmSelected(false);
+        setColor(color);
     }
 
 	/**
@@ -71,21 +66,13 @@ public class Category {
 	}
 
     //TODO
-    public int getmColor(){
-        return this.mColor;
-    }
-
-    public boolean ismSelected() {
-        return mSelected;
-    }
-
-    public void setmSelected(boolean mSelected) {
-        this.mSelected = mSelected;
+    public int getColor(){
+        return this.color;
     }
 
     //TODO
-    public void setmColor(int mColor){
-        this.mColor = mColor;
+    public void setColor(int color){
+        this.color = color;
     }
 
 	/**
