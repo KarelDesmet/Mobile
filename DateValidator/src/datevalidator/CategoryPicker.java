@@ -1,4 +1,4 @@
-package com.pieter.declercq.datevalidator;
+package datevalidator;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,10 +11,10 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.pieter.declercq.datevalidator.domain.Category;
-import com.pieter.declercq.datevalidator.service.DateValidator;
-
 import java.util.ArrayList;
+
+import datevalidator.domain.Category;
+import datevalidator.service.DateValidator;
 
 /**
  * Created by Pieter on 17/12/2014.
