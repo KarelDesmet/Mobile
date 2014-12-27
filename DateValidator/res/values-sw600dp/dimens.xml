@@ -23,4 +23,6 @@
     <dimen name="category_button">20dp</dimen>
     <dimen name="day_button">60dp</dimen>
 
+    <dimen name="diver_thickness">3sp</dimen>
+
 </resources>

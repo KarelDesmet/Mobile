@@ -22,12 +22,17 @@
     <string name="scan">Scan</string>
     <string name="barcode">Barcode</string>
     <string name="naam">Naam</string>
-    <string name="merk">Merk</string>
+    <string name="hope">Hope</string>
     <string name="datum">Datum</string>
     <string name="voegtoe">Voeg Toe</string>
     <string name="verwijder">Verwijder</string>
     <string name="vorig">Vorig Product</string>
-    <string name="frigo">Frigo 1</string>
+    <string name="frigo">Deel</string>
     <string name="volgendeFrigo">Volgende Frigo</string>
     <string name="vorigeFrigo">Vorige Frigo</string>
+    <string name="ep_hint">Het hope nummer van dit product is </string>
+    <string name="barcode_hint">5400112230008</string>
+    <string name="name_hint">PIZZA MARGHERITA</string>
+    <string name="ep_add_succes">Het product is correct toegevoegd in de lijst</string>
+    <string name="ep_and_p_add_succes">Het product is correct toegevoegd in de lijst en werd bewaard voor volgende sessies</string>
 </resources>

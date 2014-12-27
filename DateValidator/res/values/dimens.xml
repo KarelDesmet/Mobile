@@ -9,6 +9,7 @@
 
     <dimen name="article_margin">4dp</dimen>
 
+    <dimen name="very_tiny_margin">5dp</dimen>
     <dimen name="tiny_margin">10dp</dimen>
     <dimen name="small_margin">20dp</dimen>
     <dimen name="great_margin">40dp</dimen>
