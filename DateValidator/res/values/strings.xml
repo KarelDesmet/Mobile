@@ -22,12 +22,20 @@
     <string name="scan">Scan</string>
     <string name="barcode">Barcode</string>
     <string name="naam">Name</string>
-    <string name="merk">HOPE</string>
+    <string name="hope">HOPE</string>
     <string name="datum">Date</string>
     <string name="voegtoe">Add</string>
     <string name="verwijder">Delete</string>
     <string name="vorig">Previous product</string>
-    <string name="frigo">Fridge 1</string>
+    <string name="frigo">Fridge</string>
     <string name="volgendeFrigo">Next fridge</string>
     <string name="vorigeFrigo">Previous fridge</string>
+    <string name="ep_hint">The hope number of this product is </string>
+    <string name="barcode_hint">5400112230008</string>
+    <string name="name_hint">PIZZA MARGHERITA</string>
+    <string name="hope_hint">373000</string>
+    <string name="default_day">01</string>
+    <string name="slash">/</string>
+    <string name="default_month">01</string>
+    <string name="default_year">2015</string>
 </resources>

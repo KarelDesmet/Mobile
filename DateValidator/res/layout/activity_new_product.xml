@@ -3,247 +3,353 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#686868"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/title_charcuterie"
-        android:layout_width="fill_parent"
+        android:id="@+id/new_list_category"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/small_margin"
-        android:background="#c55746"
-        android:gravity="center_horizontal"
-        android:text="Product"
-        android:textColor="#fff"
-        android:textSize="@dimen/title"
-        android:textStyle="bold" />
+        android:gravity="center"
+        android:padding="@dimen/tiny_margin"
+        android:textColor="#000"
+        android:textSize="@dimen/small_title"
+        android:textStyle="bold">
+
+    </TextView>
 
     <LinearLayout
-        android:id="@id/barcodelayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal" >
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/tiny_margin"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/small_margin"
+        android:paddingRight="@dimen/small_margin">
 
-        <TextView
-            android:id="@+id/ean"
-            android:layout_width="70dp"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="@dimen/small_margin"
-            android:layout_marginStart="@dimen/small_margin"
-            android:text="@string/barcode"
-            android:textColor="#fff"
-            android:textSize="@dimen/small_title"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/barcodeInput"
-            android:layout_width="150dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fff"
-            android:inputType="text" >
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <requestFocus />
-        </EditText>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/very_tiny_margin"
+                android:text="@string/barcode"
+                android:textColor="#fff"
+                android:textSize="@dimen/tiny_title"
+                android:textStyle="bold" />
 
-        <Button
-            android:id="scanButton"
-            android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/barcode_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:layout_marginTop="@dimen/very_tiny_margin"
+                android:background="#fff"
+                android:hint="@string/barcode_hint"
+                android:inputType="number"
+                android:maxLength="13"
+                android:paddingLeft="@dimen/very_tiny_margin"
+                android:paddingRight="@dimen/very_tiny_margin"
+                android:textColor="#000"
+                android:textSize="@dimen/tiny_title" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/small_margin"
-            android:layout_marginRight="@dimen/small_margin"
-            android:layout_marginStart="@dimen/small_margin"
-            android:background="#87f717"
-            android:text="@string/scan"
-            android:textColor="#000"
-            android:textSize="@dimen/small_title" />
-    </LinearLayout>
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@id/barcodelayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/small_margin"
-        android:layout_marginTop="@dimen/small_margin"
-        android:layout_weight="1"
-        android:orientation="horizontal" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/naam"
+                android:textColor="#fff"
+                android:textSize="@dimen/tiny_title"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/naam"
-            android:layout_width="70dp"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="@dimen/small_margin"
-            android:layout_marginStart="@dimen/small_margin"
-            android:text="@string/naam"
-            android:textColor="#fff"
-            android:textSize="@dimen/small_title"
-            android:textStyle="bold" />
+            <EditText
+                android:id="@+id/name_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:layout_marginTop="@dimen/very_tiny_margin"
+                android:maxLength="27"
+                android:background="#fff"
+                android:paddingLeft="@dimen/very_tiny_margin"
+                android:paddingRight="@dimen/very_tiny_margin"
+                android:textColor="#000"
+                android:maxLines="1"
+                android:textSize="@dimen/tiny_title" />
 
-        <EditText
-            android:id="@+id/naamInput"
-            android:layout_width="200dp"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fff"
-            android:inputType="text" >
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <requestFocus />
-        </EditText>
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/hope"
+                android:textColor="#fff"
+                android:textSize="@dimen/tiny_title"
+                android:textStyle="bold" />
 
-    <LinearLayout
-        android:id="@id/merklayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/small_margin"
-        android:layout_marginTop="@dimen/small_margin"
-        android:layout_weight="1"
-        android:orientation="horizontal" >
+            <EditText
+                android:id="@+id/hope_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/tiny_margin"
+                android:layout_marginTop="@dimen/very_tiny_margin"
+                android:background="#fff"
+                android:inputType="number"
+                android:paddingLeft="@dimen/very_tiny_margin"
+                android:paddingRight="@dimen/very_tiny_margin"
+                android:textColor="#000"
+                android:textSize="@dimen/tiny_title" />
 
-        <TextView
-            android:id="@+id/merk"
-            android:layout_width="70dp"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="@dimen/small_margin"
-            android:layout_marginStart="@dimen/small_margin"
-            android:text="@string/merk"
-            android:textColor="#fff"
-            android:textSize="@dimen/small_title"
-            android:textStyle="bold" />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/hopeInput"
-            android:layout_width="200dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fff"
-            android:inputType="text" >
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <requestFocus />
-        </EditText>
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/datum"
+                android:textColor="#fff"
+                android:textSize="@dimen/tiny_title"
+                android:textStyle="bold" />
 
-    <LinearLayout
-        android:id="@id/datumlayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/small_margin"
-        android:layout_marginTop="@dimen/small_margin"
-        android:layout_weight="1"
-        android:orientation="horizontal" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/tiny_margin"
+                android:paddingTop="@dimen/very_tiny_margin">
 
-        <TextView
-            android:id="@+id/datum"
-            android:layout_width="70dp"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="@dimen/small_margin"
-            android:layout_marginStart="@dimen/small_margin"
-            android:text="@string/datum"
-            android:textColor="#fff"
-            android:textSize="@dimen/small_title"
-            android:textStyle="bold" />
+                <ImageButton
+                    android:id="@+id/previous_day"
+                    android:layout_width="@dimen/day_button"
+                    android:layout_height="@dimen/day_button"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/left_arrow" />
 
-        <DatePicker
-            android:id="@+id/datePicker"
-            android:layout_width="200dp"
+                <EditText
+                    android:id="@+id/day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="#fff"
+                    android:hint="@string/default_day"
+                    android:maxLength="2"
+                    android:inputType="number"
+                    android:paddingLeft="@dimen/very_tiny_margin"
+                    android:paddingRight="@dimen/very_tiny_margin"
+                    android:textColor="#000"
+                    android:textSize="@dimen/tiny_title" />
+
+                <ImageButton
+                    android:id="@+id/next_day"
+                    android:layout_width="@dimen/day_button"
+                    android:layout_height="@dimen/day_button"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/right_arrow" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="@dimen/very_tiny_margin"
+                    android:paddingRight="@dimen/very_tiny_margin"
+                    android:text="@string/slash"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/tiny_title"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/previous_month"
+                    android:layout_width="@dimen/day_button"
+                    android:layout_height="@dimen/day_button"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/left_arrow" />
+
+                <EditText
+                    android:id="@+id/month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="#fff"
+                    android:hint="@string/default_month"
+                    android:maxLength="2"
+                    android:inputType="number"
+                    android:paddingLeft="@dimen/very_tiny_margin"
+                    android:paddingRight="@dimen/very_tiny_margin"
+                    android:textColor="#000"
+                    android:textSize="@dimen/tiny_title" />
+
+                <ImageButton
+                    android:id="@+id/next_month"
+                    android:layout_width="@dimen/day_button"
+                    android:layout_height="@dimen/day_button"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/right_arrow" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="@dimen/very_tiny_margin"
+                    android:paddingRight="@dimen/very_tiny_margin"
+                    android:text="@string/slash"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/tiny_title"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="#fff"
+                    android:hint="@string/default_year"
+                    android:maxLength="4"
+                    android:inputType="number"
+                    android:paddingLeft="@dimen/very_tiny_margin"
+                    android:paddingRight="@dimen/very_tiny_margin"
+                    android:textColor="#000"
+                    android:textSize="@dimen/tiny_title" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/expiry_product_buttons"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fff"  />
-    </LinearLayout>
-    
-    <LinearLayout
-        android:id="@id/buttons"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal" 
-        android:gravity="center_horizontal">
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@id/addButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/small_margin"
-            android:layout_marginRight="@dimen/small_margin"
-            android:layout_marginStart="@dimen/small_margin"
-            android:background="#87f717"
-            android:text="@string/voegtoe"
-            android:textColor="#000"
-            android:textSize="@dimen/small_title" />
-        
-        <Button
-            android:id="@id/removeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/small_margin"
-            android:layout_marginRight="@dimen/small_margin"
-            android:layout_marginStart="@dimen/small_margin"
-            android:background="#C11B17"
-            android:text="@string/verwijder"
-            android:textColor="#fff"
-            android:textSize="@dimen/small_title" />
-        
-    </LinearLayout>
-    
-    <LinearLayout
-        android:id="@id/buttons"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal" 
-        android:gravity="center_horizontal">
+            <Button
+                android:id="@+id/addButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/tiny_margin"
+                android:background="#87f717"
+                android:text="@string/voegtoe"
+                android:textColor="#000"
+                android:textSize="@dimen/tiny_title" />
 
-        <Button
-            android:id="@id/previousProductButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/small_margin"
-            android:layout_marginRight="@dimen/small_margin"
-            android:layout_marginStart="@dimen/small_margin"
-            android:background="#659EC7"
-            android:text="@string/vorig"
-            android:textColor="#000"
-            android:textSize="@dimen/small_title" />
-        
-    </LinearLayout>
-    
-    <LinearLayout
-        android:id="@id/buttons"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal" 
-        android:gravity="center_horizontal">
+            <Button
+                android:id="@+id/removeButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/tiny_margin"
+                android:background="#C11B17"
+                android:layout_gravity="center_vertical"
+                android:text="@string/verwijder"
+                android:textColor="#fff"
+                android:textSize="@dimen/tiny_title" />
 
-        <Button
-            android:id="@id/previousFrigo"
-            android:layout_width="wrap_content"
+        </LinearLayout>
+
+        <!--
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/small_margin"
-            android:layout_marginRight="@dimen/small_margin"
-            android:layout_marginStart="@dimen/small_margin"
-            android:background="#fff"
-            android:text="@string/vorigeFrigo"
-            android:textColor="#000"
-            android:textSize="@dimen/small_title" />
-        
-        <TextView
-            android:id="@+id/frigo"
-            android:layout_width="60dp"
-            android:layout_height="fill_parent"
-            android:text="@string/frigo"
-            android:textColor="#fff"
-            android:textSize="@dimen/small_title"
-            android:textStyle="bold" />
-        
-        <Button
-            android:id="@id/nextFrigo"
-            android:layout_width="wrap_content"
+            android:layout_weight="1" >
+
+            <ImageButton
+                android:id="@+id/previous_product"
+                android:layout_width="@dimen/day_button"
+                android:layout_height="@dimen/day_button"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/left_arrow" />
+
+            <TextView
+                android:id="@+id/product"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="#fff"
+                android:textSize="@dimen/tiny_title"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/next_product"
+                android:layout_width="@dimen/day_button"
+                android:layout_height="@dimen/day_button"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/right_arrow" />
+
+        </RelativeLayout>
+
+        -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/small_margin"
-            android:layout_marginRight="@dimen/small_margin"
-            android:layout_marginStart="@dimen/small_margin"
-            android:background="#fff"
-            android:text="@string/volgendeFrigo"
-            android:textColor="#000"
-            android:textSize="@dimen/small_title" />
-        
+            android:layout_weight="1" >
+
+            <ImageButton
+                android:id="@+id/previous_fridge"
+                android:layout_width="@dimen/day_button"
+                android:layout_height="@dimen/day_button"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/left_arrow" />
+
+            <TextView
+                android:id="@+id/fridge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/frigo"
+                android:textColor="#fff"
+                android:textSize="@dimen/tiny_title"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/next_fridge"
+                android:layout_width="@dimen/day_button"
+                android:layout_height="@dimen/day_button"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/right_arrow" />
+
+        </RelativeLayout>
+
     </LinearLayout>
 
 </LinearLayout>
