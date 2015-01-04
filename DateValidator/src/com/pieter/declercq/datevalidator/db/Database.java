@@ -57,12 +57,18 @@ public class Database {
 			addProduct(p);
 		}
 */	}
-	
-	public List<Product> getProducten(){
-		return producten;
-	}
 
-	/**
+    //TODO
+    public List<Product> getProducten() throws DatabaseException{
+        ArrayList<Product> result = new ArrayList<Product>();
+        for(Category c : categoryProductDatabases.keySet()){
+            result.addAll(getCategoryProductDatabase(c).getProducts());
+        }
+        return result;
+    }
+
+
+    /**
 	 * Synchronized creator method to prevent multi-threading problems.
 	 */
 	private synchronized static void createInstance() {

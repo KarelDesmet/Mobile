@@ -1,6 +1,8 @@
 package com.pieter.declercq.datevalidator.db;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -130,14 +132,21 @@ public class CategoryProductDatabase {
 		}
 		articles.remove(ean);
 	}
-		
-	/**
+
+    public List<Product> getProducts() throws DatabaseException{
+        ArrayList<Product> result = new ArrayList<Product>();
+        for(Long key : articles.keySet()){
+            result.add(getProduct(key));
+        }
+        return result;
+    }
+
+    /**
 	 * This method implements how a categoryProductDatabase is represented as a
 	 * String. I.e. all the products it contains on a separate line.
 	 * 
 	 * @return The String representation of a CategoryProductDatabase
 	 */
-	
 	@Override
 	public String toString() {
 		String result = "";

@@ -2,8 +2,10 @@ package com.pieter.declercq.controller;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +21,9 @@ import com.pieter.declercq.datevalidator.exception.domain.DomainException;
 import com.pieter.declercq.datevalidator.exception.service.ServiceException;
 import com.pieter.declercq.datevalidator.service.DateValidator;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -148,30 +153,30 @@ public class NewProductActivity extends Activity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean correctFields = true;
                 final EditText eanEdit = (EditText) findViewById(R.id.barcode_input);
                 final EditText nameEdit = (EditText) findViewById(R.id.name_input);
                 final EditText hopeEdit = (EditText) findViewById(R.id.hope_input);
                 final EditText dayEdit = (EditText) findViewById(R.id.day);
                 final EditText monthEdit = (EditText) findViewById(R.id.month);
                 final EditText yearEdit = (EditText) findViewById(R.id.year);
+                if(eanEdit.getText().length() < 8){
+                    correctFields = false;
+                    Toast.makeText(getApplicationContext(), getResources().getText(R.string.err_short_ean), Toast.LENGTH_SHORT).show();
+                }
+                if(nameEdit.getText().length() < 5){
+                    correctFields = false;
+                    Toast.makeText(getApplicationContext(), getResources().getText(R.string.err_short_name), Toast.LENGTH_SHORT).show();
+                }
+                if(Integer.parseInt(nameEdit.getText().toString()) < 0){
+                    correctFields = false;
+                    Toast.makeText(getApplicationContext(), getResources().getText(R.string.err_negative_hope), Toast.LENGTH_SHORT).show();
+                }
                 Product p = null;
-                Long ean = Long.parseLong(eanEdit.getText().toString());
-                try {
-                    p = mDateValidator.getProduct(mCategory, ean);
-                    int day = Integer.parseInt(dayEdit.getText().toString());
-                    int month = Integer.parseInt(monthEdit.getText().toString());
-                    int year = Integer.parseInt(yearEdit.getText().toString());
-                    int spot = mDateValidator.getSpot(mCategory);
-                    ExpiryProduct ep = new ExpiryProduct(p, day, month, year, spot);
-                    mDateValidator.addExpiryProduct(ep);
-                    clear();
-                    Toast.makeText(getApplicationContext(), getResources().getText(R.string.ep_add_succes), Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    String name = nameEdit.getText().toString();
-                    int hope = Integer.parseInt(hopeEdit.getText().toString());
+                if(correctFields) {
+                    Long ean = Long.parseLong(eanEdit.getText().toString());
                     try {
-                        p = new Product(ean, name, hope, mCategory);
-                        mDateValidator.addProduct(p);
+                        p = mDateValidator.getProduct(mCategory, ean);
                         int day = Integer.parseInt(dayEdit.getText().toString());
                         int month = Integer.parseInt(monthEdit.getText().toString());
                         int year = Integer.parseInt(yearEdit.getText().toString());
@@ -179,9 +184,24 @@ public class NewProductActivity extends Activity {
                         ExpiryProduct ep = new ExpiryProduct(p, day, month, year, spot);
                         mDateValidator.addExpiryProduct(ep);
                         clear();
-                        Toast.makeText(getApplicationContext(), getResources().getText(R.string.ep_and_p_add_succes), Toast.LENGTH_SHORT).show();
-                    } catch (Exception e2) {
+                        Toast.makeText(getApplicationContext(), getResources().getText(R.string.ep_add_succes), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        String name = nameEdit.getText().toString();
+                        int hope = Integer.parseInt(hopeEdit.getText().toString());
+                        try {
+                            p = new Product(ean, name, hope, mCategory);
+                            mDateValidator.addProduct(p);
+                            int day = Integer.parseInt(dayEdit.getText().toString());
+                            int month = Integer.parseInt(monthEdit.getText().toString());
+                            int year = Integer.parseInt(yearEdit.getText().toString());
+                            int spot = mDateValidator.getSpot(mCategory);
+                            ExpiryProduct ep = new ExpiryProduct(p, day, month, year, spot);
+                            mDateValidator.addExpiryProduct(ep);
+                            clear();
+                            Toast.makeText(getApplicationContext(), getResources().getText(R.string.ep_and_p_add_succes), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e2) {
 
+                        }
                     }
                 }
             }
@@ -189,20 +209,22 @@ public class NewProductActivity extends Activity {
         });
 
         ImageButton nextFridge = (ImageButton) findViewById(R.id.next_fridge);
+        final ImageButton previousFridge = (ImageButton) findViewById(R.id.previous_fridge);
+        //previousFridge.setEnabled(false);
+
         nextFridge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     mDateValidator.next(mCategory);
                     TextView fridge = (TextView) findViewById(R.id.fridge);
-                    fridge.setText(getResources().getText(R.string.frigo) + " " + mDateValidator.getSpot(mCategory));
+                    fridge.setText(getResources().getText(R.string.frigo) + " " + (mDateValidator.getSpot(mCategory)+1));
                 } catch (ServiceException e){
                     //do nothing
                 }
             }
         });
 
-        ImageButton previousFridge = (ImageButton) findViewById(R.id.previous_fridge);
         previousFridge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,6 +253,13 @@ public class NewProductActivity extends Activity {
         super.onSaveInstanceState(savedInstanceState);
     }
 
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        writeProductDatabase();
+        writeExpiryList();
+    }
+
     public void setUpDate() {
         Date today = mDateValidator.getToday();
 
@@ -256,5 +285,98 @@ public class NewProductActivity extends Activity {
         eanEditText.requestFocus();
         setUpDate();
     }
+
+    public void writeProductDatabase(){
+        try{
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString() + "/Proxy/Datumcontrole/ProductDatabase.txt");
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            String ean = "";
+            String name = "";
+            String hope = "";
+            String category = "";
+
+            for(Product p : mDateValidator.getAllProducts()){
+                String content = "";
+                ean = String.valueOf(p.getEan());
+                name = p.getName();
+                hope = String.valueOf(p.getHope());
+                category = p.getCategory().getName();
+
+                content += ean;
+                content += "\t";
+                content += name;
+                content += "\t";
+                content += hope;
+                content += "\t";
+                content += category;
+
+                bw.write(content);
+                bw.newLine();
+            }
+
+
+            bw.close();
+
+        } catch (Exception e){
+
+        }
+    }
+
+    public void writeExpiryList(){
+        try {
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString() + "/Proxy/Datumcontrole/ExpiryList.txt");
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            SimpleDateFormat sdf = null;
+            Date expiryDate = null;
+
+            String category = "";
+            String ean = "";
+            String day = "";
+            String month = "";
+            String year = "";
+            String spot = "";
+            String removed = "";
+
+            for(ExpiryProduct ep : mDateValidator.getAllExpiryProducts()){
+                String content = "";
+                category = ep.getCategory().getName();
+                ean = String.valueOf(ep.getArticle().getEan());
+                expiryDate = ep.getExpiryDate();
+                sdf = new SimpleDateFormat("dd");
+                day = sdf.format(expiryDate);
+                sdf = new SimpleDateFormat("MM");
+                month = sdf.format(expiryDate);
+                sdf = new SimpleDateFormat("yyyy");
+                year = sdf.format(expiryDate);
+                spot = String.valueOf(ep.getSpot());
+                removed = String.valueOf(ep.isRemoved());
+                content += category;
+                content += "\t";
+                content += ean;
+                content += "\t";
+                content += day;
+                content += "\t";
+                content += month;
+                content += "\t";
+                content += year;
+                content += "\t";
+                content += spot;
+                content += "\t";
+                content += removed;
+
+                bw.write(content);
+                bw.newLine();
+            }
+
+            bw.close();
+
+        } catch (Exception e) {}
+
+    }
+
 
 }

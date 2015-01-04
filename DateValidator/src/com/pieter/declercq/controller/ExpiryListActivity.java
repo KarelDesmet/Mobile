@@ -24,8 +24,10 @@ import com.pieter.declercq.datevalidator.exception.service.ServiceException;
 import com.pieter.declercq.datevalidator.service.DateValidator;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Map;
 
 
@@ -54,6 +56,9 @@ public class ExpiryListActivity extends Activity {
 
     public void setupDate(){
         TextView date = (TextView) findViewById(R.id.day_of_the_week);
+        final ImageButton tomorrow = (ImageButton) findViewById(R.id.tomorrow);
+        final ImageButton yesterday = (ImageButton) findViewById(R.id.yesterday);
+
         date.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -62,6 +67,16 @@ public class ExpiryListActivity extends Activity {
                 date.setText(mDateValidator.today());
                 try {
                     mExpiryProducts = mDateValidator.getExpiryProducts(mDateValidator.getToday());
+                    if (mDateValidator.getToday().after(mDateValidator.getMaxExpiryDate())){
+                        tomorrow.setEnabled(false);
+                    } else {
+                        tomorrow.setEnabled(true);
+                    }
+                    if (mDateValidator.getToday().before(mDateValidator.getMinExpiryDate())){
+                        yesterday.setEnabled(false);
+                    } else {
+                        yesterday.setEnabled(true);
+                    }
                     setupCategories();
                 } catch (ServiceException e) {
                     Log.d("PROXY", e.getMessage());
@@ -76,7 +91,6 @@ public class ExpiryListActivity extends Activity {
             Log.d("PROXY", e.getMessage());
         }
 
-        ImageButton tomorrow = (ImageButton) findViewById(R.id.tomorrow);
         tomorrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,6 +98,16 @@ public class ExpiryListActivity extends Activity {
                 date.setText(mDateValidator.tomorrow());
                 try {
                     mExpiryProducts = mDateValidator.getExpiryProducts(mDateValidator.getToday());
+                    if (mDateValidator.getToday().after(mDateValidator.getMaxExpiryDate())){
+                        tomorrow.setEnabled(false);
+                    } else {
+                        tomorrow.setEnabled(true);
+                    }
+                    if (mDateValidator.getToday().before(mDateValidator.getMinExpiryDate())){
+                        yesterday.setEnabled(false);
+                    } else {
+                        yesterday.setEnabled(true);
+                    }
                     setupCategories();
                 } catch (ServiceException e) {
                     Log.d("PROXY", e.getMessage());
@@ -91,7 +115,6 @@ public class ExpiryListActivity extends Activity {
             }
         });
 
-        ImageButton yesterday = (ImageButton) findViewById(R.id.yesterday);
         yesterday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +122,24 @@ public class ExpiryListActivity extends Activity {
                 date.setText(mDateValidator.yesterday());
                 try {
                     mExpiryProducts = mDateValidator.getExpiryProducts(mDateValidator.getToday());
+                    if (mDateValidator.getToday().before(mDateValidator.getMinExpiryDate())){
+                        yesterday.setEnabled(false);
+                    } else {
+                        yesterday.setEnabled(true);
+                    }
+                    Calendar cal = Calendar.getInstance();
+                    cal.add(Calendar.DATE, -1);
+                    Date date1 = cal.getTime();
+                    if(mDateValidator.getToday().before(date1)){
+                        yesterday.setEnabled(false);
+                    } else {
+                        yesterday.setEnabled(true);
+                    }
+                    if (mDateValidator.getToday().after(mDateValidator.getMaxExpiryDate())){
+                        tomorrow.setEnabled(false);
+                    } else {
+                        tomorrow.setEnabled(true);
+                    }
                     setupCategories();
                 } catch (ServiceException e) {
                     Log.d("PROXY", e.getMessage());
@@ -182,7 +223,7 @@ public class ExpiryListActivity extends Activity {
     }
 
     public void setUpExpiryProducts(ViewGroup view) {
-        if (view.getChildCount() <= mCategoryExpiryProducts.size()) {
+        if (view.getChildCount() < mCategoryExpiryProducts.size()) {
             int previousSpot = 0;
             int currentSpot = 0;
             for (int i = 0; i < mCategoryExpiryProducts.size(); i++) {

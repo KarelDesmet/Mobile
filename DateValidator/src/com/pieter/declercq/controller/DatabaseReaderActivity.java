@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 
+import com.pieter.declercq.datevalidator.R;
 import com.pieter.declercq.datevalidator.domain.Category;
 import com.pieter.declercq.datevalidator.domain.ExpiryProduct;
 import com.pieter.declercq.datevalidator.domain.Product;
@@ -20,6 +21,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,29 +39,16 @@ public class DatabaseReaderActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
+        setContentView(R.layout.splashscreen);
 
-        File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString() + "/Proxy/Datumcontrole/ExpiryList.txt");
-        boolean success;
-        if (!folder.exists()) {
-            success = folder.mkdirs();
-        }
 
         try {
             mDateValidator = new DateValidator();
-            mDateValidator.addCategory(new Category("zuivel", Color.rgb(238, 238, 238)));
-            mDateValidator.addCategory(new Category("voeding", Color.rgb(255,161,53)));
-            mDateValidator.addCategory(new Category("kaas", Color.rgb(255,255,53)));
-            mDateValidator.addCategory(new Category("charcuterie", Color.rgb(197,87,70)));
-            mDateValidator.addCategory(new Category("diepvries", Color.rgb(53,208,255)));
-        } catch(ServiceException e){
-            Log.d("PROXY", e.getMessage());
-        } catch(DomainException e) {
+        } catch(ServiceException e) {
             Log.d("PROXY", e.getMessage());
         }
 
-        readProductDatabase();
-        readExpiryList();
-
+        read();
 
         Log.d("ABC", "" + mDateValidator.getNumberOfExpiryProducts() );
         Log.d("ABC", "" + mDateValidator.getNumberOfProducts() );
@@ -72,13 +61,18 @@ public class DatabaseReaderActivity extends Activity {
     @Override
     public void onDestroy(){
         super.onDestroy();
-        writeExpiryList();
     }
 
     public void readProductDatabase(){
         try {
-            reader = new BufferedReader(new FileReader(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString() + "/Proxy/Datumcontrole/ProductDatabase.txt")));
-            //reader = new BufferedReader(new InputStreamReader(getAssets().open(databaseFileName)));
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString() + "/Proxy/Datumcontrole/ProductDatabase.txt");
+            if (file.exists()){
+                reader = new BufferedReader(new FileReader(file));
+            } else {
+                file.createNewFile();
+                reader = new BufferedReader(new InputStreamReader(getAssets().open(databaseFileName)));
+            }
+
             String mLine = "";
 
             while((mLine = reader.readLine()) != null) {
@@ -106,8 +100,14 @@ public class DatabaseReaderActivity extends Activity {
 
     public void readExpiryList() {
         try {
-            reader = new BufferedReader(new FileReader(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString() + "/Proxy/Datumcontrole/ExpiryList.txt")));
-            //reader = new BufferedReader(new InputStreamReader(getAssets().open(expiryListFileName)));
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString() + "/Proxy/Datumcontrole/ExpiryList.txt");
+            if (file.exists()){
+                reader = new BufferedReader(new FileReader(file));
+            } else {
+                file.createNewFile();
+                reader = new BufferedReader(new InputStreamReader(getAssets().open(expiryListFileName)));
+            }
+
             String mLine = "";
 
             while ((mLine = reader.readLine()) != null) {
@@ -138,96 +138,20 @@ public class DatabaseReaderActivity extends Activity {
         }
     }
 
-    public void writeProductDatabase(){
-        try{
-            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString() + "/Proxy/Datumcontrole/ProductDatabase.txt");
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
 
-            String ean = "";
-            String name = "";
-            String hope = "";
-            String category = "";
-
-            for(Product p : mDateValidator.getAllProducts()){
-                String content = "";
-                ean = String.valueOf(p.getEan());
-                name = p.getName();
-                hope = String.valueOf(p.getHope());
-                category = p.getCategory().getName();
-
-                content += ean;
-                content += "\t";
-                content += name;
-                content += "\t";
-                content += hope;
-                content += "\t";
-                content += category;
-
-                bw.write(content);
-                bw.newLine();
-            }
-
-
-            bw.close();
-
-        } catch (Exception e){
-
-        }
-    }
-
-    public void writeExpiryList(){
+    public void read(){
+        mDateValidator.clear();
         try {
-            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString() + "/Proxy/Datumcontrole/ExpiryList.txt");
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-
-            SimpleDateFormat sdf = null;
-            Date expiryDate = null;
-
-            String category = "";
-            String ean = "";
-            String day = "";
-            String month = "";
-            String year = "";
-            String spot = "";
-            String removed = "";
-
-            for(ExpiryProduct ep : mDateValidator.getAllExpiryProducts()){
-                String content = "";
-                category = ep.getCategory().getName();
-                ean = String.valueOf(ep.getArticle().getEan());
-                expiryDate = ep.getExpiryDate();
-                sdf = new SimpleDateFormat("dd");
-                day = sdf.format(expiryDate);
-                sdf = new SimpleDateFormat("MM");
-                month = sdf.format(expiryDate);
-                sdf = new SimpleDateFormat("yyyy");
-                year = sdf.format(expiryDate);
-                spot = String.valueOf(ep.getSpot());
-                removed = String.valueOf(ep.isRemoved());
-                content += category;
-                content += "\t";
-                content += ean;
-                content += "\t";
-                content += day;
-                content += "\t";
-                content += month;
-                content += "\t";
-                content += year;
-                content += "\t";
-                content += spot;
-                content += "\t";
-                content += removed;
-
-                bw.write(content);
-                bw.newLine();
-            }
-
-            bw.close();
-
-        } catch (Exception e) {}
-
+            mDateValidator.addCategory(new Category("zuivel", Color.rgb(238, 238, 238)));
+            mDateValidator.addCategory(new Category("voeding", Color.rgb(255, 161, 53)));
+            mDateValidator.addCategory(new Category("kaas", Color.rgb(255, 255, 53)));
+            mDateValidator.addCategory(new Category("charcuterie", Color.rgb(197, 87, 70)));
+            mDateValidator.addCategory(new Category("diepvries", Color.rgb(53, 208, 255)));
+        } catch (Exception e){
+            //do nothing
+        }
+        readProductDatabase();
+        readExpiryList();
     }
 
 }

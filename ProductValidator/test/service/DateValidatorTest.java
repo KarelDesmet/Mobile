@@ -15,18 +15,9 @@ import jxl.write.biff.RowsExceededException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import domain.Category;
-import domain.ExpiryProduct;
-import domain.Product;
-import exception.db.DatabaseException;
-import exception.domain.DomainException;
-import exception.service.ServiceException;
-
 /**
  * @author Pieter Declercq
  * 
- */
 public class DateValidatorTest {
 
 	private DateValidator dateValidator;
@@ -377,3 +368,4 @@ public class DateValidatorTest {
 	}
 
 }
+*/

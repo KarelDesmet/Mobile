@@ -24,7 +24,7 @@
     <string name="naam">Naam</string>
     <string name="hope">Hope</string>
     <string name="datum">Datum</string>
-    <string name="voegtoe">Voeg Toe</string>
+    <string name="voegtoe">Voeg toe</string>
     <string name="verwijder">Verwijder</string>
     <string name="vorig">Vorig Product</string>
     <string name="frigo">Deel</string>
@@ -33,6 +33,16 @@
     <string name="ep_hint">Het hope nummer van dit product is </string>
     <string name="barcode_hint">5400112230008</string>
     <string name="name_hint">PIZZA MARGHERITA</string>
+    <string name="hope_hint">373000</string>
+    <string name="default_day">01</string>
+    <string name="slash">/</string>
+    <string name="default_month">01</string>
+    <string name="default_year">2015</string>
     <string name="ep_add_succes">Het product is correct toegevoegd in de lijst</string>
     <string name="ep_and_p_add_succes">Het product is correct toegevoegd in de lijst en werd bewaard voor volgende sessies</string>
+    <string name="splash">Producten inladen, lijsten opmaken</string>
+    <string name="err_short_ean">Geef een barcode in van minstens 8 cijfers</string>
+    <string name="err_short_name">Geef een naam in van minstens 5 letters</string>
+    <string name="err_negative_hope">Geef een positief hope nummer in</string>
+
 </resources>

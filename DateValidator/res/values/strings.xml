@@ -38,4 +38,8 @@
     <string name="slash">/</string>
     <string name="default_month">01</string>
     <string name="default_year">2015</string>
+    <string name="splash">Loading products, creating lists</string>
+    <string name="err_short_ean">Enter a barcode of at least 8 ciphers</string>
+    <string name="err_short_name">Enter a name of at least 5 letters</string>
+    <string name="err_negative_hope">Please enter a positive hope number</string>
 </resources>
